@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   Alert,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,8 +12,6 @@ import { useRouter } from 'expo-router';
 
 import { BrandColors, Spacing } from '@/constants/theme';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const CELL_SIZE = (SCREEN_WIDTH - Spacing.four * 2) / 7;
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -337,7 +334,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dayHeaderCell: {
-    width: CELL_SIZE,
+    flex: 1,
     alignItems: 'center',
     paddingVertical: Spacing.one,
   },
@@ -354,7 +351,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   dayCell: {
-    width: CELL_SIZE,
+    flex: 1,
     alignItems: 'center',
     paddingVertical: 5,
     gap: 2,

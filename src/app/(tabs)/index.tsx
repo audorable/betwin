@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import {
   Alert,
-  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
@@ -23,9 +22,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BrandColors, Spacing } from '@/constants/theme';
 import useProfile, { VOICE_STATE_COLORS, VoiceState } from '@/hooks/useProfile';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const PHASE_COLS = 3;
-const PHASE_ITEM_WIDTH = (SCREEN_WIDTH - Spacing.four * 2) / PHASE_COLS;
 const CIRCLE_SIZE = 68;
 
 const PHASE_EMOJIS = ['🌱', '🌿', '🌸', '💊', '💪', '🌟'];
@@ -406,7 +402,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   phaseItem: {
-    width: PHASE_ITEM_WIDTH,
+    width: '33.33%',
     alignItems: 'center',
     gap: Spacing.one,
     paddingVertical: 6,
@@ -474,7 +470,7 @@ const styles = StyleSheet.create({
   },
   eventsScroll: { gap: Spacing.three, paddingVertical: Spacing.one },
   eventCard: {
-    width: SCREEN_WIDTH - Spacing.four * 2,
+    width: '100%',
     backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 12,
