@@ -304,34 +304,47 @@ export default function useProfile() {
   const speakText = (text: string) => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       try {
+        // Clear any stuck paused state immediately
+        window.speechSynthesis.resume();
         window.speechSynthesis.cancel();
-        if (window.speechSynthesis.paused) {
-          window.speechSynthesis.resume();
-        }
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 0.88; // 0.88x pacing
         
-        // Find best system voice
-        const voices = window.speechSynthesis.getVoices();
-        const priorityNames = [
-          "Google US English Female", 
-          "Microsoft Aria Online",
-          "Microsoft Zira", 
-          "Samantha", 
-          "Hazel", 
-          "Google UK English Female", 
-          "English"
-        ];
-        let selectedVoice = null;
-        for (const priority of priorityNames) {
-          selectedVoice = voices.find(v => v.name && v.name.includes(priority));
-          if (selectedVoice) break;
-        }
-        if (selectedVoice) utterance.voice = selectedVoice;
+        // Use a short 60ms delay to let the browser clear the queue before speaking,
+        // avoiding Chrome's immediate cancel-and-discard race condition.
+        setTimeout(() => {
+          if (typeof window === 'undefined' || !window.speechSynthesis) return;
+          try {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.88; // grounding pace
+            utterance.volume = 1.0;
+            utterance.pitch = 1.0;
+            
+            const voices = window.speechSynthesis.getVoices();
+            if (voices && Array.isArray(voices) && voices.length > 0) {
+              const priorityNames = [
+                "Google US English Female", 
+                "Microsoft Aria Online",
+                "Microsoft Zira", 
+                "Samantha", 
+                "Hazel", 
+                "Google UK English Female", 
+                "English"
+              ];
+              let selectedVoice = null;
+              for (const priority of priorityNames) {
+                selectedVoice = voices.find(v => v && v.name && v.name.includes(priority));
+                if (selectedVoice) break;
+              }
+              if (selectedVoice) utterance.voice = selectedVoice;
+            }
 
-        window.speechSynthesis.speak(utterance);
+            window.speechSynthesis.speak(utterance);
+            console.log("[BeTwin SDK] Vocalizing phrase:", text);
+          } catch (subErr) {
+            console.warn("Speech Synthesis play failed:", subErr);
+          }
+        }, 60);
       } catch (e) {
-        console.warn("Speech synthesis failed:", e);
+        console.warn("Speech synthesis init failed:", e);
       }
     }
   };
