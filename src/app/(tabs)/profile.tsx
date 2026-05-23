@@ -64,7 +64,17 @@ print("Safety Escalation Gateways: STANDBY (No immediate risk detected)")`,
 };
 
 export default function ProfileScreen() {
-  const { user, elo, pillars, voiceState, doctor } = useProfile();
+  const {
+    user,
+    elo,
+    pillars,
+    voiceState,
+    doctor,
+    selectedPersonaId,
+    setSelectedPersonaId,
+    allPersonas
+  } = useProfile();
+  
   const [activePillarKey, setActivePillarKey] = useState('cognitive');
   const [typedCode, setTypedCode] = useState('');
   
@@ -94,6 +104,31 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         
+        {/* Horizontal Persona Selector Row */}
+        <View style={styles.personaSelectorContainer}>
+          <Text style={styles.selectorLabel}>🔬 TARGET PATIENT & CAREGIVER PROFILE (PERSONA SELECTOR):</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.personaSelectorScroll}>
+            {allPersonas.map((p) => {
+              const isActive = p.id === selectedPersonaId;
+              return (
+                <TouchableOpacity
+                  key={p.id}
+                  style={[styles.personaBadge, isActive && styles.activePersonaBadge]}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setSelectedPersonaId(p.id);
+                    setActivePillarKey(p.activePersonaKey);
+                  }}
+                >
+                  <Text style={[styles.personaBadgeText, isActive && styles.activePersonaBadgeText]}>
+                    {p.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+
         {/* Clinician Header Stats Dock */}
         <View style={styles.profileHeaderCard}>
           <View style={styles.profileMetaRow}>
@@ -107,8 +142,8 @@ export default function ProfileScreen() {
                   <Text style={styles.singpassGovText}>🇸🇬 GovTech Sync</Text>
                 </View>
               </View>
-              <Text style={styles.patientSubInfo}>Female, 41 | NCCS Outpatient</Text>
-              <Text style={styles.patientNotesText}>Primary Oncologist: {doctor.name} ({doctor.hospital})</Text>
+              <Text style={styles.patientSubInfo}>{user.ethnicity} | {user.stage}</Text>
+              <Text style={styles.patientNotesText}>{user.notes}</Text>
             </View>
           </View>
           
@@ -204,7 +239,6 @@ export default function ProfileScreen() {
             </Text>
           </View>
 
-
           {/* Dynamic Clinical NLP Code Console */}
           <View style={styles.wolframConsoleBox}>
             <View style={styles.consoleHeaderBar}>
@@ -246,10 +280,10 @@ export default function ProfileScreen() {
           </View>
           
           <View style={styles.feedBody}>
-            <Text style={styles.feedLogLine}>[08:44:12] [SYSTEM] Secure local Dialogue Pacing calibration complete (0.88x pacing).</Text>
+            <Text style={styles.feedLogLine}>[08:44:12] [SYSTEM] Secure local Pacing and Diaphragm calibrator complete (0.88x speed).</Text>
             <Text style={styles.feedLogLine}>[08:44:15] [SYSTEM] Handshaking with Singapore GovTech OAuth Gateway...</Text>
             <Text style={styles.feedLogLine}>[08:44:16] [SECURITY] AES-256 Military Encryption layer injected successfully.</Text>
-            <Text style={styles.feedLogLine} style={{ color: '#00e676' }}>[08:45:01] [TELEMETRY] Securing EHR diagnostics updates for Dr. Tan...</Text>
+            <Text style={styles.feedLogLine} style={{ color: '#00e676' }}>[08:45:01] [TELEMETRY] Securing EHR diagnostics updates for {doctor.name}...</Text>
             <Text style={styles.feedLogLine} style={{ color: '#00b8d4' }}>[08:45:03] [TELEMETRY] Syncing outpatient companion cards to Cloud Firestore.</Text>
             {voiceState === 'listening' && (
               <Text style={styles.feedLogLine} style={{ color: '#26a69a' }}>[08:45:10] [VOICE] Dialogue channel active. Listening for physical symptoms...</Text>
@@ -279,6 +313,50 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 
+  // Horizontal Persona Selector
+  personaSelectorContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 12,
+    marginTop: Spacing.two,
+    shadowColor: BrandColors.softRose,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2,
+    gap: 6,
+  },
+  selectorLabel: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: BrandColors.deepRose,
+    letterSpacing: 0.5,
+  },
+  personaSelectorScroll: {
+    gap: 8,
+    paddingVertical: 2,
+  },
+  personaBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: '#FAF5F7',
+    borderWidth: 1.5,
+    borderColor: 'rgba(201, 64, 96, 0.08)',
+  },
+  activePersonaBadge: {
+    backgroundColor: BrandColors.hotPink,
+    borderColor: BrandColors.hotPink,
+  },
+  personaBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: BrandColors.charcoal,
+  },
+  activePersonaBadgeText: {
+    color: '#ffffff',
+  },
+
   // Profile Header Card
   profileHeaderCard: {
     backgroundColor: '#ffffff',
@@ -289,7 +367,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.16,
     shadowRadius: 10,
     elevation: 3,
-    marginTop: Spacing.two,
   },
   profileMetaRow: {
     flexDirection: 'row',
@@ -351,7 +428,8 @@ const styles = StyleSheet.create({
     color: BrandColors.charcoal,
     opacity: 0.5,
     fontWeight: '500',
-    marginTop: 1,
+    marginTop: 3,
+    lineHeight: 14,
   },
   dividerLight: {
     height: 1,
