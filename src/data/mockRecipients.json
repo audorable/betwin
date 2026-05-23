@@ -1,0 +1,54 @@
+{
+  "doctors": [
+    {
+      "id": "dr_tan",
+      "name": "Dr. Evelyn Tan",
+      "title": "Senior Consultant Breast Oncologist",
+      "hospital": "National Cancer Centre Singapore (NCCS)",
+      "email": "evelyn.tan@nccs.com.sg",
+      "biography": "Speaks English & Mandarin. Specializes in early-stage breast cancer management and endocrine therapy pacing."
+    },
+    {
+      "id": "dr_lim",
+      "name": "Dr. Marcus Lim",
+      "title": "Associate Professor in Oncology",
+      "hospital": "National University Cancer Institute, Singapore (NCIS)",
+      "email": "marcus.lim@ncis.com.sg",
+      "biography": "Speaks English & Tamil. Head of NCIS breast cancer clinical trial panels."
+    },
+    {
+      "id": "dr_nair",
+      "name": "Dr. Preetha Nair",
+      "title": "Director of Gynaecological & Breast Care",
+      "hospital": "Singapore General Hospital (SGH) Oncology",
+      "email": "preetha.nair@sgh.com.sg",
+      "biography": "Speaks English, Malay & Hindi. Leads SGH outpatient emotional distress support groups."
+    }
+  ],
+  "caregivers": [
+    {
+      "id": "care_spouse",
+      "name": "David D.",
+      "relationship": "Spouse / Husband",
+      "phone": "+65 9123 4567",
+      "email": "david.d@care.betwin.sg",
+      "notes": "Authorized to receive reassuring daily recovery ELO updates via secure WhatsApp link."
+    },
+    {
+      "id": "care_mother",
+      "name": "Mdm. Florence G.",
+      "relationship": "Mother",
+      "phone": "+65 9876 5432",
+      "email": "florence.g@care.betwin.sg",
+      "notes": "Prefers slow SMS dispatches and BCF guidance summaries."
+    },
+    {
+      "id": "care_friend",
+      "name": "Cheryl Tan",
+      "relationship": "Best Friend",
+      "phone": "+65 9345 6789",
+      "email": "cheryl.t@care.betwin.sg",
+      "notes": "Assists with note-taking during oncologist consultations."
+    }
+  ]
+}
