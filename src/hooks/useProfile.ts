@@ -301,6 +301,41 @@ export default function useProfile() {
     score: moduleScores[key],
   }));
 
+  const speakText = (text: string) => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      try {
+        window.speechSynthesis.cancel();
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.88; // 0.88x pacing
+        
+        // Find best system voice
+        const voices = window.speechSynthesis.getVoices();
+        const priorityNames = [
+          "Google US English Female", 
+          "Microsoft Aria Online",
+          "Microsoft Zira", 
+          "Samantha", 
+          "Hazel", 
+          "Google UK English Female", 
+          "English"
+        ];
+        let selectedVoice = null;
+        for (const priority of priorityNames) {
+          selectedVoice = voices.find(v => v.name && v.name.includes(priority));
+          if (selectedVoice) break;
+        }
+        if (selectedVoice) utterance.voice = selectedVoice;
+
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.warn("Speech synthesis failed:", e);
+      }
+    }
+  };
+
   const clearTimer = () => {
     if (sessionTimerRef.current) {
       clearTimeout(sessionTimerRef.current);
@@ -312,7 +347,14 @@ export default function useProfile() {
   const startAgentSession = useCallback(() => {
     clearTimer();
     setVoiceState('listening');
-    setSubtitles(STATE_SUBTITLES.listening);
+    
+    // Dynamically retrieve active module's question from journeyCorpus based on activePillarKey
+    const activeKey = persona.activePillarKey;
+    const activeModuleData = (journeyCorpus as any)[activeKey];
+    const question = activeModuleData?.question || "Let's focus on setting healthy boundaries and configuring reassuring daily updates together. How are you holding up today?";
+    
+    setSubtitles(question);
+    speakText(question);
 
     // listening → thinking
     sessionTimerRef.current = setTimeout(() => {
@@ -322,7 +364,9 @@ export default function useProfile() {
       // thinking → speaking
       sessionTimerRef.current = setTimeout(() => {
         setVoiceState('speaking');
-        setSubtitles(STATE_SUBTITLES.speaking);
+        const speakResp = "I have successfully logged your thoughts on your secure patient dashboard, brave heart.";
+        setSubtitles(speakResp);
+        speakText(speakResp);
 
         // speaking → unlocked
         sessionTimerRef.current = setTimeout(() => {
@@ -354,16 +398,30 @@ export default function useProfile() {
         }, 3000);
       }, 2000);
     }, 4000);
-  }, [elo, user, doctor, moduleScores]);
+  }, [elo, user, doctor, moduleScores, persona]);
 
   const endAgentSession = useCallback(() => {
     clearTimer();
     setVoiceState('idle');
     setSubtitles(STATE_SUBTITLES.idle);
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
   }, []);
 
   const toggleVoiceSession = useCallback(() => {
     if (voiceState === 'idle') {
+      // Unblock browser Web Speech Synthesis context immediately inside user click gesture
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        try {
+          window.speechSynthesis.cancel();
+          const silentUtterance = new SpeechSynthesisUtterance(" ");
+          silentUtterance.volume = 0;
+          window.speechSynthesis.speak(silentUtterance);
+        } catch (e) {
+          console.warn("Silent utterance unblock failed:", e);
+        }
+      }
       startAgentSession();
     } else {
       endAgentSession();
@@ -371,7 +429,12 @@ export default function useProfile() {
   }, [voiceState, startAgentSession, endAgentSession]);
 
   // Cleanup on unmount
-  useEffect(() => () => clearTimer(), []);
+  useEffect(() => () => {
+    clearTimer();
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  }, []);
 
   // Derivation and mapping of the 5 Core Clinical Pillars from the 11 modules
   const pillars = [
