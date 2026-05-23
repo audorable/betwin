@@ -196,13 +196,14 @@ export default function ProfileScreen() {
           
           <View style={styles.dividerLight} />
 
-          {/* Research Integration Notice Panel (Wolfram, NHS, Johns Hopkins) */}
+          {/* Research Integration Notice Panel (Wolfram, SingHealth, Johns Hopkins) */}
           <View style={styles.integrationNoticeBox}>
             <Text style={styles.integrationLabel}>🔬 RESEARCH PIPELINE EXPORT GATE</Text>
             <Text style={styles.integrationText}>
-              This clinical machine learning pipeline can be securely exported and fed directly into leading international research institutions—including <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Wolfram Research</Text>, <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>NHS Digital</Text>, and <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Johns Hopkins Medicine</Text>—to study patient recovery trends and optimize outpatient care pacing.
+              This clinical machine learning pipeline can be securely exported and fed directly into leading international research institutions—including <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Wolfram Research</Text>, <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>SingHealth (Singapore)</Text>, and <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Johns Hopkins Medicine</Text>—to study patient recovery trends and optimize outpatient care pacing.
             </Text>
           </View>
+
 
           {/* Dynamic Clinical NLP Code Console */}
           <View style={styles.wolframConsoleBox}>

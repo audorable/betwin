@@ -288,8 +288,9 @@ export default function WolframConsole({ activeRiddleId, voiceState, moduleScore
           {/* Scientific Export & Integration panel */}
           <div style={{ background: 'rgba(0, 130, 138, 0.03)', border: '1px dashed var(--accent-cyan)', borderRadius: '6px', padding: '0.45rem', marginBottom: '0.45rem', fontSize: '0.55rem', color: 'var(--text-secondary)', lineHeight: '1.2' }}>
             <span style={{ fontWeight: '800', color: 'var(--accent-cyan)', display: 'block', marginBottom: '2px', letterSpacing: '0.3px' }}>🔬 RESEARCH INTEGRATION EXPORT GATEWAY</span>
-            This clinical machine learning pipeline can be securely exported and fed directly into leading research institutions like <strong style={{ color: 'var(--accent-purple)' }}>Wolfram Research</strong>, <strong style={{ color: 'var(--accent-purple)' }}>NHS Digital</strong>, and <strong style={{ color: 'var(--accent-purple)' }}>Johns Hopkins Medicine</strong> to study outpatient recovery trends.
+            This clinical machine learning pipeline can be securely exported and fed directly into leading research institutions like <strong style={{ color: 'var(--accent-purple)' }}>Wolfram Research</strong>, <strong style={{ color: 'var(--accent-purple)' }}>SingHealth (Singapore)</strong>, and <strong style={{ color: 'var(--accent-purple)' }}>Johns Hopkins Medicine</strong> to study outpatient recovery trends.
           </div>
+
 
           {/* Elegant embedded math formula box */}
           <div className="citation-math-box" style={{ background: 'rgba(233, 30, 99, 0.02)', borderColor: 'rgba(233, 30, 99, 0.08)', padding: '0.45rem', marginBottom: '0.45rem' }}>
