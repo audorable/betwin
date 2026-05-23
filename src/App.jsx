@@ -1,6 +1,6 @@
 import React from 'react';
 import WolframConsole from './components/WolframConsole';
-import GhostAvatar from './components/GhostAvatar';
+import VoiceOrb from './components/VoiceOrb';
 import useVoiceAgent from './hooks/useVoiceAgent';
 import journeyCorpus from './data/journeyCorpus.json';
 
@@ -202,44 +202,13 @@ export default function App() {
           {/* Right Column: Sphinx core eyeball, Subtitles, and Wolfram dashboard */}
           <section className="sphinx-core-panel" style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '0.8rem', justifyContent: 'space-between', overflow: 'hidden' }}>
             
-            {/* Colossal Sphinger Orb visualizer casing */}
-            <div className="character-area" style={{ position: 'relative', width: '100%', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto', top: 'unset', left: 'unset', transform: 'unset' }}>
-              <div className={`dotted-audio-ring ${agent.voiceState !== 'idle' ? 'active' : ''}`} style={{ width: '150px', height: '150px' }}></div>
-              <div 
-                className={`hal-eye-unit ${agent.voiceState} ${agent.bootState === 'darkness' ? 'sleeping' : ''}`}
-                onClick={agent.startAgentSession}
-                style={{ width: '130px', height: '130px', border: '6px solid #e2e8f0' }}
-                title={agent.bootState === 'darkness' ? "Awaken Voice Companion" : "Disconnect session"}
-              >
-                <div className="lens-reflection"></div>
-                <div 
-                  className="eye-core"
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    transform: agent.bootState === 'active' ? `scale(${1 + agent.speechAmplitude * 0.15})` : undefined,
-                    boxShadow: agent.bootState === 'active' 
-                      ? `0 0 ${20 + agent.speechAmplitude * 60}px rgba(${agent.voiceState === 'speaking' ? '0, 240, 255' : agent.voiceState === 'thinking' ? '255, 0, 255' : agent.voiceState === 'unlocked' ? '42, 255, 42' : '0, 240, 216'}, ${0.8 + agent.speechAmplitude * 0.2})` 
-                      : undefined
-                  }}
-                >
-                  <div 
-                    className="aperture" 
-                    style={{ 
-                      width: '15px',
-                      height: '15px',
-                      transform: agent.bootState === 'active' ? `scale(${1 - agent.speechAmplitude * 0.25})` : undefined,
-                      opacity: agent.voiceState !== 'idle' ? Math.max(0.15, 1 - agent.speechAmplitude * 1.5) : 1
-                    }}
-                  ></div>
-                  <GhostAvatar 
-                    amplitude={agent.speechAmplitude} 
-                    active={agent.bootState === 'active' && agent.voiceState !== 'idle'} 
-                  />
-                </div>
-                <div className="misted-glass-overlay"></div>
-              </div>
-            </div>
+            {/* Standalone Soothing Voice Orb Component */}
+            <VoiceOrb 
+              voiceState={agent.voiceState}
+              bootState={agent.bootState}
+              speechAmplitude={agent.speechAmplitude}
+              onOrbClick={agent.startAgentSession}
+            />
 
             {/* Subtitles Console track */}
             <div className="subtitles-container" style={{ minHeight: '60px', padding: '0.6rem 1rem', background: 'rgba(255,255,255,0.7)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
