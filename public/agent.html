@@ -728,16 +728,20 @@
     // Initialize/Awaken Session
     function awakenAxiom() {
       setVoiceState('thinking');
+      subtitlesEl.textContent = "Connecting to voice gateway...";
       addLog("Booting BeTwin voice dialog companion...", "info");
       
       setTimeout(() => {
-        setVoiceState('speaking');
+        let spokenIntro = "";
+        let displayIntro = "";
         
-        let introText = "";
         if (selectedMode === 'new') {
-          introText = "Welcome to BeTwin. I am the BeTwin Agent, your BCF support companion. Receiving a breast cancer diagnosis is a profound shock. Let's make sense of it together. Let's start with Stage 1: Diagnosis and jargon processing. What jargon, staging details, or test results feel confusing to you today?";
+          spokenIntro = "Welcome to BeTwin. I am the BeTwin Agent, your BCF support companion. Receiving a breast cancer diagnosis is a profound shock. Let's make sense of it together. Let's start with Stage 1: Diagnosis and jargon processing. What jargon, staging details, or test results feel confusing to you today?";
+          displayIntro = "Welcome to BeTwin. Let's process your Stage 1 diagnosis jargon together. What terms feel confusing today?";
         } else {
-          introText = "Welcome back, Terry. I have securely synced your HealthHub records. I see you have completed your screening preparation, but you are experiencing chemo fatigue, and I know you have been deeply anxious about how to share your recovery boundaries with your husband, David, and your aging parents. Let's focus on Stage 7: Caregiver Privacy and boundaries. How are you holding up today?";
+          spokenIntro = "Welcome back, Terry. I have securely synced your HealthHub records. I see you have completed your screening preparation, but you are experiencing chemo fatigue, and I know you have been deeply anxious about how to share your recovery boundaries with your husband, David, and your aging parents. Let's focus on Stage 7: Caregiver Privacy and boundaries. How are you holding up today?";
+          displayIntro = "Welcome back, Terry. Let's focus on Stage 7: Caregiver Privacy. How are you holding up today?";
+          
           // Pre-populate ELO scores for Terry
           moduleScores.jargon = 80;
           moduleScores.screening = 100;
@@ -745,9 +749,9 @@
           moduleScores.caregiver = 10;
         }
         
-        subtitlesEl.textContent = introText;
-        speakText(introText, () => {
+        speakText(spokenIntro, displayIntro, () => {
           setVoiceState('listening');
+          subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
           addLog("Voice channel open. Listening for reflections...", "success");
           startVoiceListening();
         });
@@ -755,16 +759,27 @@
     }
 
     // Empathetic Speech Synthesis rate-locked at 0.88x speed pacing
-    function speakText(text, onEndCallback = null) {
+    function speakText(spokenText, displayText, onEndCallback = null) {
+      // Instantly update subtitles with clean, short, comforting text to avoid walls of text!
+      subtitlesEl.textContent = displayText;
+      addLog(`Speaking: "${displayText}"`, "info");
+
       if (synth) {
         synth.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        const voices = synth.getVoices();
         
-        let chosenVoice = voices.find(v => v.name.includes("Google US English Female") || v.name.includes("Samantha") || v.name.includes("Zira"));
+        const utterance = new SpeechSynthesisUtterance(spokenText);
+        
+        // Asynchronously request/load system voices
+        let voices = synth.getVoices();
+        
+        // Find best high-quality female voice or fall back cleanly to any voice
+        let chosenVoice = voices.find(v => v.name.includes("Google US English Female") || v.name.includes("Samantha") || v.name.includes("Zira") || v.name.includes("Aria") || v.name.includes("Female"));
+        if (!chosenVoice && voices.length > 0) {
+          chosenVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+        }
         if (chosenVoice) utterance.voice = chosenVoice;
         
-        utterance.rate = 0.88; // locked natural paced cadence
+        utterance.rate = 0.88; // locked natural pacing
         utterance.pitch = 1.0;
 
         utterance.onstart = () => {
@@ -775,6 +790,7 @@
             onEndCallback();
           } else {
             setVoiceState('listening');
+            subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
             startVoiceListening();
           }
         };
@@ -783,7 +799,12 @@
           if (onEndCallback) onEndCallback();
         };
 
-        synth.speak(utterance);
+        try {
+          synth.speak(utterance);
+        } catch (err) {
+          console.error("Synth speak failed:", err);
+          if (onEndCallback) onEndCallback();
+        }
       } else {
         if (onEndCallback) onEndCallback();
       }
@@ -886,7 +907,7 @@
             setVoiceState('idle');
             addLog("SAFETY SHIELD TRIGGERED: Distress counselor sync initiated.", "error");
             document.getElementById('safety-modal').style.display = 'flex';
-            speakText("I hear you, and please know that you are not alone. I want to make sure you get immediate professional human care. I have loaded Singapore helpline details for you.");
+            speakText("I hear you, and please know that you are not alone. I want to make sure you get immediate professional human care. I have loaded Singapore helpline details for you.", "Safety shield triggered. Please reach out to Singapore helpline services below.");
             return;
           }
         }
@@ -896,10 +917,11 @@
         for (const word of medicalAdviceKeywords) {
           if (cleanAnswer.includes(word)) {
             setVoiceState('speaking');
-            const warning = "I am your emotional companion, not your oncologist. I cannot provide diagnostic advice. Let let me compile this concern onto your Doctor Prep Card so we can address it together at your next checkup.";
-            subtitlesEl.textContent = warning;
-            speakText(warning, () => {
+            const spokenWarning = "I am your emotional companion, not your oncologist. I cannot provide diagnostic advice. Let let me compile this concern onto your Doctor Prep Card so we can address it together at your next checkup.";
+            const displayWarning = "Clinical Guardrail: I cannot provide medical diagnosing. Adding this query to your Doctor Prep Card.";
+            speakText(spokenWarning, displayWarning, () => {
               setVoiceState('listening');
+              subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
             });
             addLog("CLINICAL INTERCEPT: Medical advice request redirected to preparation docket.", "warning");
             return;
@@ -935,27 +957,33 @@
           }
         }
 
-        let steerPromptText = '';
+        let steerPromptSpoken = '';
+        let steerPromptDisplay = '';
+        
         if (lowestScore < 50) {
           const nextData = journeyCorpus[nextModule];
           activeModule = nextModule;
           
-          // Pull BCF Singapore event suggestion for the next stage
           const matchedEvent = bcfEvents[nextModule];
-          steerPromptText = ` Telemetry updated. Looking at your journey profile, we haven't checked in on your ${nextData.title} yet. ${nextData.question} I also highly recommend looking into our upcoming BCF event: "${matchedEvent}".`;
+          steerPromptSpoken = ` Looking at your journey profile, we haven't checked in on your ${nextData.title} yet. ${nextData.question} I also highly recommend looking into our upcoming BCF event: "${matchedEvent}".`;
+          steerPromptDisplay = ` Let's check on Stage ${nextData.id}: ${nextData.title}. ${nextData.question.split('.')[0]}.`; 
           addLog(`Proactively steering focus to Stage ${nextData.id}: ${nextData.title.toUpperCase()}`, "info");
         } else {
-          steerPromptText = ` Incredible progress! You have completed check-ins across all 8 BCF outpatient modules. Your prep files are secured on your HealthHub card.`;
+          steerPromptSpoken = ` Incredible progress! You have completed check-ins across all 8 BCF outpatient modules. Your prep files are secured on your HealthHub card.`;
+          steerPromptDisplay = ` Magnificent! You have successfully completed all 8 BCF outpatient modules.`;
           addLog("Complete lifecycle BCF oncology checkpoint checklist complete.", "success");
         }
 
         setVoiceState('speaking');
-        const congratsText = `Thank you for sharing, brave heart. I have securely logged your thoughts.`;
-        const finalReply = congratsText + steerPromptText;
-        subtitlesEl.textContent = finalReply;
+        const spokenCongrats = `Thank you for sharing, brave heart. I have securely logged your thoughts.`;
+        const displayCongrats = `Reflection securely logged.`;
         
-        speakText(finalReply, () => {
+        const finalSpoken = spokenCongrats + steerPromptSpoken;
+        const finalDisplay = displayCongrats + steerPromptDisplay;
+        
+        speakText(finalSpoken, finalDisplay, () => {
           setVoiceState('listening');
+          subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
           startVoiceListening();
         });
 
@@ -963,6 +991,7 @@
 
       userTypingBar.value = '';
     }
+
 
     // Dismiss safety shield modal
     function dismissSafetyShield() {
