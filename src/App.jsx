@@ -64,6 +64,27 @@ export default function App() {
               </button>
             )}
 
+            {/* Direct TERRY DEMO Trigger Button */}
+            <button 
+              className="btn-connect"
+              style={{
+                background: 'rgba(255, 128, 171, 0.06)',
+                borderColor: 'var(--accent-purple)',
+                color: 'var(--accent-purple)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontWeight: '800',
+                fontSize: '0.72rem',
+                padding: '0.4rem 0.8rem',
+                marginRight: '0.4rem',
+                boxShadow: '0 2px 8px rgba(255, 128, 171, 0.1)'
+              }}
+              onClick={agent.loadTerryDemoProfile}
+            >
+              👩‍👧‍👦 DEMO: TERRY PROFILE
+            </button>
+
             {/* Direct Note & Care Dispatch panel button */}
             <button 
               className="btn-connect"

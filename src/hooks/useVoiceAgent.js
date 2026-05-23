@@ -589,6 +589,67 @@ export default function useVoiceAgent() {
     addLog(`Dispatched pre-appointment briefing to Dr. ${doctorName} (${doctorEmail})`, "success");
   };
 
+  // LOAD TERRY DEMO PROFILE FOR HACKATHON LIVE PRESENTATIONS
+  const loadTerryDemoProfile = () => {
+    addLog("Preloading existing client profile: TERRY LIM (41yo out-patient)...", "info");
+    
+    // Simulate secure GovTech Singpass handshake for Terry
+    setUser({
+      uid: 'terry_singpass_uid_9987',
+      displayName: 'Terry Lim',
+      email: 'terry.lim@healthhub.sg',
+      photoURL: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop'
+    });
+
+    setPatientName("Terry Lim");
+    setUserRole("Breast Cancer Patient");
+    setPrimaryEmotion("Anxious / Overwhelmed");
+    setElo(1350);
+    setDoctorAuthorized(true);
+    setCaregiverAuthorized(true);
+    setSelectedDoctorId("dr_tan");
+    setSelectedCaregiverId("care_spouse");
+
+    // Preload care journal history
+    setClinicalQuestions(
+      `- Ask Dr. Tan: "Are the physical side effects of chemotherapy cycle 2 normal?"\n` +
+      `- Ask Dr. Tan: "When should we schedule my post-surgical sleeve check?"`
+    );
+    setPatientNotes(
+      `-[Stage 1 Diagnosis]: Biopsy results processed. HER2 Positive. Staging confirmed.\n` +
+      `-[Stage 2 Prep]: Prepared all scans, biopsies, and Singpass cards. Checked in with NCCS nurse.\n` +
+      `-[Stage 3 Distress]: Experiencing heavy fatigue and mild nausea from active chemo.`
+    );
+
+    // Pre-populate Terry's outpatient diagnostic telemetry scores
+    setModuleScores({
+      jargon: 85,
+      screening: 100,
+      crisis: 45,
+      healing: 10,
+      fertility: 0,
+      sister: 0,
+      caregiver: 20, // Critical stage: anxious about telling her parents & David
+      wellness: 30
+    });
+
+    // Proactively steer focus to Stage 7: Caregiver Privacy & Boundaries
+    setActiveModule("caregiver");
+    setVoiceState("speaking");
+    
+    const welcomeSpeech = 
+      `Welcome back, Terry. I have securely synced your HealthHub records. ` +
+      `I see you have completed your biopsy checks and screening preparation successfully, but you are experiencing chemo fatigue, ` +
+      `and I know you have been deeply anxious about how to share your recovery boundaries with your husband, David, and your aging parents. ` +
+      `Since Stage 7: Caregiver Privacy is currently our lowest journey score, let's focus on setting healthy boundaries and configuring reassuring daily updates together. How are you holding up today?`;
+
+    setSubtitles(welcomeSpeech);
+    speakVocalText(welcomeSpeech, () => {
+      setVoiceState("listening");
+      addLog("Terry demo profile loaded. Voice session proactively steering to Stage 7.", "success");
+    });
+  };
+
   // SECURE BCF CLINICAL BRIEFING GENERATOR & FIRESTORE SYNCER
   const handleBCFSubmit = async (e) => {
     if (e) e.preventDefault();
@@ -724,6 +785,7 @@ export default function useVoiceAgent() {
     triggerCaregiverShare,
     simulateSingpassLogin,
     dispatchDoctorEmail,
+    loadTerryDemoProfile,
     addLog,
     activeEvent,
     doctorAuthorized,
