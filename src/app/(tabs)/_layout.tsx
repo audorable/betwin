@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
+import { Platform, Text } from 'react-native';
 
 export default function TabsLayout() {
   return (
@@ -22,18 +23,24 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => (
-            <SymbolView name="house.fill" style={{ width: 24, height: 24 }} tintColor={color} />
-          ),
+          tabBarIcon: ({ color }) =>
+            Platform.OS === 'ios' ? (
+              <SymbolView name="house.fill" style={{ width: 24, height: 24 }} tintColor={color} />
+            ) : (
+              <Text style={{ fontSize: 20 }}>🏠</Text>
+            ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Patient Profile',
-          tabBarIcon: ({ color }) => (
-            <SymbolView name="person.crop.circle.fill" style={{ width: 24, height: 24 }} tintColor={color} />
-          ),
+          tabBarIcon: ({ color }) =>
+            Platform.OS === 'ios' ? (
+              <SymbolView name="person.crop.circle.fill" style={{ width: 24, height: 24 }} tintColor={color} />
+            ) : (
+              <Text style={{ fontSize: 20 }}>👤</Text>
+            ),
         }}
       />
     </Tabs>
