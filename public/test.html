@@ -1042,18 +1042,6 @@
 
     // Initialize Standalone Session
     function awakenAxiom() {
-      // Unblock browser Speech Synthesis synchronously inside user gesture click
-      if (synth) {
-        try {
-          synth.cancel();
-          const silentUtterance = new SpeechSynthesisUtterance(" ");
-          silentUtterance.volume = 0;
-          synth.speak(silentUtterance);
-        } catch (e) {
-          console.warn("Silent unblock failed:", e);
-        }
-      }
-
       setVoiceState('thinking');
       addLog("Booting BeTwin Agent standalone sandbox...", "info");
       
@@ -1076,50 +1064,33 @@
     // Speech synthesis with slow natural breathing cadence (0.88x speed)
     function speakText(text, onEndCallback = null) {
       if (synth) {
-        try {
-          synth.resume();
-          synth.cancel();
-          
-          // Use a short 60ms delay to let the browser clear the queue before speaking,
-          // avoiding Chrome's immediate cancel-and-discard race condition.
-          setTimeout(() => {
-            if (!synth) return;
-            try {
-              const utterance = new SpeechSynthesisUtterance(text);
-              utterance.rate = 0.88; // ground-breathing speed pacing
-              utterance.pitch = 1.0;
-              utterance.volume = 1.0;
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = synth.getVoices();
+        
+        // Prioritize natural sounding system voices
+        let chosenVoice = voices.find(v => v.name.includes("Google US English Female") || v.name.includes("Samantha") || v.name.includes("Zira"));
+        if (chosenVoice) utterance.voice = chosenVoice;
+        
+        utterance.rate = 0.88; // ground-breathing speed pacing
+        utterance.pitch = 1.0;
 
-              const voices = synth.getVoices();
-              if (voices && Array.isArray(voices) && voices.length > 0) {
-                let chosenVoice = voices.find(v => v && v.name && (v.name.includes("Google US English Female") || v.name.includes("Samantha") || v.name.includes("Zira") || v.name.includes("Hazel") || v.name.includes("Female")));
-                if (chosenVoice) utterance.voice = chosenVoice;
-              }
+        utterance.onstart = () => {
+          setVoiceState('speaking');
+        };
+        utterance.onend = () => {
+          if (onEndCallback) {
+            onEndCallback();
+          } else {
+            setVoiceState('listening');
+          }
+        };
+        utterance.onerror = (e) => {
+          console.error("Speech Synthesis Error:", e);
+          if (onEndCallback) onEndCallback();
+        };
 
-              utterance.onstart = () => {
-                setVoiceState('speaking');
-              };
-              utterance.onend = () => {
-                if (onEndCallback) {
-                  onEndCallback();
-                } else {
-                  setVoiceState('listening');
-                }
-              };
-              utterance.onerror = (e) => {
-                console.error("Speech Synthesis Error:", e);
-                if (onEndCallback) onEndCallback();
-              };
-
-              synth.speak(utterance);
-              console.log("[BeTwin SandBox] Vocalizing phrase:", text);
-            } catch (err) {
-              console.error("Sub-speech failed:", err);
-            }
-          }, 60);
-        } catch (e) {
-          console.error("Speech init failed:", e);
-        }
+        synth.speak(utterance);
       } else {
         if (onEndCallback) onEndCallback();
       }
@@ -1160,18 +1131,11 @@
 
         recognition.onerror = (e) => {
           console.error("Speech Recognition Error:", e);
-          if (e.error === 'not-allowed') {
-            addLog("Microphone access denied. Please click the mic icon in your browser address bar to allow permissions.", "error");
-            isMicActive = false;
-            btnToggleMic.className = "btn-action btn-mic";
-            btnToggleMic.textContent = "🎤 MIC BLOCKED";
-          } else {
-            addLog(`Mic Error: ${e.error}. Switch to typing if mic permission is blocked.`, "warning");
-          }
+          addLog(`Mic Error: ${e.error}. Switch to typing if mic permission is blocked.`, "warning");
         };
 
         recognition.onend = () => {
-          if (voiceState === 'listening' && isMicActive) {
+          if (voiceState === 'listening') {
             setTimeout(() => {
               try {
                 recognition.start();
