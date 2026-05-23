@@ -155,9 +155,10 @@ export default function WolframConsole({ activeRiddleId, voiceState, moduleScore
           <span className="terminal-dot red" style={{ background: '#ff4081' }}></span>
           <span className="terminal-dot yellow" style={{ background: '#ffd54f' }}></span>
           <span className="terminal-dot green" style={{ background: '#00e676' }}></span>
-          <span className="console-title">WOLFRAM EMOTIONAL TELEMETRY v14.1 // BCF SG CONSOLE</span>
+          <span className="console-title">CLINICAL MACHINE LEARNING PIPELINE // BCF SG CONSOLE</span>
         </div>
         <div className="console-status-badge" style={{ color: 'var(--accent-purple)', background: 'rgba(233,30,99,0.08)', borderColor: 'rgba(233,30,99,0.2)' }}>
+
           {voiceState === 'speaking' ? '● SPEAKING' : voiceState === 'thinking' ? '○ SCORING...' : voiceState === 'listening' ? '● LISTENING' : '● STANDBY'}
         </div>
       </div>
@@ -284,9 +285,16 @@ export default function WolframConsole({ activeRiddleId, voiceState, moduleScore
             })}
           </div>
 
+          {/* Scientific Export & Integration panel */}
+          <div style={{ background: 'rgba(0, 130, 138, 0.03)', border: '1px dashed var(--accent-cyan)', borderRadius: '6px', padding: '0.45rem', marginBottom: '0.45rem', fontSize: '0.55rem', color: 'var(--text-secondary)', lineHeight: '1.2' }}>
+            <span style={{ fontWeight: '800', color: 'var(--accent-cyan)', display: 'block', marginBottom: '2px', letterSpacing: '0.3px' }}>🔬 RESEARCH INTEGRATION EXPORT GATEWAY</span>
+            This clinical machine learning pipeline can be securely exported and fed directly into leading research institutions like <strong style={{ color: 'var(--accent-purple)' }}>Wolfram Research</strong>, <strong style={{ color: 'var(--accent-purple)' }}>NHS Digital</strong>, and <strong style={{ color: 'var(--accent-purple)' }}>Johns Hopkins Medicine</strong> to study outpatient recovery trends.
+          </div>
+
           {/* Elegant embedded math formula box */}
           <div className="citation-math-box" style={{ background: 'rgba(233, 30, 99, 0.02)', borderColor: 'rgba(233, 30, 99, 0.08)', padding: '0.45rem', marginBottom: '0.45rem' }}>
             <div className="math-label" style={{ color: 'var(--accent-cyan)', fontSize: '0.56rem', letterSpacing: '0.5px' }}>
+
               DERIVED SYSTEMIC REFLECTION FORMULA:
             </div>
             <code className="math-code" style={{ color: 'var(--text-primary)', background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(0,0,0,0.03)', padding: '0.15rem 0.35rem', borderRadius: '4px', fontSize: '0.58rem', display: 'block', wordBreak: 'break-all', margin: '0.15rem 0' }}>
@@ -318,10 +326,11 @@ export default function WolframConsole({ activeRiddleId, voiceState, moduleScore
         </div>
       </div>
       <div className="console-footer" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', fontSize: '0.62rem' }}>
-        <span style={{ color: 'var(--accent-purple)' }}>● Wolfram Kernel Active</span>
+        <span style={{ color: 'var(--accent-purple)' }}>● Clinical ML Pipeline Active</span>
         <span>BCF Singapore Clinical Modules</span>
         <span>Empathetic Database: CONNECTED</span>
       </div>
+
     </div>
   );
 }

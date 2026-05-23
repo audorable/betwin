@@ -20,8 +20,17 @@ import { saveJournalToCloud } from '../lib/journal';
 export type VoiceState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'unlocked';
 
 export type ModuleKey =
-  | 'jargon' | 'screening' | 'crisis' | 'healing'
-  | 'fertility' | 'sister' | 'caregiver' | 'wellness';
+  | 'jargon'
+  | 'screening'
+  | 'dass21'
+  | 'phq9'
+  | 'coreom'
+  | 'crisis'
+  | 'healing'
+  | 'fertility'
+  | 'sister'
+  | 'caregiver'
+  | 'wellness';
 
 export type ModuleScores = Record<ModuleKey, number>;
 
@@ -45,6 +54,9 @@ const TERRY_PROFILE: UserProfile = {
 const TERRY_SCORES: ModuleScores = {
   jargon: 85,
   screening: 100,
+  dass21: 75,
+  phq9: 60,
+  coreom: 55,
   crisis: 45,
   healing: 10,
   fertility: 0,
@@ -55,10 +67,19 @@ const TERRY_SCORES: ModuleScores = {
 
 const TERRY_ELO = 1350;
 
-// The 6 phases shown in the grid (first 6 modules from journeyCorpus)
+// The 9 phases shown in the grid (first 9 modules from journeyCorpus)
 const PHASE_MODULE_KEYS: ModuleKey[] = [
-  'jargon', 'screening', 'crisis', 'healing', 'fertility', 'sister',
+  'jargon',
+  'screening',
+  'dass21',
+  'phq9',
+  'coreom',
+  'crisis',
+  'healing',
+  'fertility',
+  'sister',
 ];
+
 
 // VoiceOrb state colours (translated from VoiceOrb.jsx — unchanged logic)
 export const VOICE_STATE_COLORS: Record<VoiceState, string> = {

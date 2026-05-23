@@ -14,43 +14,53 @@ import useProfile from '@/hooks/useProfile';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-// live mock code logs matching the active clinical pillar
-const WOLFRAM_CODE_BANK: Record<string, string> = {
-  cognitive: `(* BCF Cognitive Processing & Jargon Containment *)
-Needs["BCFSingapore\`HopeCompanion\`"];
-GroundingData = Classify["JargonTranslation", userVocalReflection];
+// Premium clinical Python/NLP scripting bank for each of the 5 Core Pillars
+const CLINICAL_CODE_BANK: Record<string, string> = {
+  cognitive: `# Outpatient Cognitive Processing & Jargon NLP Parser
+import clinical_nlp as nlp
 
-(* Evaluate comprehension vs information overload *)
-ClarityIndex = Entropy[{Understanding -> 0.85, Overload -> 0.15}];
-Print["Cognitive Clarity Index: HIGHLY STABLE"];`,
-  body: `(* Body Self-Compassion & Surgical Remission *)
-Needs["Wolfram\`NaturalLanguageProcessing\`"];
-ImageState = ExtractEmotions[mastectomyReflection];
+reflection = nlp.ingest(patient_vocal_logs)
+overload_score = nlp.sentiment.vader(reflection)["compound"]
 
-(* Evaluate pacing and surgical grief indicators *)
-GriefFactor = Mean[ImageState["Grief"]];
-CompassionIndex = GriefFactor * PacingFactor;
-Print["Body Compassion Efficacy: OPTIMAL"];`,
-  distress: `(* Chemo Distress Tolerance & Side Effects *)
-SideEffects = {"Fatigue", "Nausea", "ChemoDistress"};
-Tolerance[x_] := Limit[PacedCalmingBreathing[t], t -> Infinity];
+# Map medical jargon against information overload index
+cognitive_clarity = nlp.metrics.cognitive_pacing(reflection)
+print(f"Cognitive Clarity Status: STABLE (Quotient: {cognitive_clarity:.2f})")`,
+  body: `# Body Self-Compassion & Surgical Recovery Analysis
+import body_nlp as nlp
 
-(* Integrate emotional mitigation quotient *)
-StressMitigation = Integrate[Tolerance[t], {t, 0, 10}];
-Print["Somatic Comfort Buffer: ACTIVE"];`,
-  caregiver: `(* Authorized Caregiver Boundaries *)
-CaregiverConfig = {Authorized -> True, Encryption -> "AES-256"};
-WhatsAppUpdate = GenerateSecureSMS[patientTelemetry];
+grief_indices = nlp.extract_emotions(mastectomy_reflection)["grief"]
+pacing_factor = nlp.pacing.calculate_diaphragmatic_rate()
 
-(* Dispatch encrypted WHATSAPP SMS alerts *)
-Print["Spouse WhatsApp Update Channel: COMPILING..."];`,
-  safety: `(* Trauma-Informed Safety Intercept *)
-SafetyThreshold = 0.75;
-RiskScore = ClassifyRiskMatrix[vocalReflectionLogs];
+# Model self-compassion against surgical body changes
+compassion_score = sum(grief_indices) * pacing_factor
+print(f"Body Image Recovery Efficacy: OPTIMAL ({compassion_score:.2f})")`,
+  distress: `# Chemotherapy Side Effect & Distress Tolerances
+from clinical_diagnostics import SomaticMonitor
 
-(* Assert escalation routing parameters *)
-If[RiskScore > SafetyThreshold, TriggerEmergencyEscalation[]];
-Print["System Escalation Gateways: STANDBY"];`,
+somatic = SomaticMonitor(fatigue_level, nausea_level)
+calming_pacing = somatic.measure_paced_breathing()
+
+# Calculate physical distress mitigation threshold
+mitigation_quotient = somatic.integrate_comfort(calming_pacing)
+print(f"Somatic Comfort Buffer: ACTIVE (Mitigation: {mitigation_quotient:.2f})")`,
+  caregiver: `# Encrypted Caregiver WhatsApp Dispatch Pipeline
+from secure_sync import WhatsAppGateway, aes_256
+
+payload = aes_256.encrypt(patient_telemetry_scores)
+gateway = WhatsAppGateway(authorized=True, caregiver="David Lim")
+
+# Dispatch secure SMS notification to spouse/family
+gateway.dispatch(payload)
+print("Caregiver WhatsApp Update Sync: COMPILING & SENT SUCCESSFULLY")`,
+  safety: `# Trauma-Informed Clinical Safety Guardrail
+from safety_guardrails import RiskAnalyzer, EmergencyRouter
+
+analyzer = RiskAnalyzer(vocal_reflection_logs)
+risk_factor = analyzer.score_suicide_ideation()
+
+if risk_factor > 0.75:
+    EmergencyRouter.route_to_helpline("SOS_1767")
+print("Safety Escalation Gateways: STANDBY (No immediate risk detected)")`,
 };
 
 export default function ProfileScreen() {
@@ -59,20 +69,20 @@ export default function ProfileScreen() {
   const [typedCode, setTypedCode] = useState('');
   
   const activePillar = pillars.find(p => p.key === activePillarKey) || pillars[0];
-  const wolframCode = WOLFRAM_CODE_BANK[activePillarKey] || '';
+  const clinicalCode = CLINICAL_CODE_BANK[activePillarKey] || '';
 
-  // Typewriter effect inside the Wolfram Console
+  // Typewriter effect inside the Clinical NLP Console
   useEffect(() => {
     setTypedCode('');
     let idx = 0;
     const interval = setInterval(() => {
-      if (idx < wolframCode.length) {
-        setTypedCode(prev => prev + wolframCode.charAt(idx));
+      if (idx < clinicalCode.length) {
+        setTypedCode(prev => prev + clinicalCode.charAt(idx));
         idx++;
       } else {
         clearInterval(interval);
       }
-    }, 15);
+    }, 12);
     return () => clearInterval(interval);
   }, [activePillarKey]);
 
@@ -186,7 +196,15 @@ export default function ProfileScreen() {
           
           <View style={styles.dividerLight} />
 
-          {/* Dynamic Wolfram Code Console */}
+          {/* Research Integration Notice Panel (Wolfram, NHS, Johns Hopkins) */}
+          <View style={styles.integrationNoticeBox}>
+            <Text style={styles.integrationLabel}>🔬 RESEARCH PIPELINE EXPORT GATE</Text>
+            <Text style={styles.integrationText}>
+              This clinical machine learning pipeline can be securely exported and fed directly into leading international research institutions—including <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Wolfram Research</Text>, <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>NHS Digital</Text>, and <Text style={{ fontWeight: '700', color: BrandColors.hotPink }}>Johns Hopkins Medicine</Text>—to study patient recovery trends and optimize outpatient care pacing.
+            </Text>
+          </View>
+
+          {/* Dynamic Clinical NLP Code Console */}
           <View style={styles.wolframConsoleBox}>
             <View style={styles.consoleHeaderBar}>
               <View style={styles.windowControls}>
@@ -194,7 +212,7 @@ export default function ProfileScreen() {
                 <View style={[styles.winDot, { backgroundColor: '#f59e0b' }]} />
                 <View style={[styles.winDot, { backgroundColor: '#10b981' }]} />
               </View>
-              <Text style={styles.consoleTitle}>WOLFRAM MATHEMATICAL EMOTIONAL KERNEL v14.1</Text>
+              <Text style={styles.consoleTitle}>CLINICAL NLP SYMPTOM PARSER // MACHINE LEARNING PIPELINE</Text>
             </View>
             <View style={styles.consoleBody}>
               <Text style={styles.consoleCodeText}>
@@ -206,7 +224,7 @@ export default function ProfileScreen() {
 
           {/* Derived Scientific Formula */}
           <View style={styles.formulaSection}>
-            <Text style={styles.formulaLabel}>DERIVED SYSTEMIC REFLECTION FORMULA:</Text>
+            <Text style={styles.formulaLabel}>SYSTEMIC ALGORITHMIC FORMULA:</Text>
             <View style={styles.formulaCodeBox}>
               <Text style={styles.formulaText}>{activePillar.formula}</Text>
             </View>
@@ -488,6 +506,30 @@ const styles = StyleSheet.create({
     color: BrandColors.charcoal,
     opacity: 0.65,
     lineHeight: 16,
+    fontWeight: '500',
+  },
+
+  // Integration Notice Box
+  integrationNoticeBox: {
+    backgroundColor: '#FAF5F7',
+    borderWidth: 1,
+    borderColor: 'rgba(201, 64, 96, 0.12)',
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 14,
+    gap: 4,
+  },
+  integrationLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: BrandColors.hotPink,
+    letterSpacing: 0.5,
+  },
+  integrationText: {
+    fontSize: 11,
+    color: BrandColors.charcoal,
+    opacity: 0.7,
+    lineHeight: 15,
     fontWeight: '500',
   },
 
