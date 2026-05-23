@@ -301,4 +301,22 @@ BeTwin is built explicitly to address the core categories of premium hackathon e
 
 ---
 
+## 👥 Meet the Team & Contributions
+
+BeTwin is made possible by a cross-functional team of clinical, design, and engineering pioneers:
+
+*   **Audrey (NCS)** – **Frontend UI-UX & Design Lead**
+    *   **LinkedIn**: [jocelaudrey](https://linkedin.com/in/jocelaudrey)
+    *   **Contributions**: Orchestrated the serene rose-teal glassmorphic layout, designed and implemented the touchable 3D glassy breathing voice orb, and engineered the high-fidelity patient companion cards to reduce cognitive load and health anxiety for oncology outpatients.
+
+*   **Rachel Goh (KK Women's and Children's Hospital)** – **Clinical Lead & Researcher**
+    *   **LinkedIn**: [racheljhkok](https://linkedin.com/in/racheljhkok)
+    *   **Contributions**: Spearheaded the clinical evidence models, ingested the gold-standard outcome screeners (**DASS-21**, **PHQ-9**, **CORE-OM**), defined the **5-Pillar Diagnostics Telemetry Model**, and verified the accurate Singapore public-sector oncology hospital care pathways (SingHealth, NCCS, KKH).
+
+*   **Gwendalynn Lim with One (Eve Count Quantum Systems)** – **Agentic Systems & Backend Engineers**
+    *   **Website**: [evecount.com](https://evecount.com) | **LinkedIn**: [gwendalynnlim](https://linkedin.com/in/gwendalynnlim)
+    *   **Contributions**: Engineered the proactive stateful steering state machine, mapped the 11 active journey dialogue modules, integrated the local RAG clinical directories, implemented simulated Singpass GovTech secure EHR logins, set up the SQL Supabase telemetry databases, and wired up secure caregiver WhatsApp dual-consent transmittals.
+
+---
+
 🌸 *BeTwin Singapore – Bringing Compassion, Security, and Telemetry to Breast Cancer Journeys.*
