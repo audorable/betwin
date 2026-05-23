@@ -22,6 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
@@ -66,3 +67,7 @@ example
 # generated native folders
 /ios
 /android
+=======
+*.zip
+
+>>>>>>> voice-agent

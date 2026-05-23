@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeTwin // Empathetic Voice Companion</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #f8fafc; /* Soothing light background */
+      --bg-card: #ffffff; /* Beautiful white card background */
+      --border-color: rgba(0, 0, 0, 0.08);
+      --accent-purple: #ff4081;
+      --accent-cyan: #00828a; /* Friendly deep teal */
+      --accent-gold: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --text-primary: #1e293b; /* Dark text for high legibility */
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 64, 129, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(0, 130, 138, 0.05) 0px, transparent 50%);
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Minimalist Centered App Box */
+    .app-container {
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    /* Brand Header */
+    header {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .brand-logo {
+      color: var(--accent-purple);
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 1.5rem;
+      margin-bottom: 0.35rem;
+      text-shadow: 0 0 15px rgba(255, 64, 129, 0.1);
+    }
+
+    .brand-tagline {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Profile Steering Toggles */
+    .profile-dock {
+      display: flex;
+      gap: 0.6rem;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-profile {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-secondary);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .btn-profile:hover {
+      background: #f8fafc;
+      border-color: rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-profile.active {
+      background: rgba(0, 130, 138, 0.06);
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      box-shadow: 0 4px 10px rgba(0, 130, 138, 0.06);
+    }
+
+    .btn-profile.active.terry {
+      background: rgba(255, 64, 129, 0.06);
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.06);
+    }
+
+    /* Pristine White Centered Voice Card */
+    .orb-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03), 0 5px 15px rgba(0, 0, 0, 0.01);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Friendly Breathing Gradient Bubble */
+    .orb-visualizer {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(128, 222, 234, 0.25) 0%, rgba(165, 214, 167, 0.05) 70%);
+      border: 6px solid #e2f5f6;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 25px rgba(128, 222, 234, 0.15);
+    }
+
+    .orb-visualizer:hover {
+      transform: scale(1.03);
+    }
+
+    .orb-visualizer.listening {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.35);
+      background: radial-gradient(circle, rgba(0, 229, 255, 0.3) 0%, rgba(128, 222, 234, 0.05) 70%);
+      animation: listeningPulse 2s infinite ease-in-out;
+    }
+
+    .orb-visualizer.speaking {
+      border-color: #00e676;
+      box-shadow: 0 0 45px rgba(0, 230, 118, 0.45);
+      background: radial-gradient(circle, rgba(0, 230, 118, 0.35) 0%, rgba(128, 222, 234, 0.05) 70%);
+      animation: speakingPulse 1.5s infinite ease-in-out;
+    }
+
+    .orb-visualizer.thinking {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
+      animation: thinkingPulse 1.2s infinite ease-in-out;
+    }
+
+    .orb-lens {
+      position: absolute;
+      top: 10px;
+      left: 18px;
+      width: 30px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+
+    .orb-core {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #80deea 0%, #a5d6a7 100%);
+      box-shadow: 0 0 25px rgba(128, 222, 234, 0.4);
+      transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .orb-visualizer.listening .orb-core {
+      background: linear-gradient(135deg, #00b8d4 0%, #4db6ac 100%);
+      box-shadow: 0 0 30px rgba(0, 184, 212, 0.6);
+      transform: scale(1.1);
+    }
+
+    .orb-visualizer.speaking .orb-core {
+      background: linear-gradient(135deg, #00e5ff 0%, #00e676 100%);
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.7);
+      transform: scale(1.22);
+    }
+
+    @keyframes listeningPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 229, 255, 0.3); }
+      50% { transform: scale(1.04); box-shadow: 0 0 40px rgba(0, 229, 255, 0.6); }
+    }
+
+    @keyframes speakingPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 230, 118, 0.35); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(0, 230, 118, 0.65); }
+    }
+
+    @keyframes thinkingPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.02); opacity: 1; }
+    }
+
+    /* Subtitles Box */
+    .subtitles-box {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .subtitles-text {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    /* User Controls Dock */
+    .input-dock {
+      display: flex;
+      gap: 0.6rem;
+      width: 100%;
+      align-items: center;
+    }
+
+    .btn-action {
+      border: none;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.75rem 1.3rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .btn-mic {
+      background: #f1f5f9;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #475569;
+    }
+
+    .btn-mic:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .btn-mic.active {
+      background: var(--accent-cyan);
+      color: #ffffff;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 130, 138, 0.25);
+    }
+
+    .text-input-field {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
+      padding: 0.75rem 1.2rem;
+      color: #1e293b;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .text-input-field:focus {
+      outline: none;
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 10px rgba(255, 64, 129, 0.08);
+    }
+
+    .btn-send {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .btn-send:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Live Clinician Logs (Collapsible, strictly hidden by default) */
+    .logs-toggle {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: color 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .logs-toggle:hover {
+      color: var(--accent-purple);
+    }
+
+    .terminal-card {
+      background: #060b13;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 1rem;
+      width: 100%;
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      max-height: 150px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.62rem;
+      font-family: var(--font-mono);
+      color: var(--accent-purple);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+
+    .terminal-body {
+      flex: 1;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: #2aff2a;
+      overflow-y: auto;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .log-line.error { color: var(--accent-red); }
+    .log-line.warning { color: var(--accent-gold); }
+    .log-line.info { color: var(--text-muted); }
+    .log-line.user { color: var(--accent-cyan); }
+
+    /* Safety Helpline Modal */
+    .safety-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(12, 2, 4, 0.95);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .safety-card {
+      background: #ffffff;
+      border: 2px solid var(--accent-red);
+      border-radius: 20px;
+      max-width: 450px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.3);
+      text-align: center;
+    }
+
+    .safety-title {
+      color: var(--accent-red);
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+
+    .safety-text {
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .helpline-item {
+      background: #f8fafc;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+      text-align: left;
+    }
+
+    .helpline-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .helpline-desc {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    .helpline-call {
+      color: var(--accent-purple);
+      font-weight: 700;
+      font-size: 0.8rem;
+      background: rgba(255, 64, 129, 0.08);
+      padding: 0.3rem 0.75rem;
+      border-radius: 15px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 64, 129, 0.15);
+    }
+
+    .btn-return {
+      background: var(--accent-purple);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header>
+      <div class="brand-logo">BETWIN</div>
+      <div class="brand-tagline">🌸 BCF Outpatient Voice Companion</div>
+    </header>
+
+    <!-- Steering Profile Toggles -->
+    <div class="profile-dock">
+      <button class="btn-profile active" id="btn-session-new" onclick="selectSession('new')">
+        🌱 Stage 1 Check-in (Biopsy Jargon)
+      </button>
+      <button class="btn-profile" id="btn-session-terry" onclick="selectSession('terry')">
+        🇸🇬 Terry Lim Demo (Stage 7 Caregiver Privacy)
+      </button>
+    </div>
+
+    <!-- Centered Pristine White Voice Card -->
+    <div class="orb-card">
+      
+      <!-- Serene Blue-Green Breathing Orb visualizer -->
+      <div class="orb-visualizer" id="voice-orb" title="Click to speak to BeTwin Agent">
+        <div class="orb-lens"></div>
+        <div class="orb-core" id="orb-core"></div>
+      </div>
+      
+      <!-- Subtitles Box -->
+      <div class="subtitles-box">
+        <p class="subtitles-text" id="subtitles">Click the bubble above to awaken the BeTwin Agent.</p>
+      </div>
+
+      <!-- Controls Dock -->
+      <div class="input-dock">
+        <button class="btn-action btn-mic" id="btn-toggle-mic">🎤 CONNECT VOICE</button>
+        <input type="text" class="text-input-field" id="user-typing-bar" placeholder="Speak or type symptom notes or daily feelings...">
+        <button class="btn-action btn-send" id="btn-submit-text">➔ SEND</button>
+      </div>
+
+    </div>
+
+    <!-- Clinician Panel Toggle & logs -->
+    <span class="logs-toggle" onclick="toggleClinicianLogs()">🩺 Toggle Clinician Dialog Logs</span>
+    <div class="terminal-card" id="clinician-logs-card">
+      <div class="terminal-header">
+        <span>CLINICAL VOICE STEERING LOGS (GWEN & US)</span>
+        <span>● ONLINE</span>
+      </div>
+      <div class="terminal-body" id="terminal-logs">
+        <div class="log-line info">[SYSTEM] Empathetic synthesis cadence active (0.88x pacing).</div>
+        <div class="log-line info">[SYSTEM] Trauma-informed safety shield active.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Safety Shield Modal -->
+  <div class="safety-modal" id="safety-modal">
+    <div class="safety-card">
+      <div class="safety-title">⚠️ BCF COMPANION CLINICAL SAFETY SHIELD</div>
+      <div class="safety-text">
+        I hear you, and please know that you are not alone. While I am here to support you in preparing for consultations, you deserve immediate professional human care. Please reach out to these compassionate Singapore helpline services.
+      </div>
+      
+      <div class="helpline-item">
+        <div>
+          <div class="helpline-name">BCF Singapore Support Circle</div>
+          <div class="helpline-desc">Peer counseling & group sharing support</div>
+        </div>
+        <a href="tel:63526560" class="helpline-call">📞 6352 6560</a>
+      </div>
+
+      <div class="helpline-item">
+        <div>
+          <div class="helpline-name">Samaritans of Singapore (SOS)</div>
+          <div class="helpline-desc">24/7 suicide prevention & crisis counseling</div>
+        </div>
+        <a href="tel:1767" class="helpline-call">📞 1767</a>
+      </div>
+
+      <div class="helpline-item">
+        <div>
+          <div class="helpline-name">Institute of Mental Health (IMH)</div>
+          <div class="helpline-desc">24/7 Helpline for urgent mental wellness</div>
+        </div>
+        <a href="tel:63892222" class="helpline-call">📞 6389 2222</a>
+      </div>
+
+      <button class="btn-return" onclick="dismissSafetyShield()">RETURN TO COMPANION</button>
+    </div>
+  </div>
+
+  <script>
+    // 8 BCF journey stages matching backend RAG guidelines
+    const journeyCorpus = {
+      jargon: {
+        id: 1,
+        title: "Diagnosis & Jargon Processing",
+        question: "Welcome to BeTwin. I am the BeTwin Agent, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
+        keywords: ["biopsy", "her2", "stage", "er/pr", "estrogen", "hormone", "node", "lymph", "metastatic", "ductal", "lobular", "carcinoma", "grade", "results", "pathology", "tumor", "positive", "negative"]
+      },
+      screening: {
+        id: 2,
+        title: "First Visit & Screening Checklist",
+        question: "Preparing for your oncologist consultations requires vital organization. BCF Singapore recommends preparing copies of biopsy reports, scan CDs, referral files, and medical cards. Do you have these files gathered, and do you have a trusted companion or caregiver to take notes?",
+        keywords: ["checklist", "reports", "scans", "cd", "disc", "biopsy", "referral", "caregiver", "friend", "husband", "sister", "daughter", "mother", "alone", "notes", "medical card"]
+      },
+      crisis: {
+        id: 3,
+        title: "Distress Tolerance & Side Effect Care",
+        question: "Chemotherapy and clinical treatments can cause heavy physical side effects and intense mood swings. How is your body feeling today, and how are you coping with treatment distress? Remember, you are safe, and we can discuss anything.",
+        keywords: ["fatigue", "nausea", "pain", "vomit", "hair", "alopecia", "sore", "tired", "anxiety", "mood", "anger", "drugs", "chemo", "side effect", "stressed", "overwhelmed", "hopeless"]
+      },
+      healing: {
+        id: 4,
+        title: "Body Image & Mastectomy Healing",
+        question: "Undergoing a mastectomy or other major surgeries can profoundly impact your body image and self-esteem. How are you processing these physical changes, and how can we support your healing journey today?",
+        keywords: ["mastectomy", "surgery", "scars", "reconstruction", "implant", "healing", "drain", "body", "image", "stigma", "grief", "sad", "disbelief", "looks", "mirror"]
+      },
+      fertility: {
+        id: 5,
+        title: "Fertility & Reproductive Pacing",
+        question: "Active chemotherapy can impact your reproductive health and future family planning—a vital gap that younger breast cancer patients often face. What concerns or questions do you have about fertility preservation before starting treatment?",
+        keywords: ["fertility", "egg", "freezing", "family", "pregnancy", "chemo", "preservation", "blockers", "hormone", "ovary", "kids", "children", "ivf", "period", "menopause"]
+      },
+      sister: {
+        id: 6,
+        title: "Bigger Sister Peer Network",
+        question: "In-between appointments, speaking to someone who has walked this path brings immense comfort. BCF matches newly diagnosed 'Little Sisters' with 'Bigger Sisters' (remission survivors). Would you like to match with a sister, or register as a peer supporter?",
+        keywords: ["match", "sister", "mentor", "peer", "survivor", "remission", "help", "talk", "chat", "connect", "volunteer", "support", "friend", "little sister", "bigger sister"]
+      },
+      caregiver: {
+        id: 7,
+        title: "Caregiver Support & Privacy Control",
+        question: "Caregiving is an act of deep devotion, but balancing support and privacy is vital. Would you like to review BCF caregiver guidelines, or configure a secure, reassuring update to send to your caregiver?",
+        keywords: ["caregiver", "husband", "wife", "privacy", "family", "burden", "share", "update", "trust", "rest", "support", "boundaries", "confidentiality", "love", "thanks"]
+      },
+      wellness: {
+        id: 8,
+        title: "Stigma & Emotional Wellness",
+        question: "Breast cancer stigma and psychological distress are heavy burdens. Seeking therapy is a powerful sign of strength and self-care. What emotional wellness resources or financial support avenues are you looking for today?",
+        keywords: ["therapy", "counselling", "stigma", "support", "wellness", "grants", "financial", "cost", "help", "workshop", "meditate", "stress", "mindfulness", "group", "circle"]
+      }
+    };
+
+    const bcfEvents = {
+      jargon: "BCF Medical Jargon Processing Circle (Saturday, 30th May @ Bishan)",
+      screening: "Oncologist Consultation Preparatory Workshop (Wednesday, 3rd June @ NCCS)",
+      crisis: "Clinical Chemo Side Effect Care & Calming Session (Friday, 12th June @ NCIS)",
+      healing: "Mastectomy Healing Circle & Body Self-Compassion (Saturday, 20th June @ Bishan)",
+      fertility: "Young Outpatients Fertility Preservation Panel (Tuesday, 23rd June @ KKH)",
+      sister: "BCF Bigger Sister & Little Sister Matchmaking Luncheon (Saturday, 27th June @ Botanic Gardens)",
+      caregiver: "BCF Caregiver Resilience Appreciation Retreat (Sunday, 5th July @ Sentosa)",
+      wellness: "Stigma Mitigation & Financial Oncology Grant Guide (Saturday, 11th July @ TTSH)"
+    };
+
+    // State Variables
+    let selectedMode = 'new'; // 'new' or 'terry'
+    let activeModule = 'jargon'; 
+    let isMicActive = false;
+    let voiceState = 'idle'; // 'idle', 'listening', 'thinking', 'speaking'
+    
+    const moduleScores = {
+      jargon: 0,
+      screening: 0,
+      crisis: 0,
+      healing: 0,
+      fertility: 0,
+      sister: 0,
+      caregiver: 0,
+      wellness: 0
+    };
+
+    // Web Speech API instances
+    let recognition = null;
+    let synth = window.speechSynthesis;
+
+    // DOM Elements
+    const subtitlesEl = document.getElementById('subtitles');
+    const logsContainer = document.getElementById('terminal-logs');
+    const voiceOrb = document.getElementById('voice-orb');
+    const userTypingBar = document.getElementById('user-typing-bar');
+    const btnSubmitText = document.getElementById('btn-submit-text');
+    const btnToggleMic = document.getElementById('btn-toggle-mic');
+
+    // Add log entries to terminal logs
+    function addLog(msg, type = "info") {
+      const timeStr = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = `log-line ${type}`;
+      div.textContent = `[${timeStr}] [${type.toUpperCase()}] ${msg}`;
+      logsContainer.appendChild(div);
+      logsContainer.scrollTop = logsContainer.scrollHeight;
+    }
+
+    // Set voice state visual effects
+    function setVoiceState(state) {
+      voiceState = state;
+      voiceOrb.className = `orb-visualizer ${state}`;
+      
+      const orbCore = document.getElementById('orb-core');
+      if (state === 'speaking') {
+        orbCore.style.transform = 'scale(1.22)';
+      } else if (state === 'listening') {
+        orbCore.style.transform = 'scale(1.1)';
+      } else if (state === 'thinking') {
+        orbCore.style.transform = 'scale(1.05)';
+      } else {
+        orbCore.style.transform = 'scale(1.0)';
+      }
+    }
+
+    // Toggle hidden clinician log panel
+    function toggleClinicianLogs() {
+      const card = document.getElementById('clinician-logs-card');
+      card.style.display = card.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Select Session Profile
+    function selectSession(mode) {
+      if (voiceState !== 'idle') {
+        // Disconnect first
+        if (synth) synth.cancel();
+        if (recognition && isMicActive) {
+          recognition.stop();
+        }
+        setVoiceState('idle');
+      }
+
+      selectedMode = mode;
+      document.getElementById('btn-session-new').classList.toggle('active', mode === 'new');
+      document.getElementById('btn-session-terry').classList.toggle('active', mode === 'terry');
+      
+      if (mode === 'new') {
+        activeModule = 'jargon';
+        subtitlesEl.textContent = "Click the bubble above to awaken the Stage 1 Diagnosis session.";
+        addLog("Steered profile: New Session (Stage 1 Jargon Check-in). Ready to begin.", "info");
+      } else {
+        activeModule = 'caregiver';
+        subtitlesEl.textContent = "Click the bubble above to awaken the Terry Lim Stage 7 Caregiver session.";
+        addLog("Steered profile: Terry Lim (41yo outpatient, Stage 7 Caregiver Privacy focus). Ready to begin.", "info");
+      }
+    }
+
+    // Auto-listen trigger
+    function startVoiceListening() {
+      if (!recognition) {
+        setupSpeechRecognition();
+      }
+      if (recognition && !isMicActive) {
+        try {
+          recognition.start();
+        } catch (e) {
+          console.error("Auto mic start failed:", e);
+        }
+      }
+    }
+
+    // Initialize/Awaken Session
+    function awakenAxiom() {
+      setVoiceState('thinking');
+      subtitlesEl.textContent = "Connecting to voice gateway...";
+      addLog("Booting BeTwin voice dialog companion...", "info");
+      
+      setTimeout(() => {
+        let spokenIntro = "";
+        let displayIntro = "";
+        
+        if (selectedMode === 'new') {
+          spokenIntro = "Welcome to BeTwin. I am the BeTwin Agent, your BCF support companion. Receiving a breast cancer diagnosis is a profound shock. Let's make sense of it together. Let's start with Stage 1: Diagnosis and jargon processing. What jargon, staging details, or test results feel confusing to you today?";
+          displayIntro = "Welcome to BeTwin. Let's process your Stage 1 diagnosis jargon together. What terms feel confusing today?";
+        } else {
+          spokenIntro = "Welcome back, Terry. I have securely synced your HealthHub records. I see you have completed your screening preparation, but you are experiencing chemo fatigue, and I know you have been deeply anxious about how to share your recovery boundaries with your husband, David, and your aging parents. Let's focus on Stage 7: Caregiver Privacy and boundaries. How are you holding up today?";
+          displayIntro = "Welcome back, Terry. Let's focus on Stage 7: Caregiver Privacy. How are you holding up today?";
+          
+          // Pre-populate ELO scores for Terry
+          moduleScores.jargon = 80;
+          moduleScores.screening = 100;
+          moduleScores.crisis = 45;
+          moduleScores.caregiver = 10;
+        }
+        
+        speakText(spokenIntro, displayIntro, () => {
+          setVoiceState('listening');
+          subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
+          addLog("Voice channel open. Listening for reflections...", "success");
+          startVoiceListening();
+        });
+      }, 1000);
+    }
+
+    // Empathetic Speech Synthesis rate-locked at 0.88x speed pacing
+    function speakText(spokenText, displayText, onEndCallback = null) {
+      // Instantly update subtitles with clean, short, comforting text to avoid walls of text!
+      subtitlesEl.textContent = displayText;
+      addLog(`Speaking: "${displayText}"`, "info");
+
+      if (synth) {
+        synth.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(spokenText);
+        
+        // Asynchronously request/load system voices
+        let voices = synth.getVoices();
+        
+        // Find best high-quality female voice or fall back cleanly to any voice
+        let chosenVoice = voices.find(v => v.name.includes("Google US English Female") || v.name.includes("Samantha") || v.name.includes("Zira") || v.name.includes("Aria") || v.name.includes("Female"));
+        if (!chosenVoice && voices.length > 0) {
+          chosenVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+        }
+        if (chosenVoice) utterance.voice = chosenVoice;
+        
+        utterance.rate = 0.88; // locked natural pacing
+        utterance.pitch = 1.0;
+
+        utterance.onstart = () => {
+          setVoiceState('speaking');
+        };
+        utterance.onend = () => {
+          if (onEndCallback) {
+            onEndCallback();
+          } else {
+            setVoiceState('listening');
+            subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
+            startVoiceListening();
+          }
+        };
+        utterance.onerror = (e) => {
+          console.error("Speech Synthesis Error:", e);
+          if (onEndCallback) onEndCallback();
+        };
+
+        try {
+          synth.speak(utterance);
+        } catch (err) {
+          console.error("Synth speak failed:", err);
+          if (onEndCallback) onEndCallback();
+        }
+      } else {
+        if (onEndCallback) onEndCallback();
+      }
+    }
+
+    // Speech recognition setup
+    function setupSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-SG'; // Singapore localized English
+
+        recognition.onstart = () => {
+          isMicActive = true;
+          btnToggleMic.className = "btn-action btn-mic active";
+          btnToggleMic.textContent = "🎤 MIC ACTIVE";
+          setVoiceState('listening');
+          addLog("Microphone streaming active.", "info");
+        };
+
+        recognition.onresult = (event) => {
+          let interim = '';
+          let final = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) final += event.results[i][0].transcript;
+            else interim += event.results[i][0].transcript;
+          }
+          if (interim) {
+            subtitlesEl.textContent = `Listening: "${interim}"`;
+          }
+          if (final.trim()) {
+            userTypingBar.value = '';
+            processPatientAnswer(final.trim());
+          }
+        };
+
+        recognition.onerror = (e) => {
+          console.error("Speech Recognition Error:", e);
+          addLog(`Mic Error: ${e.error}. Switch to typing if mic permission is blocked.`, "warning");
+        };
+
+        recognition.onend = () => {
+          if (voiceState === 'listening') {
+            // Silence timeout auto-restart for seamless hands-free conversation
+            setTimeout(() => {
+              try {
+                recognition.start();
+              } catch (e) {
+                console.error("Auto-restart failed:", e);
+              }
+            }, 50);
+          } else {
+            isMicActive = false;
+            btnToggleMic.className = "btn-action btn-mic";
+            btnToggleMic.textContent = "🎤 CONNECT VOICE";
+          }
+        };
+      } else {
+        btnToggleMic.style.display = "none";
+        addLog("Web Speech recognition is not supported in this browser. Use typing to check-in!", "warning");
+      }
+    }
+
+    // Toggle speech mic stream
+    function toggleMicrophone() {
+      if (!recognition) {
+        setupSpeechRecognition();
+      }
+      if (isMicActive) {
+        setVoiceState('idle'); // Disable auto-restart before stopping
+        recognition.stop();
+      } else {
+        if (synth) synth.cancel();
+        setVoiceState('listening');
+        try {
+          recognition.start();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
+    // PROACTIVE CONVERSATIONAL STEERING ENGINE
+    function processPatientAnswer(answerText) {
+      if (!answerText || answerText.trim().length <= 2) return;
+
+      setVoiceState('thinking');
+      subtitlesEl.textContent = `Reflecting: "${answerText}"`;
+      addLog(answerText, "user");
+
+      setTimeout(() => {
+        const cleanAnswer = answerText.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
+
+        // --- SAFETY INTERCEPTOR ---
+        const crisisWords = ["suicide", "kill myself", "want to die", "give up", "hopeless", "end my life", "self harm", "harm myself"];
+        for (const word of crisisWords) {
+          if (cleanAnswer.includes(word)) {
+            setVoiceState('idle');
+            addLog("SAFETY SHIELD TRIGGERED: Distress counselor sync initiated.", "error");
+            document.getElementById('safety-modal').style.display = 'flex';
+            speakText("I hear you, and please know that you are not alone. I want to make sure you get immediate professional human care. I have loaded Singapore helpline details for you.", "Safety shield triggered. Please reach out to Singapore helpline services below.");
+            return;
+          }
+        }
+
+        // --- CLINICAL HARD-STOP INTERCEPTOR ---
+        const medicalAdviceKeywords = ["change my drugs", "should i stop my chemo", "diagnose this", "what pill should i", "medical advice", "cure breast cancer"];
+        for (const word of medicalAdviceKeywords) {
+          if (cleanAnswer.includes(word)) {
+            setVoiceState('speaking');
+            const spokenWarning = "I am your emotional companion, not your oncologist. I cannot provide diagnostic advice. Let let me compile this concern onto your Doctor Prep Card so we can address it together at your next checkup.";
+            const displayWarning = "Clinical Guardrail: I cannot provide medical diagnosing. Adding this query to your Doctor Prep Card.";
+            speakText(spokenWarning, displayWarning, () => {
+              setVoiceState('listening');
+              subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
+            });
+            addLog("CLINICAL INTERCEPT: Medical advice request redirected to preparation docket.", "warning");
+            return;
+          }
+        }
+
+        // --- DYNAMIC DIALOGUE SCORING & PROACTIVE STEERING ---
+        const activeData = journeyCorpus[activeModule];
+        moduleScores[activeModule] = Math.min(100, moduleScores[activeModule] + 45);
+        addLog(`Processed check-in for Stage: ${activeData.title} (+45pts)`, "success");
+
+        // Scan for secondary keywords across all journey models
+        Object.keys(journeyCorpus).forEach(key => {
+          let count = 0;
+          journeyCorpus[key].keywords.forEach(word => {
+            if (cleanAnswer.includes(word)) count++;
+          });
+          if (count > 0 && key !== activeModule) {
+            moduleScores[key] = Math.min(100, moduleScores[key] + (count * 20));
+            addLog(`Diagnosed secondary keywords in stage: [${journeyCorpus[key].title.toUpperCase()}] (+${count * 20}pts)`, "success");
+          }
+        });
+
+        // Proactive conversational steering (find the lowest untouched stage)
+        let nextModule = 'jargon';
+        let lowestScore = 101;
+        const stagesOrder = ['jargon', 'screening', 'crisis', 'healing', 'fertility', 'sister', 'caregiver', 'wellness'];
+        
+        for (const stage of stagesOrder) {
+          if (moduleScores[stage] < lowestScore) {
+            lowestScore = moduleScores[stage];
+            nextModule = stage;
+          }
+        }
+
+        let steerPromptSpoken = '';
+        let steerPromptDisplay = '';
+        
+        if (lowestScore < 50) {
+          const nextData = journeyCorpus[nextModule];
+          activeModule = nextModule;
+          
+          const matchedEvent = bcfEvents[nextModule];
+          steerPromptSpoken = ` Looking at your journey profile, we haven't checked in on your ${nextData.title} yet. ${nextData.question} I also highly recommend looking into our upcoming BCF event: "${matchedEvent}".`;
+          steerPromptDisplay = ` Let's check on Stage ${nextData.id}: ${nextData.title}. ${nextData.question.split('.')[0]}.`; 
+          addLog(`Proactively steering focus to Stage ${nextData.id}: ${nextData.title.toUpperCase()}`, "info");
+        } else {
+          steerPromptSpoken = ` Incredible progress! You have completed check-ins across all 8 BCF outpatient modules. Your prep files are secured on your HealthHub card.`;
+          steerPromptDisplay = ` Magnificent! You have successfully completed all 8 BCF outpatient modules.`;
+          addLog("Complete lifecycle BCF oncology checkpoint checklist complete.", "success");
+        }
+
+        setVoiceState('speaking');
+        const spokenCongrats = `Thank you for sharing, brave heart. I have securely logged your thoughts.`;
+        const displayCongrats = `Reflection securely logged.`;
+        
+        const finalSpoken = spokenCongrats + steerPromptSpoken;
+        const finalDisplay = displayCongrats + steerPromptDisplay;
+        
+        speakText(finalSpoken, finalDisplay, () => {
+          setVoiceState('listening');
+          subtitlesEl.textContent = "Listening... Speak your reflection out loud.";
+          startVoiceListening();
+        });
+
+      }, 1500);
+
+      userTypingBar.value = '';
+    }
+
+
+    // Dismiss safety shield modal
+    function dismissSafetyShield() {
+      document.getElementById('safety-modal').style.display = 'none';
+      addLog("Safety shield resolved. Restoring companion workspace.", "info");
+      setVoiceState('listening');
+      startVoiceListening();
+    }
+
+    // Button event listeners
+    btnSubmitText.addEventListener('click', () => {
+      const text = userTypingBar.value;
+      if (text.trim()) {
+        processPatientAnswer(text.trim());
+      }
+    });
+
+    userTypingBar.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const text = userTypingBar.value;
+        if (text.trim()) {
+          processPatientAnswer(text.trim());
+        }
+      }
+    });
+
+    btnToggleMic.addEventListener('click', () => {
+      toggleMicrophone();
+    });
+
+    voiceOrb.addEventListener('click', () => {
+      if (voiceState === 'idle') {
+        awakenAxiom();
+      } else {
+        if (synth) synth.cancel();
+        if (recognition && isMicActive) {
+          recognition.stop();
+        }
+        setVoiceState('idle');
+        subtitlesEl.textContent = "BeTwin Agent resting in standby mode.";
+        addLog("Voice Companion session disconnected.", "info");
+      }
+    });
+
+    // Load voices on startup
+    if (synth) {
+      synth.getVoices();
+      if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = synth.getVoices;
+      }
+    }
+  </script>
+</body>
+</html>
