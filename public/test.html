@@ -1026,6 +1026,20 @@
       }
     }
 
+    // Helper to start listening automatically without double clicking
+    function startVoiceListening() {
+      if (!recognition) {
+        setupSpeechRecognition();
+      }
+      if (recognition && !isMicActive) {
+        try {
+          recognition.start();
+        } catch (e) {
+          console.error("Auto mic start failed:", e);
+        }
+      }
+    }
+
     // Initialize Standalone Session
     function awakenAxiom() {
       setVoiceState('thinking');
@@ -1039,6 +1053,7 @@
         speakText(welcome, () => {
           setVoiceState('listening');
           addLog("Symptom parser active. Voice channel listening...", "success");
+          startVoiceListening();
         });
         
         // Highlight active module dashboard card
@@ -1257,6 +1272,7 @@
         speakText(finalReply, () => {
           setVoiceState('listening');
           updateDashboardVisuals();
+          startVoiceListening();
         });
 
       }, 1500);
@@ -1429,6 +1445,9 @@
         awakenAxiom();
       } else {
         if (synth) synth.cancel();
+        if (recognition && isMicActive) {
+          recognition.stop();
+        }
         setVoiceState('idle');
         subtitlesEl.textContent = "BeTwin Agent resting in standby mode.";
         addLog("Voice Companion session disconnected.", "info");
