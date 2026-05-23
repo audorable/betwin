@@ -6,6 +6,7 @@ import journeyCorpus from './data/journeyCorpus.json';
 
 export default function App() {
   const agent = useVoiceAgent();
+  const [portalView, setPortalView] = React.useState('patient'); // 'patient' | 'clinician'
 
   const activeModuleData = journeyCorpus[agent.activeModule];
 
@@ -85,6 +86,31 @@ export default function App() {
               }}
             >
               📋 PORTAL SUMMARY
+            </button>
+
+            {/* Secure Portal View Toggle */}
+            <button 
+              className="btn-connect"
+              style={{
+                background: portalView === 'clinician' ? 'rgba(0, 229, 255, 0.08)' : 'rgba(233, 30, 99, 0.06)',
+                borderColor: portalView === 'clinician' ? 'var(--accent-cyan)' : 'var(--accent-purple)',
+                color: portalView === 'clinician' ? 'var(--accent-cyan)' : 'var(--accent-purple)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontWeight: '800',
+                fontSize: '0.72rem',
+                padding: '0.4rem 0.8rem',
+                marginRight: '0.4rem',
+                boxShadow: portalView === 'clinician' ? '0 2px 8px rgba(0, 229, 255, 0.1)' : '0 2px 8px rgba(233, 30, 99, 0.1)'
+              }}
+              onClick={() => {
+                const nextView = portalView === 'patient' ? 'clinician' : 'patient';
+                setPortalView(nextView);
+                agent.addLog(`Switched console view mode to: ${nextView.toUpperCase()} PORTAL`, "info");
+              }}
+            >
+              {portalView === 'patient' ? '🌸 PATIENT VIEW' : '🩺 CLINICIAN VIEW'}
             </button>
 
             <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--accent-purple)', letterSpacing: '0.5px', marginRight: '0.8rem', display: 'flex', alignItems: 'center', fontWeight: '700' }}>
@@ -220,14 +246,92 @@ export default function App() {
               <p className="subtitles-text" style={{ fontSize: '0.78rem', lineHeight: '1.4' }}>{agent.subtitles}</p>
             </div>
 
-            {/* Inline Wolfram and Thesis Console */}
-            <div className="wolfram-container-wrapper" style={{ flex: 1, overflow: 'hidden' }}>
-              <WolframConsole 
-                activeRiddleId={activeModuleData.id}
-                voiceState={agent.voiceState}
-                moduleScores={agent.moduleScores}
-              />
-            </div>
+            {/* Conditionally Render: Clinician Telemetry Dashboard vs Soothing Patient Rest Zone */}
+            {portalView === 'patient' ? (
+              /* Soothing Guided Rest Zone for the Patient */
+              <div 
+                className="patient-calming-card" 
+                style={{ 
+                  flex: 1, 
+                  background: 'var(--bg-glass)', 
+                  border: '1px solid var(--border-glass)', 
+                  borderRadius: '16px', 
+                  padding: '1.2rem', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  textAlign: 'center',
+                  backdropFilter: 'blur(10px)'
+                }}
+              >
+                <div style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>🍃</div>
+                <h4 style={{ fontSize: '0.8rem', color: 'var(--accent-purple)', fontWeight: '800', letterSpacing: '0.5px', marginBottom: '0.3rem' }}>
+                  SOOTHING BREATHING ZONE
+                </h4>
+                <p style={{ fontSize: '0.68rem', color: 'var(--text-secondary)', maxHeight: '40px', overflow: 'hidden', lineHeight: '1.3' }}>
+                  Axiom Hope guides your breaths at a slow, therapeutic rate (0.88x pacing) to calm your parasympathetic system.
+                </p>
+                
+                {/* Breathing ring animations */}
+                <div style={{ position: 'relative', width: '90px', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0.8rem 0' }}>
+                  <div 
+                    className="breathing-ring-outer animate-pulse" 
+                    style={{ 
+                      position: 'absolute', 
+                      width: '100%', 
+                      height: '100%', 
+                      borderRadius: '50%', 
+                      border: '2px dashed var(--accent-cyan)', 
+                      opacity: '0.45',
+                      transform: agent.voiceState === 'listening' ? 'scale(1.15)' : 'scale(1.0)'
+                    }}
+                  ></div>
+                  <div 
+                    style={{ 
+                      width: '60px', 
+                      height: '60px', 
+                      borderRadius: '50%', 
+                      background: 'radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, rgba(233, 30, 99, 0.05) 100%)', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      border: '1.5px solid var(--accent-cyan)'
+                    }}
+                  >
+                    <span style={{ fontSize: '0.55rem', fontWeight: '800', color: 'var(--accent-cyan)' }}>
+                      {agent.voiceState === 'speaking' ? 'EXHALE' : agent.voiceState === 'listening' ? 'INHALE' : 'BREATHE'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '0.5rem', width: '100%', marginTop: '0.2rem' }}>
+                  <button 
+                    onClick={agent.triggerCaregiverShare}
+                    className="btn-connect"
+                    style={{ flex: 1, padding: '0.45rem', fontSize: '0.68rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', borderColor: 'var(--accent-cyan)', color: 'var(--accent-cyan)', background: 'none' }}
+                  >
+                    💬 Update Caregiver
+                  </button>
+                  <button 
+                    onClick={agent.matchBiggerSister}
+                    className="btn-connect"
+                    style={{ flex: 1, padding: '0.45rem', fontSize: '0.68rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', borderColor: 'var(--accent-purple)', color: 'var(--accent-purple)', background: 'none' }}
+                  >
+                    🤝 BCF Peer Support
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Secure Clinician Dashboard Portal */
+              <div className="wolfram-container-wrapper" style={{ flex: 1, overflow: 'hidden' }}>
+                <WolframConsole 
+                  activeRiddleId={activeModuleData.id}
+                  voiceState={agent.voiceState}
+                  moduleScores={agent.moduleScores}
+                />
+              </div>
+            )}
 
           </section>
 
