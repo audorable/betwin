@@ -356,15 +356,16 @@ export default function useVoiceAgent() {
   };
 
   const startAgentSession = async () => {
-    // Unblock browser Web Speech Synthesis context immediately inside user gesture click
+    // Unblock browser Web Speech Synthesis context immediately inside user gesture click (Safari Safe)
     if (window.speechSynthesis) {
       try {
         window.speechSynthesis.cancel();
-        const silentUtterance = new SpeechSynthesisUtterance(" ");
-        silentUtterance.volume = 0;
-        window.speechSynthesis.speak(silentUtterance);
+        // Speak synchronously to unblock Safari's strict audio policies and give instant feedback!
+        const initUtterance = new SpeechSynthesisUtterance("BeTwin companion awakening.");
+        initUtterance.rate = 0.88; // soothing pace
+        window.speechSynthesis.speak(initUtterance);
       } catch (e) {
-        console.warn("Silent utterance unblock failed:", e);
+        console.warn("Safari unblock failed:", e);
       }
     }
 
