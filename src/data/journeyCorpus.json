@@ -15,8 +15,32 @@
     "keywords": ["checklist", "reports", "scans", "cd", "disc", "biopsy", "referral", "caregiver", "friend", "husband", "sister", "daughter", "mother", "alone", "notes", "medical card"],
     "formula": "\\text{Consultation Readiness} = [\\text{Scan CD}, \\text{Biopsy Slide}, \\text{Medical ID}, \\text{Caregiver Companion}]"
   },
-  "crisis": {
+  "dass21": {
     "id": 3,
+    "title": "DASS-21 Stress & Anxiety",
+    "question": "To monitor your clinical anxiety and stress levels in-between visits, we integrate the DASS-21 screener. Have you been feeling winded, trembling, close to panic, or struggling to wind down over the past week? Let's check in on how your nervous system is responding.",
+    "hint": "Discuss feelings of tension, rapid breathing, dry mouth, or panic symptoms. I will score these to map your coping resilience.",
+    "keywords": ["wind down", "dry mouth", "breathing", "trembling", "panic", "anxious", "nervous", "scared", "stress", "tension", "worry", "restless", "heart", "shake"],
+    "formula": "\\text{Anxiety Index} = \\sum (\\text{Trembling} + \\text{Panic} + \\text{Rapid Breathing})"
+  },
+  "phq9": {
+    "id": 4,
+    "title": "PHQ-9 Depression Screener",
+    "question": "The PHQ-9 measures outpatient energy, sleep quality, and clinical mood. Have you been experiencing little interest in daily activities, trouble falling or staying asleep, low energy, or feeling down or hopeless? Speaking your physical truth helps us prepare oncology briefings.",
+    "hint": "Speak openly about fatigue, sleep changes, appetite, focus issues, or feeling down. Your doctor can review this securely.",
+    "keywords": ["interest", "pleasure", "down", "depressed", "hopeless", "sleep", "insomnia", "energy", "tired", "appetite", "failure", "trouble", "concentrate", "slow", "fidgety"],
+    "formula": "\\text{Depression Severity} = f(\\text{Mood}, \\text{Sleep Quality}, \\text{Outpatient Energy})"
+  },
+  "coreom": {
+    "id": 5,
+    "title": "CORE-OM Distress Screener",
+    "question": "The CORE-OM tracks overall psychological wellbeing and clinical coping. Have you felt tense or raw, felt like you have support, or found things getting on top of you recently? Your comfort and safety are our highest priorities.",
+    "hint": "Share feelings of overwhelm, whether you feel loved/supported, or general distress. This maps directly to your safety telemetry.",
+    "keywords": ["tense", "raw", "loved", "supported", "coping", "overwhelmed", "functioning", "distressed", "safe", "unhappy", "crying", "talking", "remission", "help"],
+    "formula": "\\text{Psychological Distress} = \\frac{\\text{Overwhelm} + \\text{Tension}}{\\text{Supportive Peer Buffer}}"
+  },
+  "crisis": {
+    "id": 6,
     "title": "Distress Tolerance & Side Effect Care",
     "question": "Chemotherapy and clinical treatments can cause heavy physical side effects and intense mood swings. How is your body feeling today, and how are you coping with treatment distress? Remember, you are safe, and we can discuss anything.",
     "hint": "Mention fatigue, nausea, pain, mood swings, or emotional stress. Remember, local services like SOS (1767) and IMH (6389 2222) are here for you 24/7.",
@@ -24,7 +48,7 @@
     "formula": "\\text{Distress Tolerance} = f(\\text{Paced Calming Breathing}, \\text{Clinical Side Effect Management})"
   },
   "healing": {
-    "id": 4,
+    "id": 7,
     "title": "Body Image & Mastectomy Healing",
     "question": "Undergoing a mastectomy or other major surgeries can profoundly impact your body image and self-esteem. How are you processing these physical changes, and how can we support your healing journey today?",
     "hint": "It is normal to grieve physical changes. Talk about scars, breast reconstruction questions, or body image stigma, and we will formulate questions for your doctor.",
@@ -32,7 +56,7 @@
     "formula": "\\text{Body Self-Compassion} \\propto \\text{Grief Acknowledgment} + \\text{Healing Pacing}"
   },
   "fertility": {
-    "id": 5,
+    "id": 8,
     "title": "Fertility & Reproductive Pacing",
     "question": "Active chemotherapy can impact your reproductive health and future family planning—a vital gap that younger breast cancer patients often face. What concerns or questions do you have about fertility preservation before starting treatment?",
     "hint": "Discuss egg freezing, hormone blockers, IVF, or pacing options that you can address with your oncology team.",
@@ -40,7 +64,7 @@
     "formula": "\\text{Fertility Options} = \\text{Oocyte Preservation} + \\text{Hormonal Shielding}"
   },
   "sister": {
-    "id": 6,
+    "id": 9,
     "title": "Bigger Sister Peer Network",
     "question": "In-between appointments, speaking to someone who has walked this path brings immense comfort. BCF matches newly diagnosed 'Little Sisters' with 'Bigger Sisters' (remission survivors). Would you like to match with a sister, or register as a peer supporter?",
     "hint": "Say 'match me' to search for a verified BCF sister, or 'volunteer' if you are in remission and want to mentor others.",
@@ -48,7 +72,7 @@
     "formula": "\\text{Peer Connection} = \\text{Stage 1 Little Sister} \\iff \\text{Stage 6 Bigger Sister}"
   },
   "caregiver": {
-    "id": 7,
+    "id": 10,
     "title": "Caregiver Support & Privacy Control",
     "question": "Caregiving is an act of deep devotion, but balancing support and privacy is vital. Would you like to review BCF caregiver guidelines, or configure a secure, reassuring update to send to your caregiver?",
     "hint": "Toggle the privacy check to automatically compile a warm, secure message (like 'I'm resting and doing well!') to share with your family.",
@@ -56,7 +80,7 @@
     "formula": "\\text{Caregiver Harmony} = \\text{Authorized Information Sharing} + \\text{Patient Confidentiality}"
   },
   "wellness": {
-    "id": 8,
+    "id": 11,
     "title": "Stigma & Emotional Wellness",
     "question": "Breast cancer stigma and psychological distress are heavy burdens. Seeking therapy is a powerful sign of strength and self-care. What emotional wellness resources or financial support avenues are you looking for today?",
     "hint": "Talk about therapy groups, counselling, BCF wellness workshops, or financial oncology grants.",
