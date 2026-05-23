@@ -61,13 +61,22 @@ Add a toggle button inside the navbar:
 *   **Patient Care View**: Shows the meditating voice orb, subtitles, simple chat input, and Care Journal card.
 *   **Doctor Telemetry Dashboard**: Shows the clinical Wolfram console and progress grid.
 
-### Step 2: Wire the Calming Vocal Orb (Patient View)
-Bind your audio sphere component to `agent.voiceState` and `agent.speechAmplitude` to create dynamic organic animations:
-*   Scale the orb container: `transform: scale(1 + agent.speechAmplitude * 0.2)`
-*   Pulse colors: Add custom box-shadow glows depending on state:
-    *   `speaking`: Rose gradient glow (`boxShadow: '0 0 30px rgba(233,30,99,0.5)'`)
-    *   `listening`: Teal gradient glow (`boxShadow: '0 0 30px rgba(0,229,255,0.4)'`)
-    *   `thinking`: Soft blinking amber glow (`boxShadow: '0 0 20px rgba(255,213,79,0.3)'`)
+### Step 2: Mount the Calming Voice Orb (Patient View)
+You do not need to construct SVG oscilloscopes or styling rules from scratch. A fully pre-styled standalone **VoiceOrb** is available in the codebase. It renders a warm, serene **blue-green breathing gradient orb** inside an elegant **white card** container:
+
+```javascript
+import VoiceOrb from '../components/VoiceOrb';
+
+// Inside your Patient View JSX:
+<VoiceOrb 
+  voiceState={agent.voiceState}
+  bootState={agent.bootState}
+  speechAmplitude={agent.speechAmplitude}
+  onOrbClick={agent.startAgentSession}
+/>
+```
+*   **Animations**: The component automatically handles scaling transitions (`scale(1 + amplitude * 0.16)`) and serene green/teal glow shadows synced to speech.
+*   **Click Handler**: The `onOrbClick` callback handles awakening or silencing Axiom Hope dynamically when clicked.
 
 ### Step 3: Wire the 8-Module Progress Grid (Clinician View)
 Map the `agent.moduleScores` object into a beautifully structured 2x4 telemetry grid for oncology nurses or oncologists:
