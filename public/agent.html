@@ -478,10 +478,10 @@
     <!-- Steering Profile Toggles -->
     <div class="profile-dock">
       <button class="btn-profile active" id="btn-session-new" onclick="selectSession('new')">
-        🌱 Stage 1 Check-in (Biopsy Jargon)
+        🌱 Start a Soothing Check-in (Diagnosis)
       </button>
       <button class="btn-profile" id="btn-session-terry" onclick="selectSession('terry')">
-        🇸🇬 Terry Lim Demo (Stage 7 Caregiver Privacy)
+        🇸🇬 Open Care Session (Caregiver Boundaries)
       </button>
     </div>
 
@@ -496,7 +496,7 @@
       
       <!-- Subtitles Box -->
       <div class="subtitles-box">
-        <p class="subtitles-text" id="subtitles">Click the bubble above to awaken the BeTwin Agent.</p>
+        <p class="subtitles-text" id="subtitles">Click the bubble above to begin your check-in with your BCF friend.</p>
       </div>
 
       <!-- Controls Dock -->
@@ -564,50 +564,50 @@
     const journeyCorpus = {
       jargon: {
         id: 1,
-        title: "Diagnosis & Jargon Processing",
-        question: "Welcome to BeTwin. I am the BeTwin Agent, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
+        title: "Understanding Your Diagnosis",
+        question: "Hello, Terry. I'm here. It's so good to hear your voice. I know things have been feeling incredibly heavy and overwhelming since you received your biopsy reports. Take a deep breath with me... What is feeling a bit confusing or scary for you today? I'm right here beside you.",
         keywords: ["biopsy", "her2", "stage", "er/pr", "estrogen", "hormone", "node", "lymph", "metastatic", "ductal", "lobular", "carcinoma", "grade", "results", "pathology", "tumor", "positive", "negative"]
       },
       screening: {
         id: 2,
-        title: "First Visit & Screening Checklist",
-        question: "Preparing for your oncologist consultations requires vital organization. BCF Singapore recommends preparing copies of biopsy reports, scan CDs, referral files, and medical cards. Do you have these files gathered, and do you have a trusted companion or caregiver to take notes?",
+        title: "Preparing for Your Visit",
+        question: "When you go to the hospital, having a lot of papers and scan CDs can be stressful, Terry. Have you been able to gather your reports, and do you have a close friend or family member who can go with you to hold your hand and take notes? You don't have to face this alone.",
         keywords: ["checklist", "reports", "scans", "cd", "disc", "biopsy", "referral", "caregiver", "friend", "husband", "sister", "daughter", "mother", "alone", "notes", "medical card"]
       },
       crisis: {
         id: 3,
-        title: "Distress Tolerance & Side Effect Care",
-        question: "Chemotherapy and clinical treatments can cause heavy physical side effects and intense mood swings. How is your body feeling today, and how are you coping with treatment distress? Remember, you are safe, and we can discuss anything.",
+        title: "Coping with Side Effects",
+        question: "Chemotherapy and clinical treatments can cause heavy physical side effects and intense mood swings. How is your body feeling today, Terry, and how are you coping with treatment distress? Remember, you are safe, and we can discuss anything.",
         keywords: ["fatigue", "nausea", "pain", "vomit", "hair", "alopecia", "sore", "tired", "anxiety", "mood", "anger", "drugs", "chemo", "side effect", "stressed", "overwhelmed", "hopeless"]
       },
       healing: {
         id: 4,
-        title: "Body Image & Mastectomy Healing",
-        question: "Undergoing a mastectomy or other major surgeries can profoundly impact your body image and self-esteem. How are you processing these physical changes, and how can we support your healing journey today?",
+        title: "Body Image & Surgery Healing",
+        question: "Undergoing a mastectomy or other major surgeries can profoundly impact your body image and self-esteem, Terry. How are you processing these physical changes, and how can we support your healing journey today? Remember how beautiful and strong you are.",
         keywords: ["mastectomy", "surgery", "scars", "reconstruction", "implant", "healing", "drain", "body", "image", "stigma", "grief", "sad", "disbelief", "looks", "mirror"]
       },
       fertility: {
         id: 5,
         title: "Fertility & Reproductive Pacing",
-        question: "Active chemotherapy can impact your reproductive health and future family planning—a vital gap that younger breast cancer patients often face. What concerns or questions do you have about fertility preservation before starting treatment?",
+        question: "Active chemotherapy can impact your reproductive health and future family planning—a vital concern that younger breast cancer patients often face, Terry. What concerns or questions do you have about fertility preservation or oocyte freezing before starting treatment?",
         keywords: ["fertility", "egg", "freezing", "family", "pregnancy", "chemo", "preservation", "blockers", "hormone", "ovary", "kids", "children", "ivf", "period", "menopause"]
       },
       sister: {
         id: 6,
-        title: "Bigger Sister Peer Network",
-        question: "In-between appointments, speaking to someone who has walked this path brings immense comfort. BCF matches newly diagnosed 'Little Sisters' with 'Bigger Sisters' (remission survivors). Would you like to match with a sister, or register as a peer supporter?",
+        title: "Matching with a Bigger Sister",
+        question: "In-between appointments, speaking to someone who has walked this exact path brings immense comfort, Terry. BCF matches newly diagnosed 'Little Sisters' with 'Bigger Sisters' (remission survivors). Would you like me to match you with a Bigger Sister who can walk this journey with you?",
         keywords: ["match", "sister", "mentor", "peer", "survivor", "remission", "help", "talk", "chat", "connect", "volunteer", "support", "friend", "little sister", "bigger sister"]
       },
       caregiver: {
         id: 7,
-        title: "Caregiver Support & Privacy Control",
-        question: "Caregiving is an act of deep devotion, but balancing support and privacy is vital. Would you like to review BCF caregiver guidelines, or configure a secure, reassuring update to send to your caregiver?",
+        title: "Communicating with Loved Ones",
+        question: "I know you care so deeply about David and your parents, Terry, and you've been anxious about how to share updates without feeling like a burden. Would you like me to help you configure a secure, reassuring message to send to David, so he knows you are resting and doing well?",
         keywords: ["caregiver", "husband", "wife", "privacy", "family", "burden", "share", "update", "trust", "rest", "support", "boundaries", "confidentiality", "love", "thanks"]
       },
       wellness: {
         id: 8,
-        title: "Stigma & Emotional Wellness",
-        question: "Breast cancer stigma and psychological distress are heavy burdens. Seeking therapy is a powerful sign of strength and self-care. What emotional wellness resources or financial support avenues are you looking for today?",
+        title: "Your Emotional Well-being",
+        question: "Seeking therapy and support is a beautiful sign of strength, Terry. What emotional wellness resources or BCF financial oncology grant programs are you looking to explore today? I want to make sure you are fully supported.",
         keywords: ["therapy", "counselling", "stigma", "support", "wellness", "grants", "financial", "cost", "help", "workshop", "meditate", "stress", "mindfulness", "group", "circle"]
       }
     };
@@ -702,12 +702,12 @@
       
       if (mode === 'new') {
         activeModule = 'jargon';
-        subtitlesEl.textContent = "Click the bubble above to awaken the Stage 1 Diagnosis session.";
-        addLog("Steered profile: New Session (Stage 1 Jargon Check-in). Ready to begin.", "info");
+        subtitlesEl.textContent = "Click the bubble above to begin your check-in with your BCF friend.";
+        addLog("Steered profile: Warm Check-in (Diagnosis). Ready to begin.", "info");
       } else {
         activeModule = 'caregiver';
-        subtitlesEl.textContent = "Click the bubble above to awaken the Terry Lim Stage 7 Caregiver session.";
-        addLog("Steered profile: Terry Lim (41yo outpatient, Stage 7 Caregiver Privacy focus). Ready to begin.", "info");
+        subtitlesEl.textContent = "Click the bubble above to open your caregiver session.";
+        addLog("Steered profile: Terry Lim (Caregiver Boundaries). Ready to begin.", "info");
       }
     }
 
@@ -736,11 +736,11 @@
         let displayIntro = "";
         
         if (selectedMode === 'new') {
-          spokenIntro = "Welcome to BeTwin. I am the BeTwin Agent, your BCF support companion. Receiving a breast cancer diagnosis is a profound shock. Let's make sense of it together. Let's start with Stage 1: Diagnosis and jargon processing. What jargon, staging details, or test results feel confusing to you today?";
-          displayIntro = "Welcome to BeTwin. Let's process your Stage 1 diagnosis jargon together. What terms feel confusing today?";
+          spokenIntro = "Hello, Terry. I'm here. It's so good to hear your voice. I know things have been feeling incredibly heavy and overwhelming since you received your biopsy reports. Take a deep breath with me... What is feeling a bit confusing or scary for you today? I'm right here beside you.";
+          displayIntro = "Hello, Terry. I know things feel incredibly heavy since your diagnosis. What feels confusing or scary today?";
         } else {
-          spokenIntro = "Welcome back, Terry. I have securely synced your HealthHub records. I see you have completed your screening preparation, but you are experiencing chemo fatigue, and I know you have been deeply anxious about how to share your recovery boundaries with your husband, David, and your aging parents. Let's focus on Stage 7: Caregiver Privacy and boundaries. How are you holding up today?";
-          displayIntro = "Welcome back, Terry. Let's focus on Stage 7: Caregiver Privacy. How are you holding up today?";
+          spokenIntro = "Hello, Terry. It is so good to hear your voice again. I see you've prepared your reports beautifully, but I know you've been carrying so much anxiety about how to share your chemo recovery boundaries with David and your parents. Take a deep, gentle breath with me... How are you holding up today? I'm right here to help.";
+          displayIntro = "Hello, Terry. It's so good to hear your voice again. How are you holding up today? I'm right here to help.";
           
           // Pre-populate ELO scores for Terry
           moduleScores.jargon = 80;
@@ -812,7 +812,7 @@
 
     // Speech recognition setup
     function setupSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const SpeechRecognition = window.WindowsSpeechRecognition || window.webkitSpeechRecognition || window.SpeechRecognition;
       if (SpeechRecognition) {
         recognition = new SpeechRecognition();
         recognition.continuous = false;
@@ -965,12 +965,12 @@
           activeModule = nextModule;
           
           const matchedEvent = bcfEvents[nextModule];
-          steerPromptSpoken = ` Looking at your journey profile, we haven't checked in on your ${nextData.title} yet. ${nextData.question} I also highly recommend looking into our upcoming BCF event: "${matchedEvent}".`;
-          steerPromptDisplay = ` Let's check on Stage ${nextData.id}: ${nextData.title}. ${nextData.question.split('.')[0]}.`; 
+          steerPromptSpoken = ` Looking at your journey, Terry, I want to make sure you are supported in other areas too. Let's think about ${nextData.title}. ${nextData.question}`;
+          steerPromptDisplay = ` Let's check on your ${nextData.title.toLowerCase()}. ${nextData.question.split('.')[0] || nextData.question}.`; 
           addLog(`Proactively steering focus to Stage ${nextData.id}: ${nextData.title.toUpperCase()}`, "info");
         } else {
-          steerPromptSpoken = ` Incredible progress! You have completed check-ins across all 8 BCF outpatient modules. Your prep files are secured on your HealthHub card.`;
-          steerPromptDisplay = ` Magnificent! You have successfully completed all 8 BCF outpatient modules.`;
+          steerPromptSpoken = ` Incredible progress! You have completed check-ins across all BCF outpatient modules, Terry. Your prep files are secured on your HealthHub card.`;
+          steerPromptDisplay = ` Magnificent! You have successfully completed all BCF outpatient modules.`;
           addLog("Complete lifecycle BCF oncology checkpoint checklist complete.", "success");
         }
 
