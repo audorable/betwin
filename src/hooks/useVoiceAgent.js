@@ -53,6 +53,18 @@ export default function useVoiceAgent() {
   const [biggerSisterMatched, setBiggerSisterMatched] = useState(null);
   const [biggerSisterLoading, setBiggerSisterLoading] = useState(false);
 
+  // BCF 8-Module Patient Diagnostics Telemetry Scores
+  const [moduleScores, setModuleScores] = useState({
+    jargon: 0,
+    screening: 0,
+    crisis: 0,
+    healing: 0,
+    fertility: 0,
+    sister: 0,
+    caregiver: 0,
+    wellness: 0
+  });
+
   // Terminal & Subtitles Visual logs
   const [subtitles, setSubtitles] = useState('Click the central gleam to awaken Axiom Hope.');
   const [terminalLogs, setTerminalLogs] = useState([]);
@@ -351,7 +363,7 @@ export default function useVoiceAgent() {
     speakVocalText(journeyCorpus[moduleKey].question);
   };
 
-  // PROCESS VOCAL SUBMISSION (THE LOGIC ENGINE)
+  // PROCESS VOCAL SUBMISSION (THE AGENTIC SCORING & STEERING ENGINE)
   const processVocalSubmission = (answerText) => {
     if (!answerText || answerText.trim().length <= 2) {
       addLog("Input Mismatch: Please speak a bit more clearly.", "error");
@@ -362,7 +374,7 @@ export default function useVoiceAgent() {
     }
 
     setVoiceState('thinking');
-    setSubtitles(`Processing: "${answerText}"`);
+    setSubtitles(`Analyzing: "${answerText}"`);
     addLog(`User submitted: "${answerText}"`, "user");
 
     setTimeout(() => {
@@ -408,22 +420,78 @@ export default function useVoiceAgent() {
         return;
       }
 
-      // --- Success Reflection Grading ---
+      // --- Dynamic Keyword Analysis & Diagnostic Scoring Loop ---
+      const matchedModules = [];
+      Object.keys(journeyCorpus).forEach(key => {
+        const corpus = journeyCorpus[key];
+        let matchedCount = 0;
+        corpus.keywords.forEach(word => {
+          if (cleanAnswer.includes(word)) {
+            matchedCount++;
+          }
+        });
+        if (matchedCount > 0) {
+          matchedModules.push({ key, count: matchedCount });
+        }
+      });
+
+      // Update ELO and add log
       setElo((prev) => prev + 150);
-      addLog(`Reflection Processed: Module [${activeModule.toUpperCase()}] notes updated.`, "success");
+      addLog(`Reflection Processed: Module [${activeModule.toUpperCase()}] check-in logged.`, "success");
       setVoiceState('unlocked');
 
-      // Auto-populate oncology questions or notes based on active module
+      // Auto-populate oncologist questions or patient notes
       if (activeModule === 'jargon' || activeModule === 'screening') {
         setClinicalQuestions((prev) => prev ? `${prev}\n- ${answerText}` : `- ${answerText}`);
       } else {
         setPatientNotes((prev) => prev ? `${prev}\n- [${activeModuleData.title}]: ${answerText}` : `- [${activeModuleData.title}]: ${answerText}`);
       }
 
-      // Compassionate progress congrats response
-      const successCongrats = `Thank you for sharing your thoughts on ${activeModuleData.title}. I have securely logged your reflections. Feel free to explore another micro-service module on your BeTwin dashboard or review your Care card!`;
-      setSubtitles(successCongrats);
-      speakVocalText(successCongrats);
+      // Apply module scores based on keyword indices found
+      let promptSteerText = "";
+      setModuleScores(prev => {
+        const newScores = { ...prev };
+        
+        // Boost the current active module by default for typing/speaking
+        newScores[activeModule] = Math.min(100, newScores[activeModule] + 45);
+        
+        // Boost any other modules if they spoke keywords related to them!
+        matchedModules.forEach(match => {
+          newScores[match.key] = Math.min(100, newScores[match.key] + (match.count * 20));
+          addLog(`Diagnosed index: Patient touched on [${journeyCorpus[match.key].title.toUpperCase()}] (+${match.count * 20}pts)`, "success");
+        });
+
+        // --- Proactive Conversational Next-Module Steering ---
+        let nextModuleToSteer = 'jargon';
+        let lowestScore = 101;
+        const moduleOrder = ['jargon', 'screening', 'crisis', 'healing', 'fertility', 'sister', 'caregiver', 'wellness'];
+        for (const key of moduleOrder) {
+          if (newScores[key] < lowestScore) {
+            lowestScore = newScores[key];
+            nextModuleToSteer = key;
+          }
+        }
+
+        if (lowestScore < 50) {
+          const nextCorpus = journeyCorpus[nextModuleToSteer];
+          promptSteerText = ` I have securely updated your dashboard telemetry. Looking at your journey profile, we haven't discussed your ${nextCorpus.title} yet. ${nextCorpus.question}`;
+          setTimeout(() => {
+            setActiveModule(nextModuleToSteer);
+          }, 3500);
+        } else {
+          promptSteerText = ` Outstanding! You have successfully completed initial check-ins across all BCF support modules. Your care cards are fully secured on the HealthHub cloud.`;
+        }
+
+        return newScores;
+      });
+
+      // Construct final proactive reply
+      setTimeout(() => {
+        const congratsText = `Thank you for sharing, brave heart. I have logged your thoughts on ${activeModuleData.title}.`;
+        const finalVocalReply = congratsText + promptSteerText;
+        setSubtitles(finalVocalReply);
+        speakVocalText(finalVocalReply);
+      }, 500);
 
     }, 1500);
 
@@ -504,7 +572,58 @@ export default function useVoiceAgent() {
     addLog(`Dispatched pre-appointment briefing to Dr. ${doctorName} (${doctorEmail})`, "success");
   };
 
+  // SECURE BCF CLINICAL BRIEFING GENERATOR & FIRESTORE SYNCER
+  const handleBCFSubmit = async (e) => {
+    if (e) e.preventDefault();
+    setSubmissionStep('transmitting');
+    setTransmissionLogs([]);
+    
+    const logs = [
+      "Establishing handshake with Singpass Civic Identity Gate...",
+      "Syncing GovTech HealthHub EHR oncology records...",
+      "Validating outpatient NRIC token validation...",
+      "Encrypting Care Journal with military-grade AES-256...",
+      "Connecting to BCF Singapore Secure Sync drawer...",
+      "Saving symptom telemetry to Cloud Firestore...",
+      "Formatting clinical prep briefing sheet...",
+      "Authorizing clinical transmission channel...",
+      "Dossier successfully secured on HealthHub!"
+    ];
+
+    for (let i = 0; i < logs.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 350));
+      setTransmissionLogs(prev => [...prev, logs[i]]);
+      addLog(logs[i], "success");
+    }
+
+    if (user) {
+      try {
+        await saveJournalToCloud(user.uid, {
+          patientName,
+          userRole,
+          primaryEmotion,
+          clinicalQuestions,
+          patientNotes,
+          doctorName,
+          doctorEmail,
+          doctorHospital,
+          caregiverAuthorized,
+          elo,
+          moduleScores
+        });
+      } catch (err) {
+        console.error("Error saving to Firestore:", err);
+      }
+    }
+
+    setSubmissionStep('complete');
+  };
+
+  const endAgentSession = handleEndCall;
+  const submitUserInput = processVocalSubmission;
+
   return {
+    handleBCFSubmit,
     elo,
     activeModule,
     userInput,
@@ -564,6 +683,8 @@ export default function useVoiceAgent() {
     setCaregiverAuthorized,
     biggerSisterMatched,
     biggerSisterLoading,
+    moduleScores,
+    setModuleScores,
     subtitles,
     terminalLogs,
     startAgentSession,

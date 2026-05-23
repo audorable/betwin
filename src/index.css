@@ -1,0 +1,1450 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+  --bg-cosmic: #fff5f7;
+  --bg-deep: #fcf8f9;
+  --bg-glass: rgba(255, 255, 255, 0.72);
+  
+  --accent-cyan: #00828a; /* Soothing Singapore Teal */
+  --accent-purple: #e91e63; /* BCF Singapore Ribbon Pink */
+  --accent-gold: #d85d00;
+  --accent-red: #c62828;
+  --accent-green: #2e7d32;
+  
+  --text-primary: #2c1219; /* High-contrast slate cherry */
+  --text-secondary: #664d54; /* Soothing charcoal-rose */
+  --text-muted: #9c8289;
+  
+  --border-glass: rgba(233, 30, 99, 0.15); /* Faint pink glass border */
+  --border-glass-glow: rgba(233, 30, 99, 0.35);
+  
+  --font-display: 'Orbitron', sans-serif;
+  --font-text: 'Outfit', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  
+  font-family: var(--font-text);
+  color: var(--text-primary);
+  background-color: var(--bg-deep);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(255, 128, 171, 0.15) 0%, transparent 65%),
+    radial-gradient(circle at 10% 80%, rgba(0, 130, 138, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(233, 30, 99, 0.08) 0%, transparent 40%);
+  background-size: 100% 100%;
+}
+
+/* Atmospheric CRT Scanline filter */
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.03) 50%), linear-gradient(90deg, rgba(233, 30, 99, 0.01), rgba(0, 130, 138, 0.01), rgba(233, 30, 99, 0.01));
+  z-index: 99;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Immersive Chat Viewport Layout */
+.viewport-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* Header overlays */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Rounded Pill Button "Connect" */
+.btn-connect {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.6rem 1.6rem;
+  border-radius: 30px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.btn-connect:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.btn-connect.active {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 15px rgba(42, 255, 42, 0.4);
+  color: var(--accent-green);
+}
+
+.btn-connect.thinking {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.4);
+  color: var(--accent-gold);
+  animation: pulse-border 1.5s infinite alternate;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.circle-nav-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.circle-nav-btn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+}
+
+/* Central Character: Pixelated HAL-9000 Sphinx Lens */
+.character-area {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  width: 400px;
+  height: 400px;
+}
+
+/* Dotted Floating Sound Ring */
+.dotted-audio-ring {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%);
+  width: 140px;
+  height: 140px;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  animation: spin-ring 20s linear infinite;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.dotted-audio-ring.active {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  border-width: 3px;
+}
+
+/* The Soothing BCF Eye Unit Casing */
+.hal-eye-unit {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, #ffffff 0%, #f1f5f9 80%, #cbd5e1 100%);
+  border-radius: 50%;
+  border: 10px solid #e2e8f0;
+  box-shadow: 
+    0 10px 30px rgba(148, 163, 184, 0.25),
+    inset 0 4px 12px rgba(255, 255, 255, 0.9),
+    inset 0 -8px 20px rgba(148, 163, 184, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.hal-eye-unit::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  pointer-events: none;
+}
+
+/* Glass Reflection Layer */
+.lens-reflection {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  width: 160px;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 50% 50% 30% 30%;
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+
+/* Glowing Inner Eye Core */
+.eye-core {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a2ffed 10%, #00828a 70%, #022326 100%);
+  box-shadow: 
+    0 0 25px rgba(0, 240, 216, 0.7),
+    inset 0 0 10px rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  animation: idle-breath 3s infinite alternate ease-in-out;
+}
+
+/* Active center aperture */
+.aperture {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 
+    0 0 15px #ffffff,
+    0 0 30px var(--accent-cyan);
+  transition: all 0.3s ease;
+}
+
+/* Dynamic HAL State Colors */
+.hal-eye-unit.idle .eye-core {
+  background: radial-gradient(circle, #a2ffed 10%, #00666d 70%, #01181a 100%);
+  box-shadow: 0 0 20px rgba(0, 240, 216, 0.55);
+}
+
+.hal-eye-unit.listening .eye-core {
+  background: radial-gradient(circle, #d0fffa 15%, #00bfa5 75%, #002e30 100%);
+  box-shadow: 0 0 35px rgba(0, 255, 216, 0.9);
+  animation: listening-vibrate 0.15s infinite alternate;
+}
+
+.hal-eye-unit.speaking .eye-core {
+  background: radial-gradient(circle, #ffffff 10%, #00f0ff 65%, #9d00ff 100%);
+  box-shadow: 
+    0 0 45px rgba(0, 240, 255, 0.95),
+    0 0 70px rgba(157, 0, 255, 0.4);
+}
+
+.hal-eye-unit.speaking .aperture {
+  width: 32px;
+  height: 32px;
+  background: #fffdf5;
+  box-shadow: 0 0 25px #ffffff, 0 0 45px var(--accent-cyan);
+}
+
+.hal-eye-unit.thinking .eye-core {
+  background: radial-gradient(circle, #ff00ff 10%, #5500aa 70%, #110022 100%);
+  box-shadow: 0 0 40px rgba(255, 0, 255, 0.85);
+  animation: thinking-scan 1s infinite linear;
+}
+
+.hal-eye-unit.unlocked .eye-core {
+  background: radial-gradient(circle, #2aff2a 10%, #006600 70%, #002200 100%);
+  box-shadow: 0 0 40px rgba(42, 255, 42, 0.95);
+}
+
+.hal-eye-unit.unlocked .aperture {
+  box-shadow: 0 0 20px #ffffff, 0 0 35px var(--accent-green);
+}
+
+/* Floating Bottom Control Overlays */
+.bottom-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 2rem;
+  z-index: 10;
+}
+
+/* Sleek Bottom Left Chatbox */
+.chat-bar-container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  padding: 0.4rem 0.6rem 0.4rem 1.2rem;
+  border-radius: 40px;
+  width: 380px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+}
+
+.chat-bar-container:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+}
+
+.chat-bar-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  flex: 1;
+  font-family: var(--font-text);
+}
+
+.chat-bar-input::placeholder {
+  color: var(--text-muted);
+}
+
+.chat-attach-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin-right: 0.8rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.chat-attach-btn:hover {
+  color: var(--accent-cyan);
+}
+
+.chat-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  border: none;
+  color: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chat-send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* Floating Bottom Center Media Dock */
+.media-dock {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.dock-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 21, 48, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dock-btn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+/* The red center start/end call button */
+.dock-btn.call-toggle {
+  width: 52px;
+  height: 52px;
+  background: var(--accent-red);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 42, 42, 0.4);
+}
+
+.dock-btn.call-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(255, 42, 42, 0.8);
+}
+
+.dock-btn.call-toggle.active {
+  background: var(--accent-green);
+  box-shadow: 0 4px 15px rgba(42, 255, 42, 0.4);
+}
+
+.dock-btn.call-toggle.active:hover {
+  box-shadow: 0 0 20px rgba(42, 255, 42, 0.8);
+}
+
+.dock-btn.muted {
+  color: var(--accent-red);
+  border-color: rgba(255, 42, 42, 0.3);
+  background: rgba(255, 42, 42, 0.05);
+}
+
+.dock-btn.muted:hover {
+  background: rgba(255, 42, 42, 0.15);
+  border-color: var(--accent-red);
+}
+
+/* Streamlined Conjecture Machine Layout */
+.conjecture-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+}
+
+.brand-glow {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+.brand-divider {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.brand-model {
+  font-family: var(--font-mono);
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.top-nav-riddle {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.central-workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0.5rem 0;
+}
+
+/* Center Orb Positioning override - Colossal 70vh centering always */
+.central-workspace .character-area {
+  width: 70vh !important;
+  height: 70vh !important;
+  z-index: 20 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: auto !important;
+  animation: floating-sentinel 8s ease-in-out infinite alternate !important;
+  transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.central-workspace .hal-eye-unit {
+  width: 64vh !important;
+  height: 64vh !important;
+  border-width: 2.2vh !important;
+  box-shadow: 
+    0 2vh 6vh rgba(148, 163, 184, 0.3),
+    inset 0 0.8vh 2.5vh rgba(255, 255, 255, 0.85),
+    inset 0 -1.5vh 4vh rgba(148, 163, 184, 0.45) !important;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.central-workspace .eye-core {
+  width: 38vh !important;
+  height: 38vh !important;
+  transition: all 0.4s ease;
+}
+
+.central-workspace .aperture {
+  width: 9vh !important;
+  height: 9vh !important;
+  transition: all 0.3s ease;
+}
+
+.central-workspace .dotted-audio-ring {
+  width: 78vh !important;
+  height: 78vh !important;
+  border-width: 2px !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin-ring 25s linear infinite;
+}
+
+/* Cinematic subtitles block under eye */
+.subtitles-container {
+  width: 85%;
+  max-width: 750px;
+  text-align: center;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.3rem;
+}
+
+.subtitles-text {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Always-Visible Inline Wolfram & Thesis Console */
+.wolfram-container-wrapper {
+  width: 100%;
+  height: 290px;
+}
+
+.wolfram-inline-console {
+  background: rgba(3, 7, 16, 0.82);
+  border: 1px solid var(--border-glass);
+  border-radius: 14px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(25px);
+  width: 100%;
+  height: 100%;
+}
+
+.wolfram-inline-console .console-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(10, 21, 48, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.console-status-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  padding: 0.15rem 0.6rem;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
+.horizontal-split {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 60px); /* Adjusts for header and footer */
+  overflow: hidden;
+}
+
+.code-half {
+  width: 52%;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-half .code-block {
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.75rem;
+  background: #010307;
+}
+
+/* Right: Thesis Citations */
+.citation-half {
+  width: 48%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: rgba(2, 4, 9, 0.35);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.citation-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.citation-reference {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.3;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.citation-math-box {
+  background: rgba(0, 240, 255, 0.03);
+  border: 1px solid rgba(0, 240, 255, 0.08);
+  padding: 0.6rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.math-label {
+  font-size: 0.6rem;
+  color: var(--accent-gold);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.math-code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  overflow-x: auto;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.25);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.math-bounds {
+  font-size: 0.63rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.simulation-logs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: auto;
+}
+
+.sim-log-line {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sim-log-line.success { color: var(--accent-green); }
+.sim-log-line.yellow { color: var(--accent-gold); }
+.sim-log-line.green { color: var(--accent-green); }
+.sim-log-line.blue { color: var(--accent-cyan); }
+
+.animate-blink {
+  animation: text-blink 0.8s infinite alternate;
+}
+
+@keyframes text-blink {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* Simplified Bottom Area with unified control bar */
+.bottom-area-simplified {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.unified-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  padding: 0.45rem 1rem;
+  border-radius: 40px;
+  backdrop-filter: blur(25px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  max-width: 850px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.unified-dock .chat-bar-container {
+  flex: 1;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.05);
+  padding: 0.2rem 0.4rem 0.2rem 1.1rem;
+}
+
+.unified-dock .dock-btn {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.unified-dock .dock-btn.call-toggle {
+  width: 46px;
+  height: 46px;
+}
+
+.dock-mode-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  padding: 0 0.5rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Settings Modal Backdrop Overlay */
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 4, 9, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  animation: modal-fade-in 0.3s ease;
+}
+
+.settings-modal-card {
+  background: #030710;
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  width: 440px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modal-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-modal-card .modal-body {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.settings-modal-card .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.settings-modal-card .input-group label {
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.settings-modal-card .input-group input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-glass);
+  padding: 0.65rem;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.settings-modal-card .input-group input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Clean up animation overrides for HAL */
+@keyframes spin-ring {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* --- CINEMATIC BOOT SYSTEM STYLES --- */
+
+/* Darkness state overlay */
+.scanlines.boot-darkness {
+  background-color: #000000 !important;
+  background-image: none !important;
+  transition: background-color 3s ease-in-out;
+}
+
+.scanlines.boot-awakening {
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(10, 31, 70, 0.6) 0%, transparent 65%),
+    radial-gradient(circle at 10% 80%, rgba(157, 0, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.08) 0%, transparent 40%);
+  transition: background-color 4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.scanlines.boot-active {
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(10, 31, 70, 0.6) 0%, transparent 65%),
+    radial-gradient(circle at 10% 80%, rgba(157, 0, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.08) 0%, transparent 40%);
+}
+
+/* Smooth transitions for all UI panels */
+.top-nav,
+.bottom-area-simplified,
+.wolfram-container-wrapper,
+.subtitles-container,
+.dotted-audio-ring {
+  transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Step 1: Subtitles fade in */
+.scanlines.boot-darkness .subtitles-container {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+.scanlines.boot-awakening.step-0 .subtitles-container {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.scanlines.step-1 .subtitles-container,
+.scanlines.step-2 .subtitles-container,
+.scanlines.step-3 .subtitles-container,
+.scanlines.step-4 .subtitles-container,
+.scanlines.boot-active .subtitles-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Step 2: Top nav fades in */
+.scanlines.boot-darkness .top-nav,
+.scanlines.step-0 .top-nav,
+.scanlines.step-1 .top-nav {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+.scanlines.step-2 .top-nav,
+.scanlines.step-3 .top-nav,
+.scanlines.step-4 .top-nav,
+.scanlines.boot-active .top-nav {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Step 3: Bottom dock and Wolfram console fade in */
+.scanlines.boot-darkness .bottom-area-simplified,
+.scanlines.boot-darkness .wolfram-container-wrapper,
+.scanlines.step-0 .bottom-area-simplified,
+.scanlines.step-0 .wolfram-container-wrapper,
+.scanlines.step-1 .bottom-area-simplified,
+.scanlines.step-1 .wolfram-container-wrapper,
+.scanlines.step-2 .bottom-area-simplified,
+.scanlines.step-2 .wolfram-container-wrapper {
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+}
+.scanlines.step-3 .bottom-area-simplified,
+.scanlines.step-3 .wolfram-container-wrapper,
+.scanlines.step-4 .bottom-area-simplified,
+.scanlines.step-4 .wolfram-container-wrapper,
+.scanlines.boot-active .bottom-area-simplified,
+.scanlines.boot-active .wolfram-container-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Step 4: Dotted audio ring fades in */
+.scanlines.boot-darkness .dotted-audio-ring,
+.scanlines.step-0 .dotted-audio-ring,
+.scanlines.step-1 .dotted-audio-ring,
+.scanlines.step-2 .dotted-audio-ring,
+.scanlines.step-3 .dotted-audio-ring {
+  opacity: 0;
+  pointer-events: none;
+}
+.scanlines.step-4 .dotted-audio-ring,
+.scanlines.boot-active .dotted-audio-ring {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Sleeping HAL eyeball in deep darkness */
+.hal-eye-unit.sleeping {
+  border-color: #2b2e36 !important;
+  box-shadow: 
+    0 2vh 6vh rgba(0, 0, 0, 0.95),
+    inset 0 0.8vh 2.5vh rgba(255, 255, 255, 0.05),
+    inset 0 -1.5vh 4vh rgba(0, 0, 0, 0.95) !important;
+  transition: all 4s ease-in-out;
+}
+
+.hal-eye-unit.sleeping .eye-core {
+  background: radial-gradient(circle, #b30000 5%, #3b0000 70%, #150000 100%) !important;
+  box-shadow: 0 0 4vh rgba(179, 0, 0, 0.4) !important;
+  animation: sleeping-breath 6s infinite alternate ease-in-out !important;
+}
+
+.hal-eye-unit.sleeping .aperture {
+  width: 3.5vh !important;
+  height: 3.5vh !important;
+  background: #ff5555 !important;
+  box-shadow: 0 0 2vh rgba(255, 85, 85, 0.5) !important;
+  transition: all 4s ease-in-out;
+}
+
+/* --- ANIMATION KEYFRAMES --- */
+
+@keyframes sleeping-breath {
+  0% {
+    opacity: 0.15;
+    transform: scale(0.95);
+    box-shadow: 0 0 3vh rgba(179, 0, 0, 0.25), inset 0 0 2vh rgba(0, 0, 0, 0.9);
+    filter: brightness(0.5);
+  }
+  100% {
+    opacity: 0.45;
+    transform: scale(1.01);
+    box-shadow: 0 0 6vh rgba(179, 0, 0, 0.65), inset 0 0 1vh rgba(255, 255, 255, 0.05);
+    filter: brightness(1.0);
+  }
+}
+
+@keyframes idle-breath {
+  0% {
+    transform: scale(0.97);
+    box-shadow: 0 0 15px rgba(255, 42, 42, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(255, 42, 42, 0.95), inset 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes listening-vibrate {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(1.5px, -1.5px) scale(1.02);
+  }
+  100% {
+    transform: translate(-1.5px, 1.5px) scale(0.98);
+  }
+}
+
+@keyframes thinking-scan {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.8), inset 0 0 15px rgba(0, 240, 255, 0.4);
+    filter: hue-rotate(180deg);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2);
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Terminal Compiler Cursor */
+.terminal-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 12px;
+  background-color: var(--accent-cyan);
+  margin-left: 2px;
+  animation: cursor-blink 0.8s infinite steps(2);
+  vertical-align: middle;
+  box-shadow: 0 0 6px var(--accent-cyan);
+}
+
+@keyframes cursor-blink {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* --- CINEMATIC FOREGROUND LENS & BACKGROUND HUM SYSTEM --- */
+
+/* Faint background hum when booted active */
+.scanlines.boot-active .top-nav,
+.scanlines.step-4 .top-nav,
+.scanlines.boot-active .bottom-area-simplified,
+.scanlines.step-4 .bottom-area-simplified {
+  opacity: 0.16 !important;
+  z-index: 1 !important;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* Subtitles and console are overlaid directly behind the orb, barely seen */
+.scanlines.boot-active .subtitles-container,
+.scanlines.step-4 .subtitles-container {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90% !important;
+  max-width: 800px !important;
+  z-index: 2 !important; /* Under the eyeball (z-index 20), over the console (z-index 1) */
+  opacity: 0.055 !important; /* Barely seen, ghostly whisper behind the orb */
+  pointer-events: none !important; /* Click through to the eyeball */
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-align: center !important;
+}
+
+.scanlines.boot-active .wolfram-container-wrapper,
+.scanlines.step-4 .wolfram-container-wrapper {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 95% !important;
+  max-width: 1024px !important;
+  height: 60vh !important;
+  z-index: 1 !important; /* Under subtitles and eyeball */
+  opacity: 0.03 !important; /* Barely seen, ghostly grid scrolling */
+  pointer-events: none !important;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* High-tech hover reveal: gentle slide/glow back into prominence */
+.scanlines.boot-active .top-nav:hover,
+.scanlines.boot-active .bottom-area-simplified:hover {
+  opacity: 0.88 !important;
+  z-index: 22 !important; /* Above the eyeball so controls are clickable */
+}
+
+/* Lift subtitles cleanly above the colossal eyeball on hover */
+.scanlines.boot-active .subtitles-container:hover {
+  opacity: 0.96 !important;
+  z-index: 22 !important;
+  pointer-events: auto !important;
+  transform: translate(-50%, -155%) scale(1.05) !important;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6) !important;
+}
+
+/* Scale and focus the Wolfram console in front of the eyeball on hover */
+.scanlines.boot-active .wolfram-container-wrapper:hover {
+  opacity: 0.94 !important;
+  z-index: 22 !important;
+  pointer-events: auto !important;
+  transform: translate(-50%, -50%) scale(1.02) !important;
+}
+
+/* Colossal Foreground Eyeball in Boot Active Mode */
+.scanlines.boot-active .central-workspace .character-area,
+.scanlines.step-4 .central-workspace .character-area {
+  width: 70vh !important;
+  height: 70vh !important;
+  z-index: 20 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: auto !important;
+  animation: floating-sentinel 8s ease-in-out infinite alternate !important;
+  transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  margin-bottom: 0 !important;
+}
+
+@keyframes floating-sentinel {
+  0% { transform: translate(-50%, -50%) translateY(-2vh) rotate(-0.5deg); }
+  50% { transform: translate(-50%, -50%) translateY(2vh) rotate(0.5deg); }
+  100% { transform: translate(-50%, -50%) translateY(-2vh) rotate(-0.5deg); }
+}
+
+.scanlines.boot-active .central-workspace .hal-eye-unit,
+.scanlines.step-4 .central-workspace .hal-eye-unit {
+  width: 64vh !important;
+  height: 64vh !important;
+  border-width: 2.2vh !important;
+  box-shadow: 
+    0 2vh 6vh rgba(0, 0, 0, 0.8),
+    inset 0 0.8vh 2.5vh rgba(255, 255, 255, 0.25),
+    inset 0 -1.5vh 4vh rgba(0, 0, 0, 0.9) !important;
+}
+
+.scanlines.boot-active .central-workspace .eye-core,
+.scanlines.step-4 .central-workspace .eye-core {
+  width: 38vh !important;
+  height: 38vh !important;
+  animation: none !important; /* Managed dynamically via inline scale in App.jsx */
+}
+
+.scanlines.boot-active .central-workspace .aperture,
+.scanlines.step-4 .central-workspace .aperture {
+  width: 9vh !important;
+  height: 9vh !important;
+}
+
+.scanlines.boot-active .central-workspace .dotted-audio-ring,
+.scanlines.step-4 .central-workspace .dotted-audio-ring {
+  width: 78vh !important;
+  height: 78vh !important;
+  border-width: 2px !important;
+}
+
+/* --- GHOST AVATAR GRAPHICS & RADAR LINES --- */
+
+.ghost-avatar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
+}
+
+.ghost-avatar-container.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ghost-avatar-svg {
+  width: 90%;
+  height: 90%;
+}
+
+/* Radar & grid lines styling */
+.radar-grid {
+  fill: none;
+  stroke: rgba(0, 240, 255, 0.12);
+  stroke-width: 0.5;
+  transition: stroke 0.5s ease;
+}
+
+.ghost-avatar-container.active .radar-grid {
+  stroke: rgba(0, 240, 255, 0.22);
+}
+
+.ring-outer {
+  stroke-dasharray: 4 4;
+  animation: spin-clockwise 45s linear infinite;
+  transform-origin: center;
+}
+
+.ring-middle {
+  stroke-dasharray: 8 6;
+  animation: spin-counter-clockwise 30s linear infinite;
+  transform-origin: center;
+}
+
+.ring-inner {
+  stroke-dasharray: 2 4;
+  animation: spin-clockwise 15s linear infinite;
+  transform-origin: center;
+}
+
+.grid-line {
+  stroke: rgba(0, 240, 255, 0.08);
+}
+
+/* Hologram face features */
+.face-vector {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.5));
+}
+
+.eye-node {
+  fill: var(--accent-cyan);
+  stroke: none;
+}
+
+.eye-iris {
+  stroke: rgba(0, 240, 255, 0.4);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 2;
+  animation: spin-clockwise 8s linear infinite;
+  transform-origin: 34px 44px; /* Left eye center */
+}
+
+/* Make right eye iris spin as well */
+.eyebrow-right ~ .eye-iris {
+  transform-origin: 66px 44px !important; /* Right eye center */
+}
+
+/* Specific right eye animation */
+.hologram-features circle:nth-of-type(4) { /* This is the right eye iris */
+  transform-origin: 66px 44px;
+  animation: spin-counter-clockwise 8s linear infinite;
+}
+
+.mouth-wave {
+  stroke-width: 1.6;
+  transition: stroke-width 0.1s ease;
+}
+
+.mouth-wave.outer {
+  stroke: var(--accent-cyan);
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.8));
+}
+
+.mouth-wave.inner {
+  stroke: var(--accent-green);
+  stroke-width: 1.0;
+  filter: drop-shadow(0 0 3px rgba(42, 255, 42, 0.6));
+  opacity: 0.7;
+}
+
+.central-iris {
+  fill: var(--accent-red);
+  stroke: #ffffff;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.9));
+}
+
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counter-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* --- FROSTED MISTED GLASS ("GHOST IN THE MACHINE") --- */
+
+.misted-glass-overlay {
+  position: absolute;
+  top: 3.5%;
+  left: 3.5%;
+  right: 3.5%;
+  bottom: 3.5%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 64, 129, 0.08) 40%,
+    rgba(255, 255, 255, 0.6) 80%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  background-size: 160% 160%;
+  background-position: center;
+  backdrop-filter: blur(5.5px) saturate(1.4) contrast(1.1);
+  -webkit-backdrop-filter: blur(5.5px) saturate(1.4) contrast(1.1);
+  pointer-events: none;
+  z-index: 10; /* Overlay over eye-core and avatar, under casing border */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    inset 0 4px 18px rgba(255, 255, 255, 0.85),
+    inset 0 -10px 25px rgba(255, 255, 255, 0.5),
+    0 10px 30px rgba(148, 163, 184, 0.25);
+  opacity: 0.2; /* Faint glow in deep sleep */
+  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.scanlines.boot-active .misted-glass-overlay,
+.scanlines.step-4 .misted-glass-overlay {
+  opacity: 1;
+  animation: mist-swirl-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes mist-swirl-drift {
+  0% {
+    background-position: 0% 0%;
+    backdrop-filter: blur(4.5px) saturate(1.35) contrast(1.05);
+    -webkit-backdrop-filter: blur(4.5px) saturate(1.35) contrast(1.05);
+  }
+  50% {
+    background-position: 100% 100%;
+    backdrop-filter: blur(7.5px) saturate(1.6) contrast(1.2);
+    -webkit-backdrop-filter: blur(7.5px) saturate(1.6) contrast(1.2);
+  }
+  100% {
+    background-position: 0% 100%;
+    backdrop-filter: blur(4.5px) saturate(1.35) contrast(1.05);
+    -webkit-backdrop-filter: blur(4.5px) saturate(1.35) contrast(1.05);
+  }
+}
+
+/* --- HIGH-TECH NEON WAVE OSCILLOSCOPE --- */
+
+.wave-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-width 0.1s ease;
+}
+
+.wave-cyan {
+  stroke: var(--accent-cyan);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.7));
+}
+
+.wave-magenta {
+  stroke: var(--accent-purple);
+  stroke-width: 0.9;
+  filter: drop-shadow(0 0 3px rgba(157, 0, 255, 0.6));
+  opacity: 0.8;
+}
+
+.wave-green {
+  stroke: var(--accent-green);
+  stroke-width: 0.7;
+  filter: drop-shadow(0 0 2px rgba(42, 255, 42, 0.5));
+  opacity: 0.75;
+}
+
+/* --- BCF SINGAPORE PORTAL STYLING OVERRIDES --- */
+.bcf-portal-card {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid var(--accent-purple) !important;
+  box-shadow: 0 15px 45px rgba(233, 30, 99, 0.22) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(25px) !important;
+  color: var(--text-primary) !important;
+}
+
+.bcf-glow-border {
+  border-bottom: 1px solid rgba(233, 30, 99, 0.15) !important;
+}
+
+.bcf-portal-form input:focus,
+.bcf-portal-form select:focus,
+.bcf-portal-form textarea:focus {
+  border-color: var(--accent-purple) !important;
+  box-shadow: 0 0 12px rgba(233, 30, 99, 0.25) !important;
+  outline: none !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.progress-terminal {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.agenda-summary-card::-webkit-scrollbar {
+  width: 6px;
+}
+.agenda-summary-card::-webkit-scrollbar-thumb {
+  background: rgba(233, 30, 99, 0.2);
+  border-radius: 3px;
+}
+
+.bcf-ribbon-badge svg {
+  animation: float-badge 4s ease-in-out infinite alternate;
+}
+
+@keyframes float-badge {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-5px) rotate(3deg); }
+}
+
+

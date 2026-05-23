@@ -225,6 +225,7 @@ export default function App() {
               <WolframConsole 
                 activeRiddleId={activeModuleData.id}
                 voiceState={agent.voiceState}
+                moduleScores={agent.moduleScores}
               />
             </div>
 
