@@ -1,7 +1,7 @@
 # BeTwin // Hackathon Pitch & Judging Alignment Specification
 ## Outpatient Conversational Telemetry Platform (BCF Singapore Companion)
 
-This document maps the **BeTwin Agent** platform's technical implementation and clinical features against the official hackathon judging criteria. It provides our foundational engineering and agentic answers and establishes dedicated placeholders for **JO & AUDREY (Frontend UI-UX & Pitch)**, **GWEN / US (Core Platform & AI Engineers)**, and **RACHAEL (Clinical Research)** to input their specialized alignments for the final pitch.
+This document maps the **BeTwin Agent** platform's technical implementation and clinical features against the official hackathon judging criteria. It provides our foundational engineering and agentic answers and establishes dedicated placeholders for **JO & AUDREY (Frontend UI-UX & Design)**, **GWEN & ANTIGRAVITY / US (Agentic Processes & RAG)**, and **RACHAEL (Clinician)** to input their specialized alignments for the final pitch.
 
 ---
 
@@ -38,6 +38,12 @@ This document maps the **BeTwin Agent** platform's technical implementation and 
     *   **Institute of Mental Health (IMH)**: `6389 2222`
     *   **BCF Support Circle**: `6352 6560`
 *   **Clinical Advice Interceptor**: Captures requests for active medical advice (e.g., medication changes), redirects the user to their oncologist, and automatically files the concern onto their **Doctor Prep Card** so they are prepared for their next checkup.
+
+### ⚙️ Agentic Processes & RAG Architecture (GWEN / US to complete)
+> [!IMPORTANT]
+> **GWEN & ANTIGRAVITY (Agentic Processes & RAG Engineers)**: Please outline your core platform engineering achievements, including RAG-based clinical directory lookups, stateful conversational hooks, lowest-score proactive steering, and Singpass auth handshakes.
+> *   *Placeholder for GWEN & US's agentic loop hooks and RAG pipeline sync schemas...*
+> *   *Placeholder for Singpass GovTech token authentication pathways...*
 
 ### 💻 Developer Implementation & Visual Shell (JO & AUDREY to complete)
 > [!IMPORTANT]
@@ -88,6 +94,11 @@ This document maps the **BeTwin Agent** platform's technical implementation and 
 *   **Proactive Chronological Steering**: Instead of a generic question-and-answer chatbot, the BeTwin Agent actively analyzes patient telemetry, detects their lowest-score lifecycle stages, and programmatically steers the conversation to untouched topics.
 *   **Active Stage Event Matching**: Ingests actual localized Singapore BCF events and workshops (e.g. Mastectomy Healing circles at Bishan, Young Outpatients panels at KKH), matching them to active stages and recommending them directly in verbal dialog.
 *   **Mathematical Telemetry Derivations**: Uses clinical formulas (e.g., oocyte preservation and distress tolerance integrations) to display a beautiful, professional Outpatient Telemetry Grid, giving healthcare organizations diagnostic depth.
+
+### ⚙️ Agentic Processes & RAG Innovation (GWEN / US to complete)
+> [!TIP]
+> **GWEN & ANTIGRAVITY (Agentic Processes & RAG Engineers)**: Please describe the novelty of the chronological steering state machine, local RAG document parsing (clinical resources directory), and dynamic resilience ELO calculation models compared to static oncology intake questionnaires.
+> *   *Placeholder for GWEN & US's agentic loop engineering and RAG pipeline R&D...*
 
 ### 💡 Novel Design Concepts (JO/AUDREY & RACHAEL to complete)
 > [!NOTE]
