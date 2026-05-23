@@ -1,3 +1,6 @@
+BeTwin is an app that helps a patient through their journey with breast cancer. Using a multimodal user interface with a voice agent, they speak to the agent about their concerns and are prompted to share, which results in important information being sent to the doctor, being invited to events, reminded of appointments, or shared with caregivers.
+
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
