@@ -13,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import journeyCorpus from '../data/journeyCorpus.json';
 import mockRecipients from '../data/mockRecipients.json';
+import { saveJournalToCloud } from '../lib/journal';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -131,7 +132,25 @@ export default function useProfile() {
         sessionTimerRef.current = setTimeout(() => {
           setVoiceState('unlocked');
           setSubtitles(STATE_SUBTITLES.unlocked);
-          setElo(prev => prev + 150);
+          const newElo = elo + 150;
+          setElo(newElo);
+
+          // Persist to Supabase — mirrors handleBCFSubmit in useVoiceAgent.js
+          const doc = mockRecipients.doctors.find(d => d.id === selectedDoctorId)
+            ?? mockRecipients.doctors[0];
+          saveJournalToCloud(user.uid, {
+            patientName:         user.displayName,
+            userRole:            'Breast Cancer Patient',
+            primaryEmotion:      'Anxious / Overwhelmed',
+            clinicalQuestions:   '',
+            patientNotes:        '',
+            doctorName:          doc.name,
+            doctorEmail:         doc.email,
+            doctorHospital:      doc.hospital,
+            caregiverAuthorized: false,
+            elo:                 newElo,
+            moduleScores,
+          }).catch(err => console.warn('[betwin] journal sync failed:', err));
 
           // unlocked → back to listening after 2s
           sessionTimerRef.current = setTimeout(() => {
