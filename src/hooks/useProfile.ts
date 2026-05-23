@@ -179,13 +179,70 @@ export default function useProfile() {
   // Cleanup on unmount
   useEffect(() => () => clearTimer(), []);
 
+  // Derivation and mapping of the 5 Core Clinical Pillars from the 8 modules
+  const pillars = [
+    {
+      id: '1',
+      key: 'cognitive',
+      label: 'Pillar 1: Cognitive Processing',
+      icon: '📖',
+      score: Math.min(100, Math.round((moduleScores.jargon + moduleScores.screening) / 2)),
+      description: 'Deconstructs medical terminology and oncological staging. Measures cognitive clarity against informational overload.',
+      formula: '\\text{Cognitive Clarity} = \\frac{\\text{Medical Jargon Translation}}{\\text{Information Overload}}',
+      bounds: 'BCF Singapore Helpline: 6352 6560',
+    },
+    {
+      id: '2',
+      key: 'body',
+      label: 'Pillar 2: Body Reconnection',
+      icon: '🩹',
+      score: Math.min(100, Math.round((moduleScores.healing + moduleScores.fertility) / 2)),
+      description: 'Tracks surgical recovery, mastectomy self-compassion, and early young-outpatient fertility preservation.',
+      formula: '\\text{Body Image Recovery} \\propto \\text{Surgical Grief} + \\text{Oocyte Preservation}',
+      bounds: 'Support bra consultations: KKH / NCCS',
+    },
+    {
+      id: '3',
+      key: 'distress',
+      label: 'Pillar 3: Distress Side Effects',
+      icon: '🛡️',
+      score: Math.min(100, moduleScores.crisis),
+      description: 'Scores active chemotherapy distress tolerances, somatic fatigue indexes, nausea, and physical coping buffers.',
+      formula: '\\text{Distress Mitigation} = \\int_{0}^{10} PacingFactor[t] \\, dt',
+      bounds: 'SOS 24/7 Hotline: 1767 | IMH Helpline: 6389 2222',
+    },
+    {
+      id: '4',
+      key: 'caregiver',
+      label: 'Pillar 4: Caregiver Support',
+      icon: '🔒',
+      score: Math.min(100, Math.round((moduleScores.caregiver + moduleScores.sister) / 2)),
+      description: 'Measures patient-caregiver boundaries, WhatsApp update pipelines, and matching with peer survivors.',
+      formula: '\\text{Caregiver Harmony} = \\text{Authorized Sync} + \\text{Patient Confidentiality}',
+      bounds: 'BCF Caregiving Guidelines: bcf.org.sg',
+    },
+    {
+      id: '5',
+      key: 'safety',
+      label: 'Pillar 5: Distress and Safety',
+      icon: '💝',
+      score: Math.min(100, Math.round((moduleScores.wellness + (elo - 1000) / 10) / 2)),
+      description: 'Continuous emotional safety screening, RAG risk assessment, and clinical escalation safeguards.',
+      formula: '\\text{Safety Resilience} = \\lim_{t \\to \\infty} [\\text{Resilience ELO} + \\text{Coping}]',
+      bounds: 'Emergency Medical: 995 | BCF Support Circle',
+    },
+  ];
+
   return {
     // User
     user,
     elo,
     // Phases (grid)
     phases,
+    pillars,
     moduleScores,
+    setModuleScores,
+    setElo,
     // Voice
     voiceState,
     subtitles,
@@ -200,3 +257,4 @@ export default function useProfile() {
     allCaregivers: mockRecipients.caregivers,
   };
 }
+

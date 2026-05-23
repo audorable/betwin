@@ -188,23 +188,73 @@ function AudioButton({
 
   return (
     <View style={styles.audioSection}>
-      <Text style={styles.sectionLabel}>How are you feeling today?</Text>
+      <Text style={styles.sectionLabel}>Empathetic Dialogue Connection</Text>
       <View style={styles.audioWrapper}>
         <Animated.View style={[styles.pulseRing, ringStyle, { backgroundColor: orbColor }]} />
         <Animated.View style={buttonStyle}>
           <TouchableOpacity
-            style={[styles.audioButton, { backgroundColor: orbColor }]}
+            style={[
+              styles.audioButton,
+              {
+                backgroundColor: orbColor,
+                shadowColor: orbColor,
+                position: 'relative',
+                overflow: 'hidden',
+              },
+            ]}
             activeOpacity={0.85}
             onPress={onPress}
-          />
+          >
+            {/* Glossy reflection lens to give it 3D spherical depth */}
+            <View
+              style={{
+                position: 'absolute',
+                top: 6,
+                left: 12,
+                width: 24,
+                height: 12,
+                backgroundColor: 'rgba(255, 255, 255, 0.42)',
+                borderRadius: 12,
+                transform: [{ rotate: '-15deg' }],
+              }}
+            />
+            {/* Concentric glowing inner core overlay for high quality styling */}
+            <View
+              style={{
+                position: 'absolute',
+                width: '60%',
+                height: '60%',
+                borderRadius: 37,
+                backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                top: '20%',
+                left: '20%',
+              }}
+            />
+          </TouchableOpacity>
         </Animated.View>
       </View>
       <Text style={styles.audioStatus} numberOfLines={2}>
         {subtitles}
       </Text>
+      <Text
+        style={{
+          fontSize: 11,
+          color: BrandColors.charcoal,
+          opacity: 0.55,
+          textAlign: 'center',
+          marginTop: Spacing.one,
+          fontWeight: '600',
+          fontStyle: 'italic',
+          paddingHorizontal: Spacing.four,
+          lineHeight: 15,
+        }}
+      >
+        ✨ Real-time telemetry: parsed voices are dynamically scoring the 5 Core Pillars on your Patient Profile dashboard.
+      </Text>
     </View>
   );
 }
+
 
 // ─── Doctor Button ────────────────────────────────────────────────────────────
 
