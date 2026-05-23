@@ -182,6 +182,18 @@ export default function useVoiceAgent() {
     setTerminalLogs((prev) => [`[${timeStr}] [${type.toUpperCase()}] ${msg}`, ...prev.slice(0, 12)]);
   };
 
+  // Pre-load voices on mount
+  useEffect(() => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.speechSynthesis.getVoices();
+        };
+      }
+    }
+  }, []);
+
   // Web Speech Fallback Setup
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -240,41 +252,53 @@ export default function useVoiceAgent() {
     }
 
     if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      const voices = window.speechSynthesis.getVoices();
-      let selectedSystemVoice = null;
+      try {
+        window.speechSynthesis.cancel();
+        
+        // Workaround for Chrome bug where speech gets stuck in paused state
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
 
-      const voicePriorities = [
-        "Google US English Female", 
-        "Microsoft Aria Online",
-        "Microsoft Zira", 
-        "Samantha", 
-        "Hazel", 
-        "Google UK English Female", 
-        "English"
-      ];
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        let selectedSystemVoice = null;
 
-      for (const priority of voicePriorities) {
-        selectedSystemVoice = voices.find(v => v.name && v.name.includes(priority));
-        if (selectedSystemVoice) break;
+        const voicePriorities = [
+          "Google US English Female", 
+          "Microsoft Aria Online",
+          "Microsoft Zira", 
+          "Samantha", 
+          "Hazel", 
+          "Google UK English Female", 
+          "English"
+        ];
+
+        for (const priority of voicePriorities) {
+          selectedSystemVoice = voices.find(v => v.name && v.name.includes(priority));
+          if (selectedSystemVoice) break;
+        }
+
+        if (selectedSystemVoice) utterance.voice = selectedSystemVoice;
+        utterance.rate = 0.88; // Grounding breathing pace
+        utterance.pitch = 1.0; 
+        
+        utterance.onstart = () => setVoiceState('speaking');
+        utterance.onend = () => {
+          setVoiceState('listening');
+          if (onEndCallback) onEndCallback();
+        };
+        utterance.onerror = (e) => {
+          console.error("Speech Synthesis Error:", e);
+          setVoiceState('listening');
+          if (onEndCallback) onEndCallback();
+        };
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error("Failed to run speakVocalText:", err);
+        setVoiceState('listening');
+        if (onEndCallback) onEndCallback();
       }
-
-      if (selectedSystemVoice) utterance.voice = selectedSystemVoice;
-      utterance.rate = 0.88; // Grounding breathing pace
-      utterance.pitch = 1.0; 
-      
-      utterance.onstart = () => setVoiceState('speaking');
-      utterance.onend = () => {
-        setVoiceState('listening');
-        if (onEndCallback) onEndCallback();
-      };
-      utterance.onerror = (e) => {
-        console.error(e);
-        setVoiceState('listening');
-        if (onEndCallback) onEndCallback();
-      };
-      window.speechSynthesis.speak(utterance);
     } else {
       if (onEndCallback) onEndCallback();
     }
@@ -321,6 +345,18 @@ export default function useVoiceAgent() {
   };
 
   const startAgentSession = async () => {
+    // Unblock browser Web Speech Synthesis context immediately inside user gesture click
+    if (window.speechSynthesis) {
+      try {
+        window.speechSynthesis.cancel();
+        const silentUtterance = new SpeechSynthesisUtterance(" ");
+        silentUtterance.volume = 0;
+        window.speechSynthesis.speak(silentUtterance);
+      } catch (e) {
+        console.warn("Silent utterance unblock failed:", e);
+      }
+    }
+
     if (bootState === 'darkness') {
       setBootState('awakening');
       setAwakeningStep(0);
