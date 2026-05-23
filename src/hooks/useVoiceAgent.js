@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useConversation } from '@elevenlabs/react';
 import { auth, saveJournalToCloud, subscribeToJournal, useRealFirebase } from '../firebase';
 import journeyCorpus from '../data/journeyCorpus.json';
+import bcfEvents from '../data/bcfEvents.json';
+import mockRecipients from '../data/mockRecipients.json';
 
 export default function useVoiceAgent() {
   const [elo, setElo] = useState(1000);
@@ -37,6 +39,9 @@ export default function useVoiceAgent() {
   const [doctorName, setDoctorName] = useState('');
   const [doctorEmail, setDoctorEmail] = useState('');
   const [doctorHospital, setDoctorHospital] = useState('National Cancer Centre Singapore (NCCS)');
+  const [doctorAuthorized, setDoctorAuthorized] = useState(false);
+  const [selectedDoctorId, setSelectedDoctorId] = useState('dr_tan');
+  const [selectedCaregiverId, setSelectedCaregiverId] = useState('care_spouse');
   const [readBCFGuide, setReadBCFGuide] = useState(false);
   const [submissionStep, setSubmissionStep] = useState('idle'); 
   const [transmissionLogs, setTransmissionLogs] = useState([]);
@@ -74,6 +79,7 @@ export default function useVoiceAgent() {
   const fallbackSpeechActive = useRef(false);
 
   const activeModuleData = journeyCorpus[activeModule];
+  const activeEvent = bcfEvents[activeModule];
 
   // Initialize ElevenLabs WebRTC Hook
   const conversation = useConversation({
@@ -94,6 +100,16 @@ export default function useVoiceAgent() {
       setVoiceState('idle');
     }
   });
+
+  // Dynamic mock recipient profile autofill
+  useEffect(() => {
+    const doc = mockRecipients.doctors.find(d => d.id === selectedDoctorId);
+    if (doc) {
+      setDoctorName(doc.name);
+      setDoctorEmail(doc.email);
+      setDoctorHospital(doc.hospital);
+    }
+  }, [selectedDoctorId]);
 
   // Local Storage Settings
   useEffect(() => {
@@ -474,7 +490,8 @@ export default function useVoiceAgent() {
 
         if (lowestScore < 50) {
           const nextCorpus = journeyCorpus[nextModuleToSteer];
-          promptSteerText = ` I have securely updated your dashboard telemetry. Looking at your journey profile, we haven't discussed your ${nextCorpus.title} yet. ${nextCorpus.question}`;
+          const nextEvent = bcfEvents[nextModuleToSteer];
+          promptSteerText = ` I have securely updated your dashboard telemetry. Looking at your journey profile, we haven't discussed your ${nextCorpus.title} yet. ${nextCorpus.question} I also highly recommend our upcoming BCF event: "${nextEvent.eventName}" at ${nextEvent.venue} on ${nextEvent.date}.`;
           setTimeout(() => {
             setActiveModule(nextModuleToSteer);
           }, 3500);
@@ -578,16 +595,28 @@ export default function useVoiceAgent() {
     setSubmissionStep('transmitting');
     setTransmissionLogs([]);
     
+    const activeDoc = mockRecipients.doctors.find(d => d.id === selectedDoctorId) || mockRecipients.doctors[0];
+    const activeCare = mockRecipients.caregivers.find(c => c.id === selectedCaregiverId) || mockRecipients.caregivers[0];
+
     const logs = [
       "Establishing handshake with Singpass Civic Identity Gate...",
       "Syncing GovTech HealthHub EHR oncology records...",
       "Validating outpatient NRIC token validation...",
       "Encrypting Care Journal with military-grade AES-256...",
-      "Connecting to BCF Singapore Secure Sync drawer...",
-      "Saving symptom telemetry to Cloud Firestore...",
-      "Formatting clinical prep briefing sheet...",
-      "Authorizing clinical transmission channel...",
-      "Dossier successfully secured on HealthHub!"
+      doctorAuthorized 
+        ? `🔐 DOCTOR PERMISSION GRANTED: Encrypting oncologist prep card for ${activeDoc.name}...`
+        : "⚠️ Doctor transmission skipped: Client authorization not granted.",
+      doctorAuthorized
+        ? `✈️ Transmitting clinical briefing to ${activeDoc.hospital} (${activeDoc.email})...`
+        : "Skipped clinical database transmission.",
+      caregiverAuthorized
+        ? `🔐 CAREGIVER PERMISSION GRANTED: Encrypting update for Spouse/Family: ${activeCare.name}...`
+        : "⚠️ Caregiver update skipped: Client authorization not granted.",
+      caregiverAuthorized
+        ? `✈️ Securing caregiver WhatsApp SMS sync channel for ${activeCare.phone}...`
+        : "Skipped caregiver updates channel sync.",
+      "Saving symptom telemetry and active BCF event logs to Cloud Firestore...",
+      "Dossier successfully compiled and secured on HealthHub!"
     ];
 
     for (let i = 0; i < logs.length; i++) {
@@ -695,6 +724,14 @@ export default function useVoiceAgent() {
     triggerCaregiverShare,
     simulateSingpassLogin,
     dispatchDoctorEmail,
-    addLog
+    addLog,
+    activeEvent,
+    doctorAuthorized,
+    setDoctorAuthorized,
+    selectedDoctorId,
+    setSelectedDoctorId,
+    selectedCaregiverId,
+    setSelectedCaregiverId,
+    mockRecipients
   };
 }

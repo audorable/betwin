@@ -274,6 +274,45 @@ export default function App() {
                   </div>
                 </div>
                 
+                {/* Dynamic BCF Event Recommendation */}
+                {agent.activeEvent && (
+                  <div 
+                    className="bcf-event-recommendation" 
+                    style={{ 
+                      marginTop: '0.2rem', 
+                      marginBottom: '0.75rem',
+                      background: 'rgba(255,255,255,0.7)', 
+                      border: '1.5px dashed var(--accent-purple)', 
+                      borderRadius: '10px', 
+                      padding: '0.55rem', 
+                      textAlign: 'left',
+                      width: '100%',
+                      boxShadow: '0 2px 8px rgba(233,30,99,0.02)'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.15rem' }}>
+                      <span style={{ fontSize: '0.55rem', fontWeight: '800', background: 'var(--accent-purple)', color: '#fff', padding: '0.15rem 0.4rem', borderRadius: '10px' }}>
+                        BCF WORKSHOP SUGGESTION
+                      </span>
+                      <a 
+                        href={agent.activeEvent.registrationUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        style={{ fontSize: '0.55rem', color: 'var(--accent-cyan)', fontWeight: '700', textDecoration: 'underline' }}
+                      >
+                        REGISTER ➔
+                      </a>
+                    </div>
+                    <h5 style={{ fontSize: '0.68rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '0.1rem' }}>
+                      {agent.activeEvent.eventName}
+                    </h5>
+                    <div style={{ fontSize: '0.58rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.05rem' }}>
+                      <span>📅 {agent.activeEvent.date} ({agent.activeEvent.time})</span>
+                      <span>📍 {agent.activeEvent.venue}</span>
+                    </div>
+                  </div>
+                )}
+                
                 <div style={{ display: 'flex', gap: '0.5rem', width: '100%', marginTop: '0.2rem' }}>
                   <button 
                     onClick={agent.triggerCaregiverShare}
@@ -559,65 +598,94 @@ export default function App() {
                       />
                     </div>
 
+                    {/* Mock Doctor Selection Dropdown */}
                     <div className="input-group">
-                      <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>ONCOLOGY CENTER / HOSPITAL REGISTRY</label>
+                      <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>SELECT VERIFIED ONCOLOGIST // MOCK DATA</label>
                       <select 
-                        value={agent.doctorHospital} 
-                        onChange={(e) => agent.setDoctorHospital(e.target.value)}
-                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.8rem' }}
+                        value={agent.selectedDoctorId} 
+                        onChange={(e) => agent.setSelectedDoctorId(e.target.value)}
+                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}
                       >
-                        <option value="National Cancer Centre Singapore (NCCS)">National Cancer Centre Singapore (NCCS)</option>
-                        <option value="National University Cancer Institute, Singapore (NCIS)">National University Cancer Institute, Singapore (NCIS)</option>
-                        <option value="Mount Elizabeth Oncology Clinic">Mount Elizabeth Oncology Clinic</option>
-                        <option value="Gleneagles Cancer Centre">Gleneagles Cancer Centre</option>
-                        <option value="Singapore General Hospital (SGH) Oncology">Singapore General Hospital (SGH) Oncology</option>
-                        <option value="Tan Tock Seng Hospital (TTSH) Oncology">Tan Tock Seng Hospital (TTSH) Oncology</option>
-                        <option value="Raffles Cancer Centre">Raffles Cancer Centre</option>
-                        <option value="KK Women's and Children's Hospital (KKH)">KK Women's and Children's Hospital (KKH)</option>
+                        {agent.mockRecipients.doctors.map(doc => (
+                          <option key={doc.id} value={doc.id}>{doc.name} ({doc.title} - {doc.hospital})</option>
+                        ))}
                       </select>
                     </div>
 
-                    {/* CAREGIVER TRUST SLIDER */}
-                    <div className="checkbox-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', margin: '0.8rem 0', background: 'rgba(0,130,138,0.03)', border: '1px dashed var(--accent-cyan)', padding: '0.65rem', borderRadius: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    {/* Mock Caregiver Selection Dropdown */}
+                    <div className="input-group" style={{ marginTop: '0.5rem' }}>
+                      <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>SELECT PRIMARY CAREGIVER // MOCK DATA</label>
+                      <select 
+                        value={agent.selectedCaregiverId} 
+                        onChange={(e) => agent.setSelectedCaregiverId(e.target.value)}
+                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.8rem' }}
+                      >
+                        {agent.mockRecipients.caregivers.map(care => (
+                          <option key={care.id} value={care.id}>{care.name} ({care.relationship})</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Dual Explicit Permission Checkboxes */}
+                    <div className="permission-card-box" style={{ background: 'rgba(0,130,138,0.03)', border: '1px dashed var(--accent-cyan)', padding: '0.8rem', borderRadius: '10px', margin: '0.8rem 0', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                      <div style={{ fontSize: '0.68rem', fontWeight: '800', color: 'var(--accent-cyan)', borderBottom: '1px solid rgba(0,130,138,0.1)', paddingBottom: '0.2rem', letterSpacing: '0.5px' }}>
+                        🔒 EXPLICIT Outpatient TRANSMISSION AUTHORIZATION
+                      </div>
+                      
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
                         <input 
                           type="checkbox" 
-                          id="caregiver-trust-check"
+                          id="doctor-consent-check"
+                          checked={agent.doctorAuthorized}
+                          onChange={(e) => agent.setDoctorAuthorized(e.target.checked)}
+                          style={{ width: '16px', height: '16px', accentColor: 'var(--accent-cyan)', marginTop: '0.15rem' }}
+                        />
+                        <div style={{ textAlign: 'left' }}>
+                          <label htmlFor="doctor-consent-check" style={{ fontSize: '0.76rem', color: 'var(--text-primary)', cursor: 'pointer', fontWeight: '700' }}>
+                            Authorize Clinical Sync with Doctor 🩺
+                          </label>
+                          <div style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', lineHeight: '1.2' }}>
+                            I explicitly authorize BeTwin to securely compile and transmit my care cards directly to my oncologist's database.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
+                        <input 
+                          type="checkbox" 
+                          id="caregiver-consent-check"
                           checked={agent.caregiverAuthorized}
                           onChange={(e) => agent.setCaregiverAuthorized(e.target.checked)}
-                          style={{ width: '16px', height: '16px', accentColor: 'var(--accent-cyan)' }}
+                          style={{ width: '16px', height: '16px', accentColor: 'var(--accent-cyan)', marginTop: '0.15rem' }}
                         />
-                        <label htmlFor="caregiver-trust-check" style={{ fontSize: '0.78rem', color: 'var(--text-primary)', cursor: 'pointer', fontWeight: '700' }}>
-                          Authorize Secure Caregiver Dashboard Update 🔒
-                        </label>
+                        <div style={{ textAlign: 'left' }}>
+                          <label htmlFor="caregiver-consent-check" style={{ fontSize: '0.76rem', color: 'var(--text-primary)', cursor: 'pointer', fontWeight: '700' }}>
+                            Authorize Reassuring Update to Caregiver 📱
+                          </label>
+                          <div style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', lineHeight: '1.2' }}>
+                            I explicitly authorize BeTwin to generate privacy-safe message logs to share ELO recovery status with my caregiver.
+                          </div>
+                        </div>
                       </div>
-                      <span style={{ fontSize: '0.62rem', color: 'var(--text-secondary)', marginLeft: '1.4rem' }}>
-                        Generate a secure, privacy-safe message update to your family caregiver.
-                      </span>
                     </div>
-                    
                     <div className="form-row-double" style={{ display: 'flex', gap: '0.8rem', margin: '0.8rem 0' }}>
                       <div className="input-group" style={{ flex: 1 }}>
-                        <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>DOCTOR / ONCOLOGIST NAME</label>
+                        <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>ONCOLOGIST NAME</label>
                         <input 
                           type="text" 
-                          required
-                          placeholder="e.g. Dr. Tan..."
+                          readOnly
                           value={agent.doctorName}
-                          onChange={(e) => agent.setDoctorName(e.target.value)}
-                          style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', color: 'var(--text-primary)' }}
+                          style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(0,0,0,0.03)', fontSize: '0.9rem', color: 'var(--text-secondary)' }}
                         />
                       </div>
                       
                       <div className="input-group" style={{ flex: 1 }}>
-                        <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>DOCTOR'S EMAIL ADDRESS</label>
+                        <label style={{ fontSize: '0.7rem', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent-purple)' }}>ONCOLOGIST EMAIL</label>
                         <input 
                           type="email" 
-                          required
-                          placeholder="e.g. doctor@hospital.sg..."
+                          readOnly
                           value={agent.doctorEmail}
-                          onChange={(e) => agent.setDoctorEmail(e.target.value)}
-                          style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', color: 'var(--text-primary)' }}
+                          style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-glass)', background: 'rgba(0,0,0,0.03)', fontSize: '0.9rem', color: 'var(--text-secondary)' }}
                         />
                       </div>
                     </div>

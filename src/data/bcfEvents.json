@@ -1,0 +1,74 @@
+{
+  "jargon": {
+    "id": 1,
+    "eventName": "BCF Medical Jargon Processing Circle",
+    "date": "Saturday, 30th May 2026",
+    "time": "10:00 AM - 12:00 PM SGT",
+    "venue": "BCF Support Centre @ Bishan (Community Room 1)",
+    "description": "A comforting, safe discussion space led by senior oncology nurses to clarify estrogen receptors, HER2 scores, and biopsy terminology.",
+    "registrationUrl": "https://www.bcf.org.sg/events/jargon-processing"
+  },
+  "screening": {
+    "id": 2,
+    "eventName": "Oncologist Consultation Preparatory Workshop",
+    "date": "Wednesday, 3rd June 2026",
+    "time": "2:00 PM - 3:30 PM SGT",
+    "venue": "National Cancer Centre Singapore (NCCS) Lecture Hall Hall B",
+    "description": "Learn exactly what medical records, scan CDs, and oncology referral slips to compile, and practice setting agenda items with your caregiver.",
+    "registrationUrl": "https://www.bcf.org.sg/events/first-visit-prep"
+  },
+  "crisis": {
+    "id": 3,
+    "eventName": "Clinical Chemo Side Effect Care & Calming Session",
+    "date": "Friday, 12th June 2026",
+    "time": "3:00 PM - 5:00 PM SGT",
+    "venue": "National University Cancer Institute, Singapore (NCIS) Wellness Suite",
+    "description": "A nurse-led support circle focusing on pharmacological side-effect management, pacing fatigue, and guided 4-4-4 diaphragmatic breathing.",
+    "registrationUrl": "https://www.bcf.org.sg/events/side-effect-care"
+  },
+  "healing": {
+    "id": 4,
+    "eventName": "Mastectomy Healing Circle & Body Self-Compassion",
+    "date": "Saturday, 20th June 2026",
+    "time": "11:00 AM - 1:00 PM SGT",
+    "venue": "BCF Support Centre @ Bishan (Activity Studio)",
+    "description": "A sensitive, non-judgmental space for post-surgical outpatients to process scars, discuss prosthetic options, and practice body self-compassion.",
+    "registrationUrl": "https://www.bcf.org.sg/events/mastectomy-healing"
+  },
+  "fertility": {
+    "id": 5,
+    "eventName": "Young Outpatients Fertility Preservation Panel",
+    "date": "Tuesday, 23rd June 2026",
+    "time": "7:00 PM - 8:30 PM SGT",
+    "venue": "KK Women's and Children's Hospital (KKH) Seminar Room 1",
+    "description": "Join fertility specialist doctors to map out egg freezing, IVF pathways, and hormonal shielding timelines before active clinical treatments begin.",
+    "registrationUrl": "https://www.bcf.org.sg/events/fertility-pacing"
+  },
+  "sister": {
+    "id": 6,
+    "eventName": "BCF Bigger Sister & Little Sister Matchmaking Luncheon",
+    "date": "Saturday, 27th June 2026",
+    "time": "12:00 PM - 2:30 PM SGT",
+    "venue": "Singapore Botanic Gardens (Halia Restaurant)",
+    "description": "A warm social luncheon matching newly diagnosed patients with experienced breast cancer survivor mentors in long-term clinical remission.",
+    "registrationUrl": "https://www.bcf.org.sg/events/sister-matchmaker"
+  },
+  "caregiver": {
+    "id": 7,
+    "eventName": "BCF Caregiver Resilience Appreciation Retreat",
+    "date": "Sunday, 5th July 2026",
+    "time": "9:00 AM - 1:00 PM SGT",
+    "venue": "Sentosa Amara Sanctuary Resort (Glass Pavilion)",
+    "description": "A complimentary respite retreat for family caregivers focusing on mental health buffers, boundary setting, and secure patient updates.",
+    "registrationUrl": "https://www.bcf.org.sg/events/caregiver-appreciation"
+  },
+  "wellness": {
+    "id": 8,
+    "eventName": "Stigma Mitigation & Financial Oncology Grant Guide",
+    "date": "Saturday, 11th July 2026",
+    "time": "2:00 PM - 4:00 PM SGT",
+    "venue": "Tan Tock Seng Hospital (TTSH) Wellness Hub",
+    "description": "A comprehensive directory review session for securing BCF financial grants, oncology cost subsidies, and joining mindfulness therapy circles.",
+    "registrationUrl": "https://www.bcf.org.sg/events/financial-wellness"
+  }
+}
