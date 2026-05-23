@@ -1,13 +1,13 @@
-# BCF Hope Companion (Axiom Hope) // Agent Feature & Resource Guide
+# BCF Hope Companion (BeTwin Agent) // Agent Feature & Resource Guide
 ## Outpatient Conversational Steering, Safety Guardrails, and Singapore Resource Directory
 
-This document serves as the comprehensive feature guide for the **BCF Hope Companion (Axiom Hope)**, detailing the active capabilities of the voice agent, its trauma-informed safety architectures, and how it maps to real-life breast cancer support organisations and clinical resources in Singapore.
+This document serves as the comprehensive feature guide for the **BCF Hope Companion (BeTwin Agent)**, detailing the active capabilities of the voice agent, its trauma-informed safety architectures, and how it maps to real-life breast cancer support organisations and clinical resources in Singapore.
 
 ---
 
 ## 1. Executive Summary of Agent Capabilities
 
-The **BCF Hope Companion (Axiom Hope)** is a specialized, trauma-informed conversational agent designed to support breast cancer patients (like Terry) in the critical periods *between* medical appointments. The agent acts as an emotional companion, progress tracker, and information routing hub, ensuring patients are empowered rather than alarmed.
+The **BCF Hope Companion (BeTwin Agent)** is a specialized, trauma-informed conversational agent designed to support breast cancer patients (like Terry) in the critical periods *between* medical appointments. The agent acts as an emotional companion, progress tracker, and information routing hub, ensuring patients are empowered rather than alarmed.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐

@@ -71,7 +71,7 @@ export default function useVoiceAgent() {
   });
 
   // Terminal & Subtitles Visual logs
-  const [subtitles, setSubtitles] = useState('Click the central gleam to awaken Axiom Hope.');
+  const [subtitles, setSubtitles] = useState('Click the central gleam to awaken the BeTwin Agent.');
   const [terminalLogs, setTerminalLogs] = useState([]);
   
   // Audio Web Speech fallback elements
@@ -85,7 +85,7 @@ export default function useVoiceAgent() {
   const conversation = useConversation({
     onConnect: () => {
       setVoiceState('listening');
-      setSubtitles("Connected. Speak your reflections directly to Axiom Hope.");
+      setSubtitles("Connected. Speak your reflections directly to the BeTwin Agent.");
       addLog("ElevenLabs WebRTC stream established successfully.", "success");
     },
     onDisconnect: () => {
@@ -281,7 +281,7 @@ export default function useVoiceAgent() {
   };
 
   const activateAxiomAfterBoot = async () => {
-    addLog("Initiating Axiom Hope BCF Companion...", "info");
+    addLog("Initiating BeTwin Agent BCF Companion...", "info");
     setVoiceState('thinking');
     setSubtitles("Empathetic connection initialized.");
 
@@ -315,7 +315,7 @@ export default function useVoiceAgent() {
 
   const executeFallbackIntroduction = () => {
     setVoiceState('speaking');
-    const welcome = `Welcome to BeTwin. I am Axiom Hope, your BCF support companion. I operate off the Wolfram Language to help you and your caregivers process emotions and compile doctor questions. Let's start with Stage 1: Diagnosis and jargon processing. How are you feeling today?`;
+    const welcome = `Welcome to BeTwin. I am the BeTwin Agent, your BCF support companion. I operate off the Wolfram Language to help you and your caregivers process emotions and compile doctor questions. Let's start with Stage 1: Diagnosis and jargon processing. How are you feeling today?`;
     setSubtitles(welcome);
     speakVocalText(welcome);
   };
@@ -347,7 +347,7 @@ export default function useVoiceAgent() {
       setTimeout(() => {
         setAwakeningStep(4);
         setBootState('active');
-        addLog("Axiom Hope active and online.", "success");
+        addLog("BeTwin Agent active and online.", "success");
         activateAxiomAfterBoot();
       }, 4400);
       return;

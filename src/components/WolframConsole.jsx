@@ -119,7 +119,7 @@ export default function WolframConsole({ activeRiddleId, voiceState, moduleScore
   const code = WOLFRAM_CODE_BANK[activeRiddleId] || "(* Waiting for Hope Companion activation... *)";
   const citation = THESIS_CITATIONS[activeRiddleId] || {
     title: "COMPANION IN STANDBY",
-    reference: "System standby. Connect with Axiom Hope.",
+    reference: "System standby. Connect with BeTwin Agent.",
     derivation: "",
     bounds: ""
   };

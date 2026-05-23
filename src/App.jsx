@@ -260,7 +260,7 @@ export default function App() {
                   SOOTHING BREATHING ZONE
                 </h4>
                 <p style={{ fontSize: '0.68rem', color: 'var(--text-secondary)', maxHeight: '40px', overflow: 'hidden', lineHeight: '1.3' }}>
-                  Axiom Hope guides your breaths at a slow, therapeutic rate (0.88x pacing) to calm your parasympathetic system.
+                  BeTwin Agent guides your breaths at a slow, therapeutic rate (0.88x pacing) to calm your parasympathetic system.
                 </p>
                 
                 {/* Breathing ring animations */}
@@ -433,7 +433,7 @@ export default function App() {
               />
               <button 
                 className="chat-send-btn" 
-                style={{ background: 'var(--accent-purple)' }}
+                style={{ background: '#ffffff', color: '#1e293b', border: '1px solid rgba(0, 0, 0, 0.12)', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}
                 onClick={() => agent.userInput.trim() && agent.submitUserInput(agent.userInput)}
               >
                 ➔
@@ -863,7 +863,7 @@ export default function App() {
                 Secure National Handshake
               </h3>
               <p style={{ fontSize: '0.78rem', color: '#5f6368', marginBottom: '1.2rem', lineHeight: '1.3' }}>
-                Axiom Hope is requesting secure medical credential access via Singpass for Singapore HealthHub EHR drawer integration.
+                BeTwin Agent is requesting secure medical credential access via Singpass for Singapore HealthHub EHR drawer integration.
               </p>
               
               <div className="input-group" style={{ textAlign: 'left', marginBottom: '0.9rem' }}>
@@ -1048,7 +1048,7 @@ export default function App() {
                   You are not alone. Please reach out.
                 </h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-                  Axiom Hope is here to provide supportive preparation and reflections, but you deserve immediate professional human care. 
+                  BeTwin Agent is here to provide supportive preparation and reflections, but you deserve immediate professional human care. 
                   Please connect with one of these compassionate, dedicated local services in Singapore. They are ready to listen.
                 </p>
                 

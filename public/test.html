@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BeTwin // Axiom Hope Standalone Voice Sandbox</title>
+  <title>BeTwin // BeTwin Agent Standalone Voice Sandbox</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,17 +127,80 @@
 
     /* Voice Orb Unit */
     .orb-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 16px;
       padding: 2rem;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       position: relative;
+    }
+
+    .orb-card .subtitles-box {
+      background: #f8fafc;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .orb-card .subtitles-text {
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .orb-card .text-input-field {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: #1e293b;
+    }
+
+    .orb-card .text-input-field::placeholder {
+      color: #94a3b8;
+    }
+
+    .orb-card .text-input-field:focus {
+      background: #ffffff;
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 10px rgba(233, 30, 99, 0.08);
+    }
+
+    .orb-card .btn-mic {
+      background: #f1f5f9;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #475569;
+    }
+
+    .orb-card .btn-mic:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .orb-card .btn-mic.active {
+      background: var(--accent-cyan);
+      color: var(--bg-dark);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+    }
+
+    .orb-card #btn-submit-text {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .orb-card #btn-submit-text:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .orb-card .orb-visualizer {
+      background: radial-gradient(circle, rgba(128, 222, 234, 0.15) 0%, rgba(255, 255, 255, 1) 70%);
+      border: 6px solid #f1f5f9;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     }
 
     .orb-visualizer {
@@ -612,13 +675,13 @@
       
       <!-- Voice Orb Module -->
       <div class="orb-card">
-        <div class="orb-visualizer" id="voice-orb" title="Click to speak to Axiom Hope">
+        <div class="orb-visualizer" id="voice-orb" title="Click to speak to BeTwin Agent">
           <div class="orb-lens"></div>
           <div class="orb-core" id="orb-core"></div>
         </div>
         
         <div class="subtitles-box">
-          <p class="subtitles-text" id="subtitles">Click the central beacon or type a reflection below to awaken Axiom Hope.</p>
+          <p class="subtitles-text" id="subtitles">Click the central beacon or type a reflection below to awaken the BeTwin Agent.</p>
         </div>
 
         <div class="input-dock">
@@ -804,7 +867,7 @@
       jargon: {
         id: 1,
         title: "Diagnosis & Jargon Processing",
-        question: "Welcome to BeTwin. I am Axiom Hope, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
+        question: "Welcome to BeTwin. I am the BeTwin Agent, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
         keywords: ["biopsy", "her2", "stage", "er/pr", "estrogen", "hormone", "node", "lymph", "metastatic", "ductal", "lobular", "carcinoma", "grade", "results", "pathology", "tumor", "positive", "negative"],
         formula: "\\text{Cognitive Clarity} = \\frac{\\text{Medical Jargon Translation}}{\\text{Information Overload}}",
         bounds: "BCF Helpline: 6352 6560"
@@ -929,11 +992,11 @@
     // Initialize Standalone Session
     function awakenAxiom() {
       setVoiceState('thinking');
-      addLog("Booting Axiom Hope standalone sandbox...", "info");
+      addLog("Booting BeTwin Agent standalone sandbox...", "info");
       
       setTimeout(() => {
         setVoiceState('speaking');
-        const welcome = `Welcome to the BeTwin Singapore testing sandbox. I am Axiom Hope, your BCF Singapore voice companion. I will proactively guide you through the 8 patient journey stages, collect your symptoms, and score your resilience. Let's start with Stage 1: Diagnosis & Jargon Processing. What test results or staging details feel confusing to you today?`;
+        const welcome = `Welcome to the BeTwin Singapore testing sandbox. I am the BeTwin Agent, your BCF Singapore voice companion. I will proactively guide you through the 8 patient journey stages, collect your symptoms, and score your resilience. Let's start with Stage 1: Diagnosis & Jargon Processing. What test results or staging details feel confusing to you today?`;
         
         subtitlesEl.textContent = welcome;
         speakText(welcome, () => {
@@ -1230,7 +1293,7 @@
       } else {
         if (synth) synth.cancel();
         setVoiceState('idle');
-        subtitlesEl.textContent = "Axiom Hope resting in standby mode.";
+        subtitlesEl.textContent = "BeTwin Agent resting in standby mode.";
         addLog("Voice Companion session disconnected.", "info");
       }
     });

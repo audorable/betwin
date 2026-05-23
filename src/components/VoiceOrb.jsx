@@ -14,7 +14,7 @@ export default function VoiceOrb({ voiceState, bootState, speechAmplitude = 0, o
       orbGradient = 'linear-gradient(135deg, #00e5ff 0%, #00e676 100%)'; // Vibrant cyan to emerald green
       glowColor = 'rgba(0, 229, 255, 0.55)';
       glowIntensity = 25 + speechAmplitude * 65; // scales dynamically with the patient's and agent's voice
-      statusText = '● AXIOM SPEAKING...';
+      statusText = '● BETWIN AGENT SPEAKING...';
       statusColor = 'var(--accent-purple)';
     } else if (voiceState === 'listening') {
       orbGradient = 'linear-gradient(135deg, #00b8d4 0%, #4db6ac 100%)'; // Oceanic turquoise to deep sage teal
@@ -26,7 +26,7 @@ export default function VoiceOrb({ voiceState, bootState, speechAmplitude = 0, o
       orbGradient = 'linear-gradient(135deg, #26a69a 0%, #80deea 100%)'; // Soothing teal transition
       glowColor = 'rgba(38, 166, 154, 0.35)';
       glowIntensity = 18;
-      statusText = '○ AXOM REFLECTING...';
+      statusText = '○ BETWIN AGENT REFLECTING...';
       statusColor = 'var(--accent-gold)';
     } else if (voiceState === 'unlocked') {
       orbGradient = 'linear-gradient(135deg, #00e676 0%, #b9f6ca 100%)'; // Healing light-green success glow
@@ -38,7 +38,7 @@ export default function VoiceOrb({ voiceState, bootState, speechAmplitude = 0, o
       orbGradient = 'linear-gradient(135deg, #80deea 0%, #c8e6c9 100%)'; // Active standby soft mint
       glowColor = 'rgba(128, 222, 234, 0.25)';
       glowIntensity = 15;
-      statusText = '● AXIOM HOPE ACTIVE';
+      statusText = '● BETWIN AGENT ACTIVE';
       statusColor = 'var(--accent-cyan)';
     }
   }

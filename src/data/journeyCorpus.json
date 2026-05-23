@@ -2,7 +2,7 @@
   "jargon": {
     "id": 1,
     "title": "Diagnosis & Jargon Processing",
-    "question": "Welcome to BeTwin. I am Axiom Hope, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
+    "question": "Welcome to BeTwin. I am the BeTwin Agent, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
     "hint": "Ask about terms like 'biopsy', 'HER2 receptor', 'Stage II vs III', or 'ER/PR positive' and I will clarify them in simple, comforting terms.",
     "keywords": ["biopsy", "her2", "stage", "er/pr", "estrogen", "hormone", "node", "lymph", "metastatic", "ductal", "lobular", "carcinoma", "grade", "results", "pathology", "tumor", "positive", "negative"],
     "formula": "\\text{Cognitive Clarity} = \\frac{\\text{Medical Jargon Translation}}{\\text{Information Overload}}"
