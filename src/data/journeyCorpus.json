@@ -1,0 +1,66 @@
+{
+  "jargon": {
+    "id": 1,
+    "title": "Diagnosis & Jargon Processing",
+    "question": "Welcome to BeTwin. I am Axiom Hope, your BCF Singapore voice companion. Receiving a breast cancer diagnosis is a profound shock, often accompanied by an overwhelming amount of medical terminology. Let's make sense of it together. What jargon, test results, or staging details (like HER2 status, ER/PR, or biopsy results) feel confusing to you today?",
+    "hint": "Ask about terms like 'biopsy', 'HER2 receptor', 'Stage II vs III', or 'ER/PR positive' and I will clarify them in simple, comforting terms.",
+    "keywords": ["biopsy", "her2", "stage", "er/pr", "estrogen", "hormone", "node", "lymph", "metastatic", "ductal", "lobular", "carcinoma", "grade", "results", "pathology", "tumor", "positive", "negative"],
+    "formula": "\\text{Cognitive Clarity} = \\frac{\\text{Medical Jargon Translation}}{\\text{Information Overload}}"
+  },
+  "screening": {
+    "id": 2,
+    "title": "First Visit & Screening Checklist",
+    "question": "Preparing for your oncologist consultations requires vital organization. BCF Singapore recommends preparing copies of biopsy reports, scan CDs, referral files, and medical cards. Do you have these files gathered, and do you have a trusted companion or caregiver to take notes?",
+    "hint": "Say 'checklist' to review vital files or 'companion' to discuss note-taking support options.",
+    "keywords": ["checklist", "reports", "scans", "cd", "disc", "biopsy", "referral", "caregiver", "friend", "husband", "sister", "daughter", "mother", "alone", "notes", "medical card"],
+    "formula": "\\text{Consultation Readiness} = [\\text{Scan CD}, \\text{Biopsy Slide}, \\text{Medical ID}, \\text{Caregiver Companion}]"
+  },
+  "crisis": {
+    "id": 3,
+    "title": "Distress Tolerance & Side Effect Care",
+    "question": "Chemotherapy and clinical treatments can cause heavy physical side effects and intense mood swings. How is your body feeling today, and how are you coping with treatment distress? Remember, you are safe, and we can discuss anything.",
+    "hint": "Mention fatigue, nausea, pain, mood swings, or emotional stress. Remember, local services like SOS (1767) and IMH (6389 2222) are here for you 24/7.",
+    "keywords": ["fatigue", "nausea", "pain", "vomit", "hair", "alopecia", "sore", "tired", "anxiety", "mood", "anger", "drugs", "chemo", "side effect", "stressed", "overwhelmed", "hopeless"],
+    "formula": "\\text{Distress Tolerance} = f(\\text{Paced Calming Breathing}, \\text{Clinical Side Effect Management})"
+  },
+  "healing": {
+    "id": 4,
+    "title": "Body Image & Mastectomy Healing",
+    "question": "Undergoing a mastectomy or other major surgeries can profoundly impact your body image and self-esteem. How are you processing these physical changes, and how can we support your healing journey today?",
+    "hint": "It is normal to grieve physical changes. Talk about scars, breast reconstruction questions, or body image stigma, and we will formulate questions for your doctor.",
+    "keywords": ["mastectomy", "surgery", "scars", "reconstruction", "implant", "healing", "drain", "body", "image", "stigma", "grief", "sad", "disbelief", "looks", "mirror"],
+    "formula": "\\text{Body Self-Compassion} \\propto \\text{Grief Acknowledgment} + \\text{Healing Pacing}"
+  },
+  "fertility": {
+    "id": 5,
+    "title": "Fertility & Reproductive Pacing",
+    "question": "Active chemotherapy can impact your reproductive health and future family planning—a vital gap that younger breast cancer patients often face. What concerns or questions do you have about fertility preservation before starting treatment?",
+    "hint": "Discuss egg freezing, hormone blockers, IVF, or pacing options that you can address with your oncology team.",
+    "keywords": ["fertility", "egg", "freezing", "family", "pregnancy", "chemo", "preservation", "blockers", "hormone", "ovary", "kids", "children", "ivf", "period", "menopause"],
+    "formula": "\\text{Fertility Options} = \\text{Oocyte Preservation} + \\text{Hormonal Shielding}"
+  },
+  "sister": {
+    "id": 6,
+    "title": "Bigger Sister Peer Network",
+    "question": "In-between appointments, speaking to someone who has walked this path brings immense comfort. BCF matches newly diagnosed 'Little Sisters' with 'Bigger Sisters' (remission survivors). Would you like to match with a sister, or register as a peer supporter?",
+    "hint": "Say 'match me' to search for a verified BCF sister, or 'volunteer' if you are in remission and want to mentor others.",
+    "keywords": ["match", "sister", "mentor", "peer", "survivor", "remission", "help", "talk", "chat", "connect", "volunteer", "support", "friend", "little sister", "bigger sister"],
+    "formula": "\\text{Peer Connection} = \\text{Stage 1 Little Sister} \\iff \\text{Stage 6 Bigger Sister}"
+  },
+  "caregiver": {
+    "id": 7,
+    "title": "Caregiver Support & Privacy Control",
+    "question": "Caregiving is an act of deep devotion, but balancing support and privacy is vital. Would you like to review BCF caregiver guidelines, or configure a secure, reassuring update to send to your caregiver?",
+    "hint": "Toggle the privacy check to automatically compile a warm, secure message (like 'I'm resting and doing well!') to share with your family.",
+    "keywords": ["caregiver", "husband", "wife", "privacy", "family", "burden", "share", "update", "trust", "rest", "support", "boundaries", "confidentiality", "love", "thanks"],
+    "formula": "\\text{Caregiver Harmony} = \\text{Authorized Information Sharing} + \\text{Patient Confidentiality}"
+  },
+  "wellness": {
+    "id": 8,
+    "title": "Stigma & Emotional Wellness",
+    "question": "Breast cancer stigma and psychological distress are heavy burdens. Seeking therapy is a powerful sign of strength and self-care. What emotional wellness resources or financial support avenues are you looking for today?",
+    "hint": "Talk about therapy groups, counselling, BCF wellness workshops, or financial oncology grants.",
+    "keywords": ["therapy", "counselling", "stigma", "support", "wellness", "grants", "financial", "cost", "help", "workshop", "meditate", "stress", "mindfulness", "group", "circle"],
+    "formula": "\\text{Emotional Wellness Index} = \\text{Self-Care Affirmations} + \\text{Stigma Mitigation}"
+  }
+}
