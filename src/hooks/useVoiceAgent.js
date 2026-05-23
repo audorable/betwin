@@ -216,6 +216,15 @@ export default function useVoiceAgent() {
       };
       rec.onerror = (err) => {
         console.error("Speech Recognition Error", err);
+        if (err.error === 'not-allowed') {
+          addLog("Microphone access denied. Please click the mic icon in your browser address bar to allow permissions.", "error");
+          setMicActive(false);
+        } else if (err.error === 'service-not-allowed') {
+          addLog("Speech recognition service is blocked or not supported by your browser privacy settings.", "error");
+          setMicActive(false);
+        } else if (err.error === 'network') {
+          addLog("Network connection error encountered during speech recognition.", "error");
+        }
       };
       rec.onend = () => {
         fallbackSpeechActive.current = false;
@@ -224,6 +233,8 @@ export default function useVoiceAgent() {
         }
       };
       recognitionRef.current = rec;
+    } else {
+      addLog("Speech recognition is not supported in this browser. Please use Google Chrome/Edge or type your reflections in the input box.", "warning");
     }
   }, [mode, voiceState, micActive]);
 
