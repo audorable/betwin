@@ -1,0 +1,80 @@
+{
+  "bcf_guidelines": {
+    "caregiver_handbook_url": "https://www.bcf.org.sg/guidance/caregiving",
+    "support_groups": [
+      {
+        "name": "BCF Singapore Support Circle",
+        "phone": "+65 6352 6560",
+        "description": "Weekly peer-led sharing, emotional support networks, and caregiver training groups.",
+        "url": "https://www.bcf.org.sg/services/support-groups"
+      },
+      {
+        "name": "Bigger Sister Peer Mentorship",
+        "description": "Matches newly diagnosed 'Little Sisters' with breast cancer survivors in remission ('Bigger Sisters').",
+        "matching_criteria": ["age_group", "clinical_stage", "hospital_site"]
+      }
+    ]
+  },
+  "emergency_helplines": {
+    "sos_crisis": {
+      "name": "Samaritans of Singapore (SOS)",
+      "phone": "1767",
+      "availability": "24/7",
+      "scope": "Suicide prevention, distress tolerance, and acute mental health counseling."
+    },
+    "imh_wellness": {
+      "name": "Institute of Mental Health (IMH)",
+      "phone": "+65 6389 2222",
+      "availability": "24/7",
+      "scope": "Crisis mental wellness assessments and urgent clinical support."
+    }
+  },
+  "oncology_hospital_directories": {
+    "public_sector": [
+      {
+        "name": "National Cancer Centre Singapore (NCCS)",
+        "address": "30 Hospital Boulevard, Singapore 168583",
+        "website": "https://www.nccs.com.sg"
+      },
+      {
+        "name": "National University Cancer Institute, Singapore (NCIS)",
+        "address": "5 Lower Kent Ridge Rd, Singapore 119074",
+        "website": "https://www.ncis.com.sg"
+      },
+      {
+        "name": "KK Women's and Children's Hospital (KKH) Gynaecological Oncology",
+        "address": "100 Bukit Timah Rd, Singapore 229899",
+        "website": "https://www.kkh.com.sg"
+      },
+      {
+        "name": "Singapore General Hospital (SGH) Oncology",
+        "address": "Outram Rd, Singapore 169608",
+        "website": "https://www.sgh.com.sg"
+      },
+      {
+        "name": "Tan Tock Seng Hospital (TTSH) Oncology",
+        "address": "11 Jalan Tan Tock Seng, Singapore 308433",
+        "website": "https://www.ttsh.com.sg"
+      }
+    ],
+    "private_sector": [
+      {
+        "name": "Mount Elizabeth Oncology Clinic",
+        "website": "https://www.mountelizabeth.com.sg"
+      },
+      {
+        "name": "Gleneagles Cancer Centre",
+        "website": "https://www.gleneagles.com.sg"
+      },
+      {
+        "name": "Raffles Cancer Centre",
+        "website": "https://www.raffleshospital.com"
+      }
+    ]
+  },
+  "clinical_symptom_formulas": {
+    "distress_tolerance": "Distress = f(CalmingBreathingOscillations, SideEffectCare)",
+    "caregiver_buffer": "CareCapacity = Dot[SupportNetwork, StaminaVector]",
+    "peer_connection_elo": "ELO_increase = f(MatchmakingSurvivorConnections)"
+  }
+}
