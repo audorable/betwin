@@ -24,7 +24,7 @@ import useProfile, { VOICE_STATE_COLORS, VoiceState } from '@/hooks/useProfile';
 
 const CIRCLE_SIZE = 68;
 
-const PHASE_EMOJIS = ['🌱', '🌿', '🌸', '💊', '💪', '🌟'];
+const PHASE_EMOJIS = ['🌱', '🌿', '🌸', '💊', '💪', '🌟', '💆', '🌺', '🤝'];
 
 const EVENTS = [
   {
